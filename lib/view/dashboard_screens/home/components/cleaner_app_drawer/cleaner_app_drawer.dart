@@ -61,7 +61,7 @@ class CleanerAppDrawer extends StatelessWidget {
                       label: 'Cancel',backgroundColor: CleanerAppcolors.primaryGreencolor,),
                     CleanerChip(
                       onPressed: () {
-                        log.getLogout(context);
+                   
                       },
                       label:log.loadinglogout == true?'Please Wait': 'Logout',backgroundColor: CleanerAppcolors.primaryRedcolor,)
                     ],

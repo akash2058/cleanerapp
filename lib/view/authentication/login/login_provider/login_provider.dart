@@ -25,20 +25,21 @@ class LoginProvider extends ChangeNotifier {
     hidepassword = !hidepassword;
     notifyListeners();
   }
-Future<bool> isSessionActive() async {
-  final prefs = await SharedPreferences.getInstance();
-  final token = prefs.getString('auth_token');
-  final loginTimeStr = prefs.getString('login_time');
 
-  if (token == null || loginTimeStr == null) return false;
+  Future<bool> isSessionActive() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('auth_token');
+    final loginTimeStr = prefs.getString('login_time');
 
-  final loginTime = DateTime.tryParse(loginTimeStr);
-  if (loginTime == null) return false;
+    if (token == null || loginTimeStr == null) return false;
 
-  // Session valid for 24 hours
-  final now = DateTime.now();
-  return now.difference(loginTime).inHours < 24;
-}
+    final loginTime = DateTime.tryParse(loginTimeStr);
+    if (loginTime == null) return false;
+
+    // Session valid for 24 hours
+    final now = DateTime.now();
+    return now.difference(loginTime).inHours < 24;
+  }
 
   Future<void> getLogin(context) async {
     try {
@@ -52,8 +53,13 @@ Future<bool> isSessionActive() async {
       _userModel = UserModel.fromJson(userMap);
 
       if (userMap['status'] == 'success') {
-        saveLoginSession(_userModel?.data?.token ?? '');
-        saveUserDetails(_userModel?.data?.user?.name??'', _userModel?.data?.user?.email??'', _userModel?.data?.user?.id.toString()??'');
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', user?.data?.token ?? '');
+        await prefs.setString('email', emailcontroller.text);
+        await prefs.setString('name', user?.data?.user?.name??'');
+        await prefs.setString('address', user?.data?.user?.address??'');
+        await prefs.setString('gender', user?.data?.user?.gender??'');
+        await prefs.setString('contact', user?.data?.user?.contact??'');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
@@ -100,15 +106,16 @@ Future<bool> isSessionActive() async {
     }
   }
 
-  Future<void> getLogout(context) async {
-    final storetoken = getToken();
+  Future<void> getLogout(context, storetoken) async {
     try {
       loadinglogout = true;
       notifyListeners();
-      deleteToken();
+
       final logout = await fetchLogout(storetoken);
       if (logout['status'] == 'success') {
-        print(logout);
+        clearLoginSession();
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.clear();
         Navigator.push(context, CustomPageRoute(child: LoginView()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

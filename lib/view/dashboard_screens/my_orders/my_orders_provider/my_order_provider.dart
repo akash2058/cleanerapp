@@ -1,10 +1,12 @@
 
+import 'dart:convert' show base64Encode;
+import 'dart:io';
+
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_dropoff_details_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/service/my_order_api_service.dart';
-import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -198,6 +200,21 @@ class MyOrderProvider extends ChangeNotifier {
     );
   }
 
+
+
+  void initializeControllers(int quantity) {
+    serialControllers = List.generate(quantity, (_) => TextEditingController());
+    binSerialNumbers = List.generate(quantity, (_) => "");
+    notifyListeners();
+  }
+
+  void updateSerial(int index, String value) {
+    if (index >= 0 && index < binSerialNumbers.length) {
+      binSerialNumbers[index] = value;
+      debugPrint('Updated Serial $index: $value');
+    }
+  }
+
 getUpdateAttachments(
   BuildContext context,
   String token,
@@ -255,37 +272,6 @@ print('accept${accept}');
 }
 
 
-
-
-
-  void initializeControllers(int quantity) {
-    serialControllers = List.generate(quantity, (_) => TextEditingController());
-    binSerialNumbers = List.generate(quantity, (_) => "");
-    notifyListeners();
-  }
-
-  void updateSerial(int index, String value) {
-    if (index >= 0 && index < binSerialNumbers.length) {
-      binSerialNumbers[index] = value;
-      debugPrint('Updated Serial $index: $value');
-    }
-  }
-
-
-void printMultipartDebug() {
-  final data = buildAttachmentData();
-
-  for (var key in data.keys) {
-    final binInfo = data[key]; // ✅ No conflict
-    print('Bin ID: $key');
-    print('Is Damaged: ${binInfo['isDamaged']}');
-    print('Images:');
-    for (var image in binInfo['images']) {
-      print('  - $image');
-    }
-  }
-}
-
 Map<String, dynamic> buildAttachmentData() {
   final serialNumbers = orderdetail?.bookingSerialNumbers ?? [];
 
@@ -295,14 +281,22 @@ Map<String, dynamic> buildAttachmentData() {
     final binId = serialNumbers[i].id?.toString();
 
     if (binId != null) {
+      // Convert each image to base64
+      List<String> base64Images = imagesPerBin[i].map<String>((xfile) {
+        final file = File(xfile.path);
+        final bytes = file.readAsBytesSync();
+        return base64Encode(bytes);
+      }).toList();
+
       result[binId] = {
         'isDamaged': isDamagedList[i],
-        'images': imagesPerBin[i].map((xfile) => xfile.path).toList(),
+        'images': base64Images, // Send base64-encoded images
       };
     }
   }
 
   return result;
 }
+
 
 }

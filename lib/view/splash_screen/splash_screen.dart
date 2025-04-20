@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -25,16 +26,27 @@ class _SplashScreen extends State<SplashScreen> {
     checkLoginStatus();
   }
 
-
   Future<void> checkLoginStatus() async {
-   Future.delayed(const Duration(seconds: 2), () {
-      // ignore: use_build_context_synchronously
-     Navigator.pushAndRemoveUntil(
-        // ignore: use_build_context_synchronously
-        context,
-        CustomPageRoute(child: const LoginView()),
-        (route) => false,
-      );
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token'); // Get the token from SharedPreferences
+
+    // Wait for 2 seconds (splash duration)
+    Future.delayed(const Duration(seconds: 2), () {
+      if (token != null && token.isNotEmpty) {
+        // If token is found, navigate to the Dashboard
+        Navigator.pushAndRemoveUntil(
+          context,
+          CustomPageRoute(child: const DashboardView()),
+          (route) => false,
+        );
+      } else {
+        // If no token found, navigate to the Login screen
+        Navigator.pushAndRemoveUntil(
+          context,
+          CustomPageRoute(child: const LoginView()),
+          (route) => false,
+        );
+      }
     });
   }
 
@@ -47,7 +59,7 @@ class _SplashScreen extends State<SplashScreen> {
           spacing: 5.r,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(AppIcons.cleanerbinlogo,height: 90.r,),
+            Image.asset(AppIcons.cleanerbinlogo, height: 90.r),
             LoadingAnimationWidget.dotsTriangle(
                 color: CleanerAppcolors.primarypurple, size: 40.r)
           ],
