@@ -6,6 +6,7 @@ import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/authentication/login/login_view/login_view.dart';
 import 'package:binbookingapp/view/dashboard/dashboard_view/dashboard_view.dart';
+import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -26,27 +27,11 @@ class _SplashScreen extends State<SplashScreen> {
     checkLoginStatus();
   }
 
-  Future<void> checkLoginStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token'); // Get the token from SharedPreferences
-
-    // Wait for 2 seconds (splash duration)
+ checkLoginStatus() async {
+    final token = await Utils.getToken();
+print('store${token}');
     Future.delayed(const Duration(seconds: 2), () {
-      if (token != null && token.isNotEmpty) {
-        // If token is found, navigate to the Dashboard
-        Navigator.pushAndRemoveUntil(
-          context,
-          CustomPageRoute(child: const DashboardView()),
-          (route) => false,
-        );
-      } else {
-        // If no token found, navigate to the Login screen
-        Navigator.pushAndRemoveUntil(
-          context,
-          CustomPageRoute(child: const LoginView()),
-          (route) => false,
-        );
-      }
+      Utils.manipulateLogin(context);
     });
   }
 

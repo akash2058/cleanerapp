@@ -55,25 +55,24 @@ class _MyOrdersDropOffDetailsScreenState
   }
 
   Future<void> getData() async {
-    final logindata = Provider.of<LoginProvider>(context, listen: false);
+    // final logindata = Provider.of<LoginProvider>(context, listen: false);
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
     await myordersdata.getMyordersData(
-      logindata.user?.data?.user?.id.toString() ?? '',logindata.user?.data?.token??'',
+     widget.bookingid
     
     );
     final binrequestdata = Provider.of<BinRequestProvider>(
       context,
       listen: false,
     );
-    await binrequestdata.getBinRequestData(logindata.user?.data?.token??'');
+    await binrequestdata.getBinRequestData();
   }
 
   void refreshdata() async {
-    final logindata = Provider.of<LoginProvider>(context, listen: false);
+    // final logindata = Provider.of<LoginProvider>(context, listen: false);
 
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
     myordersdata.getMyorderDropOffDetail(
-      logindata.user?.data?.token ?? '',
       widget.bookingid,
     );
   }
@@ -94,7 +93,8 @@ class _MyOrdersDropOffDetailsScreenState
               backgroundcolor: CleanerAppcolors.primarypurple,
               label:order.loadingattachments == true?'Please Wait...': 'Update Order',
               onPressed: () {
-              order.getUpdateAttachments(context,log.user?.data?.token??'' , widget.bookingid, log.user?.data?.user?.id.toString()??'');
+              order.getUpdateAttachments(context,log.user?.data?.user?.id.toString()??'' , widget.bookingid,);
+           refreshdata();
               },
             ),
           ),
@@ -104,39 +104,37 @@ class _MyOrdersDropOffDetailsScreenState
             title: Text('Drop Off Details', style: appbartitlefont),
           ),
           body: NoInternetBanner(
-            child: SessionWrapper(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
-                child:
-                    order.loadingmyorderdropoffdetail == true
-                        ? Center(
-                          child: LoadingAnimationWidget.hexagonDots(
-                            color: CleanerAppcolors.primarypurple,
-                            size: 30.r,
-                          ),
-                        )
-                        : SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 15.r,
-                            children: [
-                              DetailsCard(
-                                customername: orderdata?.customerName ?? '',
-                                duration:
-                                    orderdata?.orderDuration.toString() ?? '0',
-                                binsizename: widget.binsizename,
-                                quantity: widget.quantity.toString(),
-                                location: widget.location,
-                              ),
-                              Text(
-                                'Please Fill The Neccessary Information',
-                                style: ordercardheaderfont,
-                              ),
-                              DropOffSelectImageCard(),
-                            ],
-                          ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
+              child:
+                  order.loadingmyorderdropoffdetail == true
+                      ? Center(
+                        child: LoadingAnimationWidget.hexagonDots(
+                          color: CleanerAppcolors.primarypurple,
+                          size: 30.r,
                         ),
-              ),
+                      )
+                      : SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 15.r,
+                          children: [
+                            DetailsCard(
+                              customername: orderdata?.customerName ?? '',
+                              duration:
+                                  orderdata?.orderDuration.toString() ?? '0',
+                              binsizename: widget.binsizename,
+                              quantity: widget.quantity.toString(),
+                              location: widget.location,
+                            ),
+                            Text(
+                              'Please Fill The Neccessary Information',
+                              style: ordercardheaderfont,
+                            ),
+                            DropOffSelectImageCard(),
+                          ],
+                        ),
+                      ),
             ),
           ),
         );

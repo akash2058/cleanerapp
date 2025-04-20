@@ -36,14 +36,14 @@ class _HomeScreenState extends State<HomeScreen> {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
     await myordersdata.getMyordersData(
-      logindata.user?.data?.user?.id.toString()?? '',logindata.user?.data?.token??'',
+      logindata.user?.data?.user?.id.toString()?? '',
      
     );
     final binrequestdata = Provider.of<BinRequestProvider>(
       context,
       listen: false,
     );
-    await binrequestdata.getBinRequestData(logindata.user?.data?.token??'');
+    await binrequestdata.getBinRequestData();
   }
 
   @override

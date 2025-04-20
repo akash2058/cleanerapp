@@ -158,7 +158,7 @@ TextStyle get buttonfond {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w500,
     color: CleanerAppcolors.primaryWhitecolor,
-    fontSize: 18.r,
+    fontSize: 23.r,
   );
 }
 

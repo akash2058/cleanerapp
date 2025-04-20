@@ -94,7 +94,7 @@ class BinBookingBottomSheet extends StatelessWidget {
                           : 'Accept Request',
                   onPressed: () async {
                     binr.getBinRequestData(
-                    usertoken
+                
                     ); // ← optional, if you want
 
                     await binr.getRequestAccept(

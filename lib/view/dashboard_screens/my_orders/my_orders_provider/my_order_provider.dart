@@ -1,15 +1,18 @@
-
 import 'dart:convert' show base64Encode;
 import 'dart:io';
 
+import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
+import 'package:binbookingapp/view/dashboard/dashboard_view/dashboard_view.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_dropoff_details_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/service/my_order_api_service.dart';
+import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyOrderProvider extends ChangeNotifier {
   bool isdamaged = true;
@@ -28,12 +31,12 @@ class MyOrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getMyordersData(token,id) async {
-  
+  Future<void> getMyordersData(id) async {
+    var token = await Utils.getToken(); // Await the token
     try {
       loadingmyorderdata = true;
       notifyListeners();
-      final binbook = await fetchMyorders(token.toString(), id);
+      final binbook = await fetchMyorders(token ?? '', id);
       _myOrderModel = MyOrderModel.fromJson(binbook);
       print('myorderdetails $binbook');
 
@@ -47,37 +50,43 @@ class MyOrderProvider extends ChangeNotifier {
     }
   }
 
- Future<void> getMyorderDropOffDetail(String token, String id) async {
-  try {
-    loadingmyorderdropoffdetail = true;
-    notifyListeners();
+  Future<void> getMyorderDropOffDetail(String id) async {
+    var token = await Utils.getToken();
+    try {
+      loadingmyorderdropoffdetail = true;
+      notifyListeners();
 
-    final binbook = await fetchmyordersdropoff(token, id);
-    _myOrdersDropOffDetailModel = MyOrdersDropOffDetailModel.fromJson(binbook);
+      final binbook = await fetchmyordersdropoff(token ?? '', id);
+      _myOrdersDropOffDetailModel = MyOrdersDropOffDetailModel.fromJson(
+        binbook,
+      );
 
-    // ✅ Initialize isDamagedList and imagesPerBin here
-    final count = _myOrdersDropOffDetailModel?.bookingSerialNumbers?.length??0;
-    initializeDamagedList(count);
+      // ✅ Initialize isDamagedList and imagesPerBin here
+      final count =
+          _myOrdersDropOffDetailModel?.bookingSerialNumbers?.length ?? 0;
+      initializeDamagedList(count);
 
-    print('myorder $binbook');
+      print('myorder $binbook');
 
-    loadingmyorderdropoffdetail = false;
-    notifyListeners();
-  } catch (e) {
-    loadingmyorderdata = false;
-    notifyListeners();
-    print('Error in getfetchdetailsdata: $e');
-    rethrow;
+      loadingmyorderdropoffdetail = false;
+      notifyListeners();
+    } catch (e) {
+      loadingmyorderdata = false;
+      notifyListeners();
+      print('Error in getfetchdetailsdata: $e');
+      rethrow;
+    }
   }
-}
+
   List<TextEditingController> serialControllers = [];
   List<String> binSerialNumbers = [];
   Future<void> getSerialData(
     BuildContext context,
-    String token,
+
     String bookingid,
     String driverid,
   ) async {
+    var token = await Utils.getToken();
     print('Booking ID: $bookingid, Driver ID: $driverid');
 
     try {
@@ -94,7 +103,7 @@ class MyOrderProvider extends ChangeNotifier {
         driverid,
         bookingid,
         serialNumbers,
-        token,
+        token ?? '',
       );
 
       loadingserialdata = false;
@@ -137,15 +146,15 @@ class MyOrderProvider extends ChangeNotifier {
       throw {"error": e};
     }
   }
+
   List<bool> isDamagedList = [];
   List<List<XFile>> imagesPerBin = [];
 
- void initializeDamagedList(int count) {
-  isDamagedList = List.generate(count, (_) => false);
-  imagesPerBin = List.generate(count, (_) => []);
-  notifyListeners();
-}
-
+  void initializeDamagedList(int count) {
+    isDamagedList = List.generate(count, (_) => false);
+    imagesPerBin = List.generate(count, (_) => []);
+    notifyListeners();
+  }
 
   void toggleCheckbox(int index, bool? value) {
     if (value != null && index >= 0 && index < isDamagedList.length) {
@@ -200,8 +209,6 @@ class MyOrderProvider extends ChangeNotifier {
     );
   }
 
-
-
   void initializeControllers(int quantity) {
     serialControllers = List.generate(quantity, (_) => TextEditingController());
     binSerialNumbers = List.generate(quantity, (_) => "");
@@ -215,88 +222,91 @@ class MyOrderProvider extends ChangeNotifier {
     }
   }
 
-getUpdateAttachments(
-  BuildContext context,
-  String token,
-  String bookingid,
-  String driverid,
-) async {
-  try {
-    loadingattachments = true;
-    notifyListeners();
+  getUpdateAttachments(
+    BuildContext context,
 
-    final Map<String, dynamic> attachments = buildAttachmentData();
+    String bookingid,
+    String driverid,
+  ) async {
+    try {
+      var token = await Utils.getToken();
+      loadingattachments = true;
+      notifyListeners();
 
-    final accept = await fetchUpdateAttachments(
-      driverid,
-      bookingid,
-      attachments,
-      token,
-    );
-    loadingattachments = false;
-    notifyListeners();
-print('accept${accept}');
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(
-            bottom: MediaQuery.sizeOf(context).height - 170.r,
-            left: 10.r,
-            right: 10.r,
-          ),
-          dismissDirection: DismissDirection.up,
-          content: Text(
-            accept['message'] ?? 'Unknown response',
-            style: buttonfond,
-          ),
-          backgroundColor: accept['status'] == 'success'
-              ? CleanerAppcolors.primarydarkGreencolor
-              : CleanerAppcolors.primaryRedcolor,
-        ),
+      final Map<String, dynamic> attachments = buildAttachmentData();
+
+      final accept = await fetchUpdateAttachments(
+        driverid,
+        bookingid,
+        attachments,
+        token ?? '',
       );
-    }
-  } catch (e) {
-    loadingattachments = false;
-    notifyListeners();
+      loadingattachments = false;
+      notifyListeners();
+      if (accept['status'] == 'success') {
+        print(accept);
+        Navigator.push(context, CustomPageRoute(child: DashboardView()));
+      }
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.sizeOf(context).height - 170.r,
+              left: 10.r,
+              right: 10.r,
+            ),
+            dismissDirection: DismissDirection.up,
+            content: Text(
+              accept['message'] ?? 'Unknown response',
+              style: buttonfond,
+            ),
+            backgroundColor:
+                accept['status'] == 'success'
+                    ? CleanerAppcolors.primarydarkGreencolor
+                    : CleanerAppcolors.primaryRedcolor,
+          ),
+        );
+      }
+    } catch (e) {
+      loadingattachments = false;
+      notifyListeners();
 
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
-      );
-    }
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        );
+      }
 
-    print('Error: $e');
-    throw {"error": e};
-  }
-}
-
-
-Map<String, dynamic> buildAttachmentData() {
-  final serialNumbers = orderdetail?.bookingSerialNumbers ?? [];
-
-  Map<String, dynamic> result = {};
-
-  for (int i = 0; i < serialNumbers.length; i++) {
-    final binId = serialNumbers[i].id?.toString();
-
-    if (binId != null) {
-      // Convert each image to base64
-      List<String> base64Images = imagesPerBin[i].map<String>((xfile) {
-        final file = File(xfile.path);
-        final bytes = file.readAsBytesSync();
-        return base64Encode(bytes);
-      }).toList();
-
-      result[binId] = {
-        'isDamaged': isDamagedList[i],
-        'images': base64Images, // Send base64-encoded images
-      };
+      print('Error: $e');
+      throw {"error": e};
     }
   }
 
-  return result;
-}
+  Map<String, dynamic> buildAttachmentData() {
+    final serialNumbers = orderdetail?.bookingSerialNumbers ?? [];
 
+    Map<String, dynamic> result = {};
 
+    for (int i = 0; i < serialNumbers.length; i++) {
+      final binId = serialNumbers[i].id?.toString();
+
+      if (binId != null) {
+        // Convert each image to base64
+        List<String> base64Images =
+            imagesPerBin[i].map<String>((xfile) {
+              final file = File(xfile.path);
+              final bytes = file.readAsBytesSync();
+              return base64Encode(bytes);
+            }).toList();
+
+        result[binId] = {
+          'isDamaged': isDamagedList[i],
+          'images': base64Images, // Send base64-encoded images
+        };
+      }
+    }
+
+    return result;
+  }
 }

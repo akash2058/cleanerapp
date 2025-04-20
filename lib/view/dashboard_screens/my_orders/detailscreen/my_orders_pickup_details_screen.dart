@@ -64,7 +64,7 @@ class _MyOrdersPickupDetailsScreenState extends State<MyOrdersPickupDetailsScree
               backgroundcolor: CleanerAppcolors.primarypurple,
               label:order.loadingserialdata == true?'Please Wait...' :'Update Order',
               onPressed: () {
-                order.getSerialData(context, log.user?.data?.token??'',widget.bookingid, userdata?.id.toString()??'');
+                order.getSerialData(context, log.user?.data?.user?.id.toString()??'',widget.bookingid,);
               },
             ),
       ),

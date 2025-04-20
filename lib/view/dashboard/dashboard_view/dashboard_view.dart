@@ -8,6 +8,7 @@ import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_pro
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
 import 'package:binbookingapp/view/session_expire_dialog/session_expire_dialog.dart';
+import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -20,22 +21,22 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  final token = Utils.getToken();
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getData();
-      
     });
   }
 
   void getData() async {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
         final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
-await myordersdata.getMyordersData(logindata.user?.data?.token??'',logindata.user?.data?.user?.id.toString()??'', );
+await myordersdata.getMyordersData(logindata.user?.data?.user?.id.toString()??'' );
     final binrequestdata =
         Provider.of<BinRequestProvider>(context, listen: false);
-    await binrequestdata.getBinRequestData(logindata.user?.data?.token??''); 
+    await binrequestdata.getBinRequestData(); 
   }
 
 
@@ -214,13 +215,11 @@ await myordersdata.getMyordersData(logindata.user?.data?.token??'',logindata.use
               ),
             ),
           ),
-          body: SessionWrapper(
-            child: Column(
-              children: [
-                NoInternetBanner(),
-                Expanded(child: dash.screens[dash.currenttab])
-              ],
-            ),
+          body: Column(
+            children: [
+              NoInternetBanner(),
+              Expanded(child: dash.screens[dash.currenttab])
+            ],
           ),
         );
       },

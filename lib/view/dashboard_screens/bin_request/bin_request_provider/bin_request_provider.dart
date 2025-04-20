@@ -16,22 +16,28 @@ class BinRequestProvider extends ChangeNotifier {
   BinBookingModel? _binBookingModel;
   BinBookingModel? get binbook => _binBookingModel;
 
-  Future<void> getBinRequestData(token) async {
-    try {
-      loadingbinbooking = true;
-      notifyListeners();
-      final binbook = await fetchBinbooking(token);
-      _binBookingModel = BinBookingModel.fromJson(binbook);
-      print('book${binbook}');
-      loadingbinbooking = false;
-      notifyListeners();
-    } catch (e) {
-      loadingbinbooking = false;
-      notifyListeners();
-      print('Error in binbookingdata $e');
-      rethrow;
-    }
+Future<void> getBinRequestData() async {
+  var token = await Utils.getToken(); // Await the token
+  print('Token: $token'); // Now you’ll get the actual value
+
+  try {
+    loadingbinbooking = true;
+    notifyListeners();
+
+    final binbook = await fetchBinbooking(token??'');
+    _binBookingModel = BinBookingModel.fromJson(binbook);
+
+    print('bookkkkk: $binbook');
+    loadingbinbooking = false;
+    notifyListeners();
+  } catch (e) {
+    loadingbinbooking = false;
+    notifyListeners();
+    print('Error in binbookingdata $e');
+    rethrow;
   }
+}
+
 
   void toggleTab(int index) {
     currenttab = index;

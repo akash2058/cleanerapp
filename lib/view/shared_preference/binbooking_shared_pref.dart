@@ -1,13 +1,53 @@
+import 'package:binbookingapp/custom_widget/transaction_route.dart';
+import 'package:binbookingapp/view/authentication/login/login_view/login_view.dart';
+import 'package:binbookingapp/view/dashboard/dashboard_view/dashboard_view.dart';
+import 'package:flutter/material.dart';
+
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> saveLoginSession(String token) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool('isLoggedIn', true);
-  await prefs.setString('token', token); // optional
-}
+class Utils {
+  static Future<void> manipulateLogin(BuildContext context) async {
 
+    final token = await getToken();
 
-Future<void> clearLoginSession() async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.clear();
+  if (token == null || token.isEmpty) {
+      Navigator.pushAndRemoveUntil(
+      context,
+      CustomPageRoute(child:  LoginView()),
+      (route) => false,
+    );
+    
+ 
+  } else {
+     Navigator.pushAndRemoveUntil(
+      context,
+      CustomPageRoute(child: const DashboardView()),
+      (route) => false,
+    );
+  }
+  }
+
+  static Future<void> saveToken(String token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("token", token);
+  }
+
+  static Future<String?> getToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("token");
+  }
+
+  static Future<void> deleteToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+  }
+
+  // New method to save user details
+  static Future<void> saveUserDetails(String name, String email, String userId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', name);
+    await prefs.setString('email', email);
+    await prefs.setString('userid', userId);
+  }
 }

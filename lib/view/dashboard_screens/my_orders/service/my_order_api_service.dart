@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:binbookingapp/utils/apiurl.dart';
 import 'package:dio/dio.dart';

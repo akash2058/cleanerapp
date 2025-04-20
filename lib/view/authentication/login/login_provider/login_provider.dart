@@ -53,13 +53,7 @@ class LoginProvider extends ChangeNotifier {
       _userModel = UserModel.fromJson(userMap);
 
       if (userMap['status'] == 'success') {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', user?.data?.token ?? '');
-        await prefs.setString('email', emailcontroller.text);
-        await prefs.setString('name', user?.data?.user?.name??'');
-        await prefs.setString('address', user?.data?.user?.address??'');
-        await prefs.setString('gender', user?.data?.user?.gender??'');
-        await prefs.setString('contact', user?.data?.user?.contact??'');
+        Utils.saveToken(_userModel?.data?.token??'');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
@@ -106,16 +100,16 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getLogout(context, storetoken) async {
+  Future<void> getLogout(context) async {
+      var token = await Utils.getToken(); // Await the token
+
     try {
       loadinglogout = true;
       notifyListeners();
 
-      final logout = await fetchLogout(storetoken);
+      final logout = await fetchLogout(token);
       if (logout['status'] == 'success') {
-        clearLoginSession();
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.clear();
+      Utils.deleteToken();
         Navigator.push(context, CustomPageRoute(child: LoginView()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
