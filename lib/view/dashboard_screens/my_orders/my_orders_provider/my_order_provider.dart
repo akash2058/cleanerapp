@@ -170,7 +170,6 @@ class MyOrderProvider extends ChangeNotifier {
       print('confirm: $accept');
 
       if (context.mounted) {
-       
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,

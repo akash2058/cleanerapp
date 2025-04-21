@@ -118,7 +118,7 @@ Future<Map<String, dynamic>> fetchConfirmonsiteupdate(
 
   try {
     var response = await dio.request(
-     '${ AppUrl.confirmonsitedelivery}$binBookingId',
+     '${AppUrl.confirmonsitedelivery}$binBookingId',
       options: Options(
         method: 'PUT',
         headers: headers,
