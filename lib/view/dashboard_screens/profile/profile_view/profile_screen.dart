@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                     size: 30.r,
                   ),
                   title: 'Address',
-                  subtitle: userdata?.address ?? 'N/A',
+                  subtitle: log.address,
                 ),
                 CustomListtile(
                     leading: Icon(
@@ -58,16 +58,17 @@ class ProfileScreen extends StatelessWidget {
                       size: 30.r,
                     ),
                     title: 'Contact',
-                    subtitle: userdata?.contact ?? ''),
+                    subtitle: 
+                    log.contact),
                 CustomListtile(
                     leading: Icon(
-                      userdata?.gender == 'male'
+                      log.gender == 'male'
                           ? Icons.person_outline
                           : Icons.person_2_outlined,
                       size: 30.r,
                     ),
                     title: 'Gender',
-                    subtitle: userdata?.gender??''),
+                    subtitle: log.gender),
               ],
             ),
           ),

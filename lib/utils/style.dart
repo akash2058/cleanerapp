@@ -142,7 +142,7 @@ TextStyle get splashloadingfond {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w500,
     color: CleanerAppcolors.primarygreycolor,
-    fontSize: 14.r,
+    fontSize: 18.r,
   );
 }
 
@@ -158,7 +158,7 @@ TextStyle get buttonfond {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w500,
     color: CleanerAppcolors.primaryWhitecolor,
-    fontSize: 23.r,
+    fontSize: 22.r,
   );
 }
 
@@ -181,21 +181,21 @@ TextStyle get ordercardheaderfont {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w500,
     color: Colors.black,
-    fontSize: 17.r,
+    fontSize: 20.r,
   );
 }
 TextStyle get hintStyle {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w400,
-    color: const Color.fromARGB(255, 107, 106, 106),
-    fontSize: 13.r,
+    color:  Color.fromARGB(255, 107, 106, 106),
+    fontSize: 20.r,
   );
 }
 TextStyle get entertexttile {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w400,
     color:  CleanerAppcolors.primarygreycolor,
-    fontSize: 13.r,
+    fontSize: 20.r,
   );
 }
 TextStyle get errorstyle {

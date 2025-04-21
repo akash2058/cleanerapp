@@ -12,7 +12,6 @@ import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MyOrderProvider extends ChangeNotifier {
   bool isdamaged = true;
@@ -21,6 +20,7 @@ class MyOrderProvider extends ChangeNotifier {
   bool loadingmyorderdropoffdetail = false;
   bool loadingmyorderdata = false;
   bool loadingattachments = false;
+  bool loadingconfirmonsitepickup = false;
   MyOrderModel? _myOrderModel;
   MyOrderModel? get order => _myOrderModel;
   MyOrdersDropOffDetailModel? _myOrdersDropOffDetailModel;
@@ -36,7 +36,7 @@ class MyOrderProvider extends ChangeNotifier {
     try {
       loadingmyorderdata = true;
       notifyListeners();
-      final binbook = await fetchMyorders( token ?? '',id);
+      final binbook = await fetchMyorders(token ?? '', id);
       _myOrderModel = MyOrderModel.fromJson(binbook);
       print('myorderdetails $binbook');
 
@@ -80,9 +80,9 @@ class MyOrderProvider extends ChangeNotifier {
 
   List<TextEditingController> serialControllers = [];
   List<String> binSerialNumbers = [];
+
   Future<void> getSerialData(
     BuildContext context,
-
     String bookingid,
     String driverid,
   ) async {
@@ -112,6 +112,65 @@ class MyOrderProvider extends ChangeNotifier {
       print('API Response: $accept');
 
       if (context.mounted) {
+        // ✅ Show snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.sizeOf(context).height - 220.r,
+              left: 10.r,
+              right: 10.r,
+            ),
+            dismissDirection: DismissDirection.up,
+            content: Text(
+              accept['message'] ?? 'Unknown response',
+              style: buttonfond,
+            ),
+            backgroundColor:
+                accept['status'] == 'success'
+                    ? CleanerAppcolors.primarydarkGreencolor
+                    : CleanerAppcolors.primaryRedcolor,
+          ),
+        );
+
+        // ✅ Only navigate if success
+        if (accept['status'] == 'success') {
+          Navigator.push(context, CustomPageRoute(child: DashboardView()));
+        }
+      }
+    } catch (e) {
+      loadingserialdata = false;
+      notifyListeners();
+
+      print('Error: $e');
+      throw {"error": e};
+    }
+  }
+
+  Future<void> getConfirmonsiteupdate(
+    BuildContext context,
+    String driverid,
+    String bookingid,
+  ) async {
+    var token = await Utils.getToken(); // Await the token
+
+    try {
+      loadingconfirmonsitepickup = true;
+      notifyListeners();
+
+      final accept = await fetchConfirmonsiteupdate(
+        driverid,
+        bookingid,
+        token ?? '',
+      );
+
+      loadingconfirmonsitepickup = false;
+      notifyListeners();
+
+      print('confirm: $accept');
+
+      if (context.mounted) {
+       
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
@@ -133,14 +192,8 @@ class MyOrderProvider extends ChangeNotifier {
         );
       }
     } catch (e) {
-      loadingserialdata = false;
+      loadingattachments = false;
       notifyListeners();
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
-        );
-      }
 
       print('Error: $e');
       throw {"error": e};
@@ -252,7 +305,7 @@ class MyOrderProvider extends ChangeNotifier {
           SnackBar(
             behavior: SnackBarBehavior.floating,
             margin: EdgeInsets.only(
-              bottom: MediaQuery.sizeOf(context).height - 170.r,
+              bottom: MediaQuery.sizeOf(context).height - 220.r,
               left: 10.r,
               right: 10.r,
             ),

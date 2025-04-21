@@ -6,7 +6,6 @@ import 'package:binbookingapp/view/dashboard_screens/my_orders/components/detail
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/form_card.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
-import 'package:binbookingapp/view/session_expire_dialog/session_expire_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +51,6 @@ class _MyOrdersPickupDetailsScreenState extends State<MyOrdersPickupDetailsScree
   Widget build(BuildContext context) {
     return Consumer<MyOrderProvider>(builder: (context, order, child) {
       return Consumer<LoginProvider>(builder: (context, log, child) {
-        var userdata = log.user?.data?.user;
         return Scaffold(
       backgroundColor: CleanerAppcolors.primaryWhitecolor,
       bottomNavigationBar: BottomAppBar(
@@ -64,7 +62,7 @@ class _MyOrdersPickupDetailsScreenState extends State<MyOrdersPickupDetailsScree
               backgroundcolor: CleanerAppcolors.primarypurple,
               label:order.loadingserialdata == true?'Please Wait...' :'Update Order',
               onPressed: () {
-                order.getSerialData(context, log.user?.data?.user?.id.toString()??'',widget.bookingid,);
+                order.getSerialData(context, widget.bookingid,log.userid,);
               },
             ),
       ),
@@ -73,28 +71,26 @@ class _MyOrdersPickupDetailsScreenState extends State<MyOrdersPickupDetailsScree
         scrolledUnderElevation: 0.r,
         title: Text('Pick Up Details', style: appbartitlefont)),
       body: NoInternetBanner(
-        child: SessionWrapper(
-          child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 15.r,
-              children: [
-                DetailsCard(
-                  customername: widget.customername,
-                  duration: widget.duration,
-                  binsizename: widget.binsizename,
-                  quantity: widget.quantity.toString(),
-                  location: widget.location,
-                ),
-                FormCard(quantity: widget.quantity),
-             
-              ],
-            ),
+        child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 15.r,
+            children: [
+              DetailsCard(
+                customername: widget.customername,
+                duration: widget.duration,
+                binsizename: widget.binsizename,
+                quantity: widget.quantity.toString(),
+                location: widget.location,
+              ),
+              FormCard(quantity: widget.quantity),
+           
+            ],
           ),
-                ),
         ),
+              ),
       )
     );
       },);

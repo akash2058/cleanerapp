@@ -97,6 +97,54 @@ Future<Map<String, dynamic>> fetchSerialData(
     return {"status": "error", "message": "Something went wrong"};
   }
 }
+Future<Map<String, dynamic>> fetchConfirmonsiteupdate(
+  String driverId,
+  String binBookingId,
+  String token,
+) async {
+  var headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $token',
+  };
+
+  var data = jsonEncode({
+    "driver_id": driverId,
+    "booking_id": binBookingId,
+  });
+
+  print('Request Data: $data');
+  var dio = Dio();
+
+  try {
+    var response = await dio.request(
+     '${ AppUrl.confirmonsitedelivery}$binBookingId',
+      options: Options(
+        method: 'PUT',
+        headers: headers,
+        followRedirects: false,
+        validateStatus: (status) => status != null && status < 500,
+      ),
+      data: data,
+    );
+    print(data);
+    print('Status Code: ${response.statusCode}');
+    print('Response Data: ${response.data}');
+
+    if (response.data is Map<String, dynamic>) {
+      return response.data;
+    }
+
+    try {
+      return jsonDecode(response.data.toString());
+    } catch (e) {
+      return {"status": "error", "message": "Failed to parse response"};
+    }
+  } catch (e) {
+    print('Error during request: $e');
+    return {"status": "error", "message": "Something went wrong"};
+  }
+}
 
 Future<Map<String, dynamic>> fetchUpdateAttachments(
   String driverId,

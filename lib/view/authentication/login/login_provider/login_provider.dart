@@ -40,14 +40,20 @@ class LoginProvider extends ChangeNotifier {
     return now.difference(loginTime).inHours < 24;
   }
 
-  String name = '';
-  String email = '';
-  String userid = '';
+  String name = 'N/A';
+  String email = 'N/A';
+  String userid = 'N/A';
+  String gender = 'N/A';
+  String contact = 'N/A';
+  String address = 'N/A';
   Future<void> loadLoginData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     email = prefs.getString('email') ?? '';
     name = prefs.getString('name') ?? '';
     userid = prefs.getString('userid') ?? '';
+    gender = prefs.getString('gender')??'';
+    contact = prefs.getString('contact')??'';
+    address = prefs.getString('address')??'';
     notifyListeners();
   }
 
@@ -65,6 +71,9 @@ class LoginProvider extends ChangeNotifier {
       if (userMap['status'] == 'success') {
         Utils.saveToken(_userModel?.data?.token ?? '');
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('gender', _userModel?.data?.user?.gender??'');
+        await prefs.setString('address', _userModel?.data?.user?.address??'');
+        await prefs.setString('contact', _userModel?.data?.user?.contact??'');
         await prefs.setString('name', _userModel?.data?.user?.name ?? '');
         await prefs.setString('email', _userModel?.data?.user?.email ?? '');
         await prefs.setString(
@@ -96,7 +105,7 @@ class LoginProvider extends ChangeNotifier {
           SnackBar(
             behavior: SnackBarBehavior.floating,
             margin: EdgeInsets.only(
-              bottom: MediaQuery.sizeOf(context).height - 170.r,
+             bottom: MediaQuery.sizeOf(context).height - 220.r,
               left: 10.r,
               right: 10.r,
             ),
@@ -120,20 +129,18 @@ class LoginProvider extends ChangeNotifier {
 
   Future<void> getLogout(context) async {
     var token = await Utils.getToken(); // Await the token
-
     try {
       loadinglogout = true;
       notifyListeners();
-
       final logout = await fetchLogout(token);
       if (logout['status'] == 'success') {
-        Utils.deleteToken();
+       await Utils.deleteToken();
         Navigator.push(context, CustomPageRoute(child: LoginView()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
             margin: EdgeInsets.only(
-              bottom: MediaQuery.sizeOf(context).height - 170.r,
+               bottom: MediaQuery.sizeOf(context).height - 220.r,
               left: 10.r,
               right: 10.r,
             ),

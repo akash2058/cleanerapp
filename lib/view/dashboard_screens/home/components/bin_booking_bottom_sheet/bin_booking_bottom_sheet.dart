@@ -93,22 +93,11 @@ class BinBookingBottomSheet extends StatelessWidget {
                           ? 'Please Wait....'
                           : 'Accept Request',
                   onPressed: () async {
-                    binr.getBinRequestData(
-                
-                    ); // ← optional, if you want
-
                     await binr.getRequestAccept(
                       context,
                       userId,
                       bookingId,
-                  
-                    );
-
-                    // Delay before closing to ensure SnackBar appears
-                    await Future.delayed(Duration(milliseconds: 300));
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                    }
+                    ); // Delay before closing to ensure SnackBar appears
                   },
                 ),
               ],

@@ -43,10 +43,7 @@ class BinRequestView extends StatelessWidget {
                               vertical: 10,
                             ).r,
                         child: RefreshIndicator(
-                          onRefresh:
-                              () => binr.getBinRequestData(
-                         
-                              ),
+                          onRefresh: () => binr.getBinRequestData(),
                           child: Column(
                             spacing: 15.r,
                             children: [

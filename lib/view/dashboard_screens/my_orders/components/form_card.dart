@@ -70,7 +70,7 @@ class FormCard extends StatelessWidget {
                             borderSide: BorderSide(
                               color:
                                   CleanerAppcolors
-                                      .primarybrowncolor, // focused color
+                                      .primarypurple, // focused color
                               width: 1.5.r, // focused thickness
                             ),
                           ),

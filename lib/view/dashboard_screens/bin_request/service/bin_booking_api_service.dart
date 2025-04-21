@@ -45,13 +45,15 @@ print('response.data${response.data}');
   }
 }
 
+
+
+
 Future<Map<String, dynamic>> fetchRequestAccept(
   String driverId,
   String binBookingId,
   String token,
 ) async {
   var headers = {
-    'Accept': 'application/json',
     'Content-Type': 'application/json',
     'Authorization': 'Bearer $token', // Ensure token is valid and not expired
   };
