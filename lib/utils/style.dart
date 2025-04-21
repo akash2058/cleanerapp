@@ -37,7 +37,7 @@ TextStyle get dashboardlablefontminigrey {
 TextStyle get dashboardlablefontwhite {
   return GoogleFonts.roboto(
       fontWeight: FontWeight.w500,
-      fontSize: 14.r,
+      fontSize: 18.r,
       color: CleanerAppcolors.primaryWhitecolor);
 }
 

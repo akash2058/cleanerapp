@@ -36,7 +36,7 @@ class MyOrderProvider extends ChangeNotifier {
     try {
       loadingmyorderdata = true;
       notifyListeners();
-      final binbook = await fetchMyorders(token ?? '', id);
+      final binbook = await fetchMyorders( token ?? '',id);
       _myOrderModel = MyOrderModel.fromJson(binbook);
       print('myorderdetails $binbook');
 

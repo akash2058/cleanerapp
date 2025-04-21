@@ -27,13 +27,13 @@ class ProfileCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      log.user?.data?.user?.name??'',
+                      log.name,
                       style: listiletitlefont,
                     ),
                     SizedBox(
                       width: 180.r,
                       child: Text(
-                       log.user?.data?.user?.email??'',
+                       log.email,
                         style: dashboardlablefontgrey,
                       ),
                     )

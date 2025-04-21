@@ -46,15 +46,17 @@ Future<void> getBinRequestData() async {
 
 Future<void> getRequestAccept(
   BuildContext context,
-  String token,
+ 
   String bookingid,
   String driverid,
 ) async {
+    var token = await Utils.getToken(); // Await the token
+
   try {
     loadingrequestaccept = true;
     notifyListeners();
 
-    final accept = await fetchRequestAccept(token, bookingid, driverid);
+    final accept = await fetchRequestAccept(token??'', bookingid, driverid);
 
     loadingrequestaccept = false;
     notifyListeners();

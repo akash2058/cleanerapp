@@ -9,7 +9,6 @@ import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_pro
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/details_card.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
-import 'package:binbookingapp/view/session_expire_dialog/session_expire_dialog.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,20 +46,22 @@ class _MyOrdersDropOffDetailsScreenState
     extends State<MyOrdersDropOffDetailsScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       refreshdata();
+      getData();
     });
   }
 
   Future<void> getData() async {
-    // final logindata = Provider.of<LoginProvider>(context, listen: false);
+    final logindata = Provider.of<LoginProvider>(context, listen: false);
+    await logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
     await myordersdata.getMyordersData(
-     widget.bookingid
-    
+    logindata.userid
+  
     );
+    print('logindata.userid${logindata.name}');
     final binrequestdata = Provider.of<BinRequestProvider>(
       context,
       listen: false,
@@ -70,7 +71,7 @@ class _MyOrdersDropOffDetailsScreenState
 
   void refreshdata() async {
     // final logindata = Provider.of<LoginProvider>(context, listen: false);
-
+    
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
     myordersdata.getMyorderDropOffDetail(
       widget.bookingid,
@@ -93,8 +94,7 @@ class _MyOrdersDropOffDetailsScreenState
               backgroundcolor: CleanerAppcolors.primarypurple,
               label:order.loadingattachments == true?'Please Wait...': 'Update Order',
               onPressed: () {
-              order.getUpdateAttachments(context,log.user?.data?.user?.id.toString()??'' , widget.bookingid,);
-           refreshdata();
+              order.getUpdateAttachments(context,widget.bookingid,log.userid,);
               },
             ),
           ),
@@ -114,7 +114,12 @@ class _MyOrdersDropOffDetailsScreenState
                           size: 30.r,
                         ),
                       )
-                      : SingleChildScrollView(
+                      : order.loadingattachments == true?Center(
+                        child: LoadingAnimationWidget.hexagonDots(
+                          color: CleanerAppcolors.primarypurple,
+                          size: 30.r,
+                        ),
+                      ): SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 15.r,

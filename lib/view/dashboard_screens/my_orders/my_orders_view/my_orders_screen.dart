@@ -24,8 +24,9 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
  Future<void> refestdata()async{
      final logindata = Provider.of<LoginProvider>(context, listen: false);
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
+       await logindata.loadLoginData();
       await myordersdata.getMyordersData(
-    logindata.user?.data?.user?.id.toString()??'', 
+    logindata.userid, 
     );
   }
   @override

@@ -53,7 +53,7 @@ class GreetingsCard extends StatelessWidget {
                           Text(home.getGreeting(), style: buttonfond),
                           SizedBox(height: 10.r),
                           Text(
-                            log.user?.data?.user?.name ?? '',
+                            log.name,
                             style: drivernamefont,
                           ),
                           SizedBox(height: 20.r),

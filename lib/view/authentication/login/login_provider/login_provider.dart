@@ -25,10 +25,9 @@ class LoginProvider extends ChangeNotifier {
     hidepassword = !hidepassword;
     notifyListeners();
   }
-
   Future<bool> isSessionActive() async {
+    final token = await Utils.getToken();
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('auth_token');
     final loginTimeStr = prefs.getString('login_time');
 
     if (token == null || loginTimeStr == null) return false;
@@ -41,6 +40,18 @@ class LoginProvider extends ChangeNotifier {
     return now.difference(loginTime).inHours < 24;
   }
 
+  String name = '';
+  String email = '';
+  String userid = '';
+  Future<void> loadLoginData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    email = prefs.getString('email') ?? '';
+    name = prefs.getString('name') ?? '';
+    userid = prefs.getString('userid') ?? '';
+    notifyListeners();
+  }
+
+
   Future<void> getLogin(context) async {
     try {
       loadinglogin = true;
@@ -51,9 +62,16 @@ class LoginProvider extends ChangeNotifier {
         passwordcontroller.text,
       );
       _userModel = UserModel.fromJson(userMap);
-
       if (userMap['status'] == 'success') {
-        Utils.saveToken(_userModel?.data?.token??'');
+        Utils.saveToken(_userModel?.data?.token ?? '');
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('name', _userModel?.data?.user?.name ?? '');
+        await prefs.setString('email', _userModel?.data?.user?.email ?? '');
+        await prefs.setString(
+          'userid',
+          _userModel?.data?.user?.id.toString() ?? '',
+        );
+        await prefs.setString('token', user?.data?.token ?? '');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
@@ -101,7 +119,7 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future<void> getLogout(context) async {
-      var token = await Utils.getToken(); // Await the token
+    var token = await Utils.getToken(); // Await the token
 
     try {
       loadinglogout = true;
@@ -109,7 +127,7 @@ class LoginProvider extends ChangeNotifier {
 
       final logout = await fetchLogout(token);
       if (logout['status'] == 'success') {
-      Utils.deleteToken();
+        Utils.deleteToken();
         Navigator.push(context, CustomPageRoute(child: LoginView()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

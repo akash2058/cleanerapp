@@ -29,7 +29,12 @@ class MyOrdersDropOffList extends StatelessWidget {
                   return MyOrdersCard(
                   
                     onPressed: () {
-                      Navigator.push(
+                      if(waredata?.stage == 'picked_up_from_site'&& waredata?.type == 'warehouse_dropoff'){
+                          ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('lol')));
+                      }else{
+                         Navigator.push(
                         context,
                         CustomPageRoute(
                           child: MyOrdersDropOffDetailsScreen(
@@ -43,13 +48,15 @@ class MyOrdersDropOffList extends StatelessWidget {
                           ),
                         ),
                       );
+                      }
+                     
                     },
                     address: waredata?.location ?? '',
                     quantity: waredata?.quantity.toString() ?? '',
                     startdate: waredata?.startDate ?? '',
                     endDate: waredata?.endDate ?? '',
                     binsizename: waredata?.binSizeName ?? '',
-                    buttonlabel: 'View',
+                    buttonlabel:waredata?.stage == 'picked_up_from_site' && waredata?.type =='warehouse_dropoff'? 'Confirm Order':'View',
                     stage: '',
                   );
                 },

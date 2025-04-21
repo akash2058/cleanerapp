@@ -101,7 +101,7 @@ class BinBookingBottomSheet extends StatelessWidget {
                       context,
                       userId,
                       bookingId,
-                      usertoken,
+                  
                     );
 
                     // Delay before closing to ensure SnackBar appears

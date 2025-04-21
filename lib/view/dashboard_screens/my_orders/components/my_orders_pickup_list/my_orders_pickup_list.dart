@@ -39,7 +39,7 @@ class MyOrdersPickUpList extends StatelessWidget {
             var sitedata = siteRequests[index];
             return MyOrdersCard(
               onPressed: () {
-                if (sitedata.stage == 'order_picked_up') {
+                if (sitedata.stage == 'order_picked_up'&& sitedata.type =='on_site_order') {
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text('lol')));
@@ -67,7 +67,7 @@ class MyOrdersPickUpList extends StatelessWidget {
               endDate: sitedata.endDate,
               binsizename: sitedata.binSizeName,
               buttonlabel:
-                  sitedata.stage == 'order_picked_up'
+                  sitedata.stage == 'order_picked_up' && sitedata.type == 'warehouse_dropoff'
                       ? 'Confirm Delivery'
                       : 'View',
               stage: '',
