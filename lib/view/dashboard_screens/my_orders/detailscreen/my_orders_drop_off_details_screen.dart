@@ -76,6 +76,7 @@ class _MyOrdersDropOffDetailsScreenState
     myordersdata.getMyorderDropOffDetail(
       widget.bookingid,
     );
+    print(widget.bookingid);
   }
 
   @override

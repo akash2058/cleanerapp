@@ -82,174 +82,216 @@ class MyOrderProvider extends ChangeNotifier {
   List<TextEditingController> serialControllers = [];
   List<String> binSerialNumbers = [];
 
-  Future<void> getSerialData(
-    BuildContext context,
-    String bookingid,
-    String driverid,
-  ) async {
-    var token = await Utils.getToken();
-    print('Booking ID: $bookingid, Driver ID: $driverid');
+ Future<void> getSerialData(
+  BuildContext context,
+  String bookingid,
+  String driverid,
+) async {
+  final navigator = Navigator.of(context); // Save before any await
+  final messenger = ScaffoldMessenger.of(context); // Save before any await
+final screenSize = MediaQuery.sizeOf(context);
 
-    try {
-      loadingserialdata = true;
-      notifyListeners();
+  var token = await Utils.getToken();
+  print('Booking ID: $bookingid, Driver ID: $driverid');
 
-      // Extract the values from the controllers
-      List<String> serialNumbers =
-          serialControllers
-              .map((controller) => controller.text.trim())
-              .toList();
+  try {
+    loadingserialdata = true;
+    notifyListeners();
 
-      final accept = await fetchSerialData(
-        driverid,
-        bookingid,
-        serialNumbers,
-        token ?? '',
+    // Extract serial numbers
+    List<String> serialNumbers = serialControllers
+        .map((controller) => controller.text.trim())
+        .toList();
+
+    final accept = await fetchSerialData(
+      driverid,
+      bookingid,
+      serialNumbers,
+      token ?? '',
+    );
+
+    loadingserialdata = false;
+    notifyListeners();
+
+    // ✅ Safe to use saved messenger
+    messenger.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom:  screenSize.height -170.r,
+          left: 10.r,
+          right: 10.r,
+        ),
+        dismissDirection: DismissDirection.up,
+   
+        content: Text(
+          accept['message'] ?? 'Unknown response',
+          style: buttonfond,
+        ),
+        backgroundColor: accept['status'] == 'success'
+            ? CleanerAppcolors.primarydarkGreencolor
+            : CleanerAppcolors.primaryRedcolor,
+      ),
+    );
+
+    // ✅ Navigate only if successful
+    if (accept['status'] == 'success') {
+      navigator.push(
+        CustomPageRoute(child: DashboardView()),
       );
-
-      loadingserialdata = false;
-      notifyListeners();
-
-      print('API Response: $accept');
-
-      if (context.mounted) {
-        // ✅ Show snackbar
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.sizeOf(context).height - 220.r,
-              left: 10.r,
-              right: 10.r,
-            ),
-            dismissDirection: DismissDirection.up,
-            content: Text(
-              accept['message'] ?? 'Unknown response',
-              style: buttonfond,
-            ),
-            backgroundColor:
-                accept['status'] == 'success'
-                    ? CleanerAppcolors.primarydarkGreencolor
-                    : CleanerAppcolors.primaryRedcolor,
-          ),
-        );
-
-        // ✅ Only navigate if success
-        if (accept['status'] == 'success') {
-          Navigator.push(context, CustomPageRoute(child: DashboardView()));
-        }
-      }
-    } catch (e) {
-      loadingserialdata = false;
-      notifyListeners();
-
-      print('Error: $e');
-      throw {"error": e};
     }
+  } catch (e) {
+    loadingserialdata = false;
+    notifyListeners();
+
+    // ✅ Safe error toast
+    messenger.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.fixed,
+        content: Text('Error: $e'),
+        backgroundColor: Colors.red,
+      ),
+    );
+
+    print('Error: $e');
   }
+}
+
 
   Future<void> getConfirmonsiteupdate(
-    BuildContext context,
-    String driverid,
-    String bookingid,
-  ) async {
-    var token = await Utils.getToken(); // Await the token
+  BuildContext context,
+  String driverid,
+  String bookingid,
+) async {
+  final messenger = ScaffoldMessenger.of(context); // cache before await
+final screenSize = MediaQuery.sizeOf(context);
+  var token = await Utils.getToken();
 
-    try {
-      loadingconfirmonsitepickup = true;
-      notifyListeners();
+  try {
+    loadingconfirmonsitepickup = true;
+    notifyListeners();
 
-      final accept = await fetchConfirmonsiteupdate(
-        driverid,
-        bookingid,
-        token ?? '',
-      );
+    final accept = await fetchConfirmonsiteupdate(
+      driverid,
+      bookingid,
+      token ?? '',
+    );
 
-      loadingconfirmonsitepickup = false;
-      notifyListeners();
+    print('✅ API Response: $accept');
 
-      print('confirm: $accept');
+    final status = accept['status'];
+    final message = accept['message'] ?? 'No message';
 
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.sizeOf(context).height - 170.r,
-              left: 10.r,
-              right: 10.r,
-            ),
-            dismissDirection: DismissDirection.up,
-            content: Text(
-              accept['message'] ?? 'Unknown response',
-              style: buttonfond,
-            ),
-            backgroundColor:
-                accept['status'] == 'success'
-                    ? CleanerAppcolors.primarydarkGreencolor
-                    : CleanerAppcolors.primaryRedcolor,
-          ),
-        );
-      }
-    } catch (e) {
-      loadingattachments = false;
-      notifyListeners();
+    // ✅ Show snackbar using cached messenger
+    messenger.showSnackBar(
+      SnackBar(
+         behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom:  screenSize.height -170.r,
+          left: 10.r,
+          right: 10.r,
+        ),
+        dismissDirection: DismissDirection.up,
+     
+        content: Text(
+          message,
+          style: resendfont,
+        ),
+        backgroundColor: status == 'success'
+            ? CleanerAppcolors.primarydarkGreencolor
+            : CleanerAppcolors.primaryRedcolor,
+      ),
+    );
 
-      print('Error: $e');
-      throw {"error": e};
-    }
+    loadingconfirmonsitepickup = false;
+    notifyListeners();
+  } catch (e) {
+    loadingconfirmonsitepickup = false;
+    notifyListeners();
+
+    // ✅ Still using cached messenger
+    messenger.showSnackBar(
+      SnackBar(
+         behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom:  - 220.r,
+          left: 10.r,
+          right: 10.r,
+        ),
+        dismissDirection: DismissDirection.up,
+        content: Text('Error: $e'),
+        backgroundColor: Colors.red,
+      ),
+    );
+
+    throw {"error": e};
   }
- Future<void> getConfirmwarehouseupdate(
-    BuildContext context,
-    String driverid,
-    String bookingid,
-  ) async {
-    var token = await Utils.getToken(); // Await the token
+}
 
-    try {
-      loadingconfirmonsitepickup = true;
-      notifyListeners();
 
-      final accept = await fetchConfirmWarehouseupdate(
-        driverid,
-        bookingid,
-        token ?? '',
-      );
+Future<void> getConfirmwarehouseupdate(
+  BuildContext context,
+  String driverid,
+  String bookingid,
+) async {
+  final messenger = ScaffoldMessenger.of(context); // ✅ Cache this before await
+  final screenSize = MediaQuery.sizeOf(context);   // ✅ Cache mediaQuery before await
 
-      loadingconfirmonsitepickup = false;
-      notifyListeners();
+  var token = await Utils.getToken();
 
-      print('confirm: $accept');
+  try {
+    loadingconfirmonsitepickup = true;
+    notifyListeners();
 
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.sizeOf(context).height - 170.r,
-              left: 10.r,
-              right: 10.r,
-            ),
-            dismissDirection: DismissDirection.up,
-            content: Text(
-              accept['message'] ?? 'Unknown response',
-              style: buttonfond,
-            ),
-            backgroundColor:
-                accept['status'] == 'success'
-                    ? CleanerAppcolors.primarydarkGreencolor
-                    : CleanerAppcolors.primaryRedcolor,
-          ),
-        );
-      }
-    } catch (e) {
-      loadingattachments = false;
-      notifyListeners();
+    final accept = await fetchConfirmWarehouseupdate(
+      driverid,
+      bookingid,
+      token ?? '',
+    );
 
-      print('Error: $e');
-      throw {"error": e};
-    }
+    loadingconfirmonsitepickup = false;
+    notifyListeners();
+
+    final status = accept['status'];
+    final message = accept['message'] ?? 'No message';
+    print('confirm: $accept');
+
+    // ✅ Use cached messenger and screenSize
+    messenger.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom: screenSize.height - 170.r,
+          left: 10.r,
+          right: 10.r,
+        ),
+        dismissDirection: DismissDirection.up,
+        content: Text(
+          message,
+          style: buttonfond,
+        ),
+        backgroundColor: status == 'success'
+            ? CleanerAppcolors.primarydarkGreencolor
+            : CleanerAppcolors.primaryRedcolor,
+      ),
+    );
+  } catch (e) {
+    loadingattachments = false;
+    notifyListeners();
+
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text('Error: $e'),
+        backgroundColor: Colors.red,
+      ),
+    );
+
+    print('Error: $e');
+    throw {"error": e};
   }
+}
+
+
   List<bool> isDamagedList = [];
   List<List<XFile>> imagesPerBin = [];
 
@@ -332,6 +374,9 @@ class MyOrderProvider extends ChangeNotifier {
     String driverid,
   ) async {
     try {
+       final messenger = ScaffoldMessenger.of(context); // ✅ Cache this before await
+  final screenSize = MediaQuery.sizeOf(context);   // ✅ Cache mediaQuery before await
+
       var token = await Utils.getToken();
       loadingattachments = true;
       notifyListeners();
@@ -350,26 +395,27 @@ class MyOrderProvider extends ChangeNotifier {
         print(accept);
         Navigator.push(context, CustomPageRoute(child: DashboardView()));
       }
+      final status = accept['status'];
+      final message = accept['message'] ?? 'No message';
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.sizeOf(context).height - 220.r,
-              left: 10.r,
-              right: 10.r,
-            ),
-            dismissDirection: DismissDirection.up,
-            content: Text(
-              accept['message'] ?? 'Unknown response',
-              style: buttonfond,
-            ),
-            backgroundColor:
-                accept['status'] == 'success'
-                    ? CleanerAppcolors.primarydarkGreencolor
-                    : CleanerAppcolors.primaryRedcolor,
-          ),
-        );
+         messenger.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom: screenSize.height - 170.r,
+          left: 10.r,
+          right: 10.r,
+        ),
+        dismissDirection: DismissDirection.up,
+        content: Text(
+          message,
+          style: buttonfond,
+        ),
+        backgroundColor: status == 'success'
+            ? CleanerAppcolors.primarydarkGreencolor
+            : CleanerAppcolors.primaryRedcolor,
+      ),
+    );
       }
     } catch (e) {
       loadingattachments = false;
@@ -412,4 +458,32 @@ class MyOrderProvider extends ChangeNotifier {
 
     return result;
   }
+}
+
+void showSafeSnackBar({
+  required BuildContext context,
+  required String message,
+  required Color backgroundColor,
+  required TextStyle textStyle,
+  EdgeInsets? margin,
+  Duration duration = const Duration(seconds: 3),
+}) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    // ⚠️ Only now check if the context is still mounted
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          margin: margin,
+          dismissDirection: DismissDirection.up,
+          content: Text(message, style: textStyle),
+          backgroundColor: backgroundColor,
+          duration: duration,
+        ),
+      );
+    } else {
+      debugPrint('⚠️ Skipping snackbar because context is no longer mounted');
+    }
+  });
 }

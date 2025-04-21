@@ -1,6 +1,8 @@
 import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 class InternetProvider with ChangeNotifier {
   final Connectivity _connectivity = Connectivity();
@@ -16,21 +18,17 @@ class InternetProvider with ChangeNotifier {
   void _initialize() {
     checkInitialConnection();
     _subscription = _connectivity.onConnectivityChanged.listen((resultList) {
-      // Take the first result in the list for simplicity
-      final result = resultList.isNotEmpty ? resultList.first : ConnectivityResult.none;
-      _updateStatus(result);
+      checkRealInternet(); // Instead of trusting just the connection type
     });
   }
 
   Future<void> checkInitialConnection() async {
-    List<ConnectivityResult> results = await _connectivity.checkConnectivity();
-    final result = results.isNotEmpty ? results.first : ConnectivityResult.none;
-    _updateStatus(result);
+    await checkRealInternet();
   }
 
-  void _updateStatus(ConnectivityResult result) {
+  Future<void> checkRealInternet() async {
     bool previousStatus = _hasInternet;
-    _hasInternet = result != ConnectivityResult.none;
+    _hasInternet = await InternetConnection().hasInternetAccess;
 
     if (_hasInternet != previousStatus) {
       notifyListeners();

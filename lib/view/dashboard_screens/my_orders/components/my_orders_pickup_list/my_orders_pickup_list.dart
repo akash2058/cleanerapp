@@ -2,6 +2,7 @@ import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
+import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/my_orders_card.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/detailscreen/my_orders_pickup_details_screen.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
@@ -10,9 +11,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
-class MyOrdersPickUpList extends StatelessWidget {
+class MyOrdersPickUpList extends StatefulWidget {
   const MyOrdersPickUpList({super.key});
 
+  @override
+  State<MyOrdersPickUpList> createState() => _MyOrdersPickUpListState();
+}
+
+class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
+    void getData() async {
+    
+    final logindata = Provider.of<LoginProvider>(context, listen: false);
+    await logindata.loadLoginData();
+    final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
+    await myordersdata.getMyordersData(logindata.userid);
+    final binrequestdata = Provider.of<BinRequestProvider>(
+      context,
+      listen: false,
+    );
+    await binrequestdata.getBinRequestData();
+
+    print('userid${logindata.userid}');
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<MyOrderProvider>(
@@ -56,7 +76,8 @@ class MyOrdersPickUpList extends StatelessWidget {
                             log.userid,
                             sitedata.id.toString(),
                           );
-                          order.getMyordersData(log.userid);
+                          getData();
+                         
                         } else {
                           Navigator.push(
                             context,
