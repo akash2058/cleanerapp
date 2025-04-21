@@ -20,6 +20,7 @@ class MyOrderProvider extends ChangeNotifier {
   bool loadingmyorderdropoffdetail = false;
   bool loadingmyorderdata = false;
   bool loadingattachments = false;
+  bool loadingupdatewarehouse = false;
   bool loadingconfirmonsitepickup = false;
   MyOrderModel? _myOrderModel;
   MyOrderModel? get order => _myOrderModel;
@@ -198,7 +199,57 @@ class MyOrderProvider extends ChangeNotifier {
       throw {"error": e};
     }
   }
+ Future<void> getConfirmwarehouseupdate(
+    BuildContext context,
+    String driverid,
+    String bookingid,
+  ) async {
+    var token = await Utils.getToken(); // Await the token
 
+    try {
+      loadingconfirmonsitepickup = true;
+      notifyListeners();
+
+      final accept = await fetchConfirmWarehouseupdate(
+        driverid,
+        bookingid,
+        token ?? '',
+      );
+
+      loadingconfirmonsitepickup = false;
+      notifyListeners();
+
+      print('confirm: $accept');
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.sizeOf(context).height - 170.r,
+              left: 10.r,
+              right: 10.r,
+            ),
+            dismissDirection: DismissDirection.up,
+            content: Text(
+              accept['message'] ?? 'Unknown response',
+              style: buttonfond,
+            ),
+            backgroundColor:
+                accept['status'] == 'success'
+                    ? CleanerAppcolors.primarydarkGreencolor
+                    : CleanerAppcolors.primaryRedcolor,
+          ),
+        );
+      }
+    } catch (e) {
+      loadingattachments = false;
+      notifyListeners();
+
+      print('Error: $e');
+      throw {"error": e};
+    }
+  }
   List<bool> isDamagedList = [];
   List<List<XFile>> imagesPerBin = [];
 

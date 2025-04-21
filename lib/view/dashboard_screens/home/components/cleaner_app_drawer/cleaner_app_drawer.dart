@@ -63,7 +63,7 @@ class CleanerAppDrawer extends StatelessWidget {
                       onPressed: () {
                    log.getLogout(context);
                       },
-                      label:log.loadinglogout == true?'Please Wait': 'Logout',backgroundColor: CleanerAppcolors.primaryRedcolor,)
+                      label: 'Logout',backgroundColor: CleanerAppcolors.primaryRedcolor,)
                     ],
                     title: Center(child: Text('Log out of your account?',style: dashboardlabelfontblack,)),
                   );
@@ -73,7 +73,7 @@ class CleanerAppDrawer extends StatelessWidget {
                 Icons.logout,
                 size: 20.r,
               ),
-              title: 'Logout',
+              title: log.loadinglogout == true?'Please Wait':'Logout',
             ),
           ],
         ),

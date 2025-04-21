@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> getData() async {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
+    logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
     await myordersdata.getMyordersData(
       logindata.user?.data?.user?.id.toString()?? '',

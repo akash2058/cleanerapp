@@ -1,17 +1,12 @@
 import 'dart:async';
 
-import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/cleanericonspng.dart';
-import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
-import 'package:binbookingapp/view/authentication/login/login_view/login_view.dart';
-import 'package:binbookingapp/view/dashboard/dashboard_view/dashboard_view.dart';
+
 import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -27,9 +22,7 @@ class _SplashScreen extends State<SplashScreen> {
     checkLoginStatus();
   }
 
- checkLoginStatus() async {
-    final token = await Utils.getToken();
-print('store${token}');
+  checkLoginStatus() async {
     Future.delayed(const Duration(seconds: 2), () {
       Utils.manipulateLogin(context);
     });
@@ -46,7 +39,9 @@ print('store${token}');
           children: [
             Image.asset(AppIcons.cleanerbinlogo, height: 90.r),
             LoadingAnimationWidget.dotsTriangle(
-                color: CleanerAppcolors.primarypurple, size: 40.r)
+              color: CleanerAppcolors.primarypurple,
+              size: 40.r,
+            ),
           ],
         ),
       ),

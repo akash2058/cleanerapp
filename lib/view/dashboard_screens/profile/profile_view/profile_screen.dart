@@ -16,7 +16,6 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LoginProvider>(
       builder: (context, log, child) {
-        var userdata = log.user?.data?.user;
         return Scaffold(
           appBar: AppBar(
             scrolledUnderElevation: 0.r,

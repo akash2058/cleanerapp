@@ -12,5 +12,6 @@ class AppUrl {
   static const logout = '${mainUrl}logout';
   static const updateattachments = '${mainUrl}bin-bookings/update-booking-attachments/';
     static const confirmonsitedelivery = '${mainUrl}bin-bookings/on-site-delivered/';
+    static const confirmwarehousedelivery = '${mainUrl}bin-bookings/warehouse-delivered/';
 
 }

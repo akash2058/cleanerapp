@@ -56,6 +56,7 @@ class MyOrdersPickUpList extends StatelessWidget {
                             log.userid,
                             sitedata.id.toString(),
                           );
+                          order.getMyordersData(log.userid);
                         } else {
                           Navigator.push(
                             context,
