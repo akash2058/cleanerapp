@@ -91,7 +91,7 @@ class _MyOrdersDropOffDetailsScreenState
             color: CleanerAppcolors.primaryWhitecolor,
             height: 90.r,
             elevation: 0,
-            child: CleanerButton.elevated(
+            child:order.orderdetail?.bookingSerialNumbers?.isEmpty??true?null: CleanerButton.elevated(
               backgroundcolor: CleanerAppcolors.primarypurple,
               label:order.loadingattachments == true?'Please Wait...': 'Update Order',
               onPressed: () {
@@ -165,7 +165,7 @@ class DropOffSelectImageCard extends StatelessWidget {
                     child: Center(
                       child: Column(
                         children: [
-                          Image.asset(AppIcons.nodatafound, height: 70.r),
+                          
                           Text('No Serial Numbers Found', style: resendfont),
                         ],
                       ),

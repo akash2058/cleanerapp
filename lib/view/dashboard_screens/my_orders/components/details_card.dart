@@ -47,7 +47,7 @@ class DetailsCard extends StatelessWidget {
               SizedBox(height: 10.r),
               DetailsLabel(label: 'Customer Name', sublabel: customername),
               SizedBox(height: 5.r),
-              DetailsLabel(label: 'Duration', sublabel: duration),
+              DetailsLabel(label: 'Duration', sublabel: '${duration} days'),
               SizedBox(height: 5.r),
               DetailsLabel(label: 'Bin Size Name', sublabel: binsizename),
               SizedBox(height: 5.r),
