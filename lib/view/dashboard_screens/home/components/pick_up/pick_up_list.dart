@@ -23,9 +23,12 @@ class PickUp extends StatelessWidget {
           return Consumer<BinRequestProvider>(
             builder: (context, bindata, child) {
               if (bindata.loadingbinbooking == true) {
-                return Center(
-                  child: LoadingAnimationWidget.hexagonDots(
-                      color: CleanerAppcolors.primarypurple, size: 20.r),
+                return Padding(
+                  padding:  EdgeInsets.symmetric(vertical: 90.r),
+                  child: Center(
+                    child: LoadingAnimationWidget.hexagonDots(
+                        color: CleanerAppcolors.primarypurple, size: 40.r),
+                  ),
                 );
               } else if ((bindata.binbook?.data.siteRequests.length ?? 0) == 0) {
                 // If the data is empty, show "No data found"

@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: CleanerAppcolors.primaryminigreycolor,
                   body: Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 23, vertical: 10).r,
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
                     child: RefreshIndicator(
                       onRefresh: getData,
                       child: ListView(

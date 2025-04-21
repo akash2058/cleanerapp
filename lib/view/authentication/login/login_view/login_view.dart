@@ -65,7 +65,7 @@ class LoginView extends StatelessWidget {
                               child: Icon(
                                 login.hidepassword == true
                                     ? Icons.visibility_off_outlined
-                                    : Icons.visibility_off_outlined,
+                                    : Icons.visibility_outlined,
                                 size: 18.r,
                                 color:
                                     login.hidepassword == true
@@ -95,12 +95,8 @@ class LoginView extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 10.r),
-                          login.loadinglogin == true
-                              ? LoadingAnimationWidget.hexagonDots(
-                                color: CleanerAppcolors.primarypurple,
-                                size: 55.r,
-                              )
-                              : CleanerButton.elevated(
+                           CleanerButton.elevated(isloading: login.loadinglogin,
+                            
                                 height: 55.r,
                                 width: MediaQuery.sizeOf(context).width,
                                 backgroundcolor: CleanerAppcolors.primarypurple,

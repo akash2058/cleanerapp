@@ -1,7 +1,9 @@
 import 'package:binbookingapp/custom_widget/transaction_route.dart';
+import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 enum CleanerButtonType { elevated, outline, text, navigation }
 
@@ -9,6 +11,7 @@ class CleanerButton extends StatelessWidget {
   final CleanerButtonType type;
   final double? height;
   final double? width;
+  final bool? isloading;
   final Color? bordercolor;
   final String label;
   final Color? backgroundcolor;
@@ -22,7 +25,7 @@ class CleanerButton extends StatelessWidget {
     this.height,
     this.width,
     required this.onPressed,
-    this.bordercolor,
+    this.bordercolor, this.isloading,
   })  : type = CleanerButtonType.elevated,
         destination = null;
 
@@ -33,7 +36,7 @@ class CleanerButton extends StatelessWidget {
     this.height,
     this.width,
     this.backgroundcolor,
-    this.bordercolor,
+    this.bordercolor, this.isloading,
   })  : type = CleanerButtonType.outline,
         destination = null;
 
@@ -43,10 +46,11 @@ class CleanerButton extends StatelessWidget {
     required this.onPressed,
     this.height,
     this.width,
-    this.backgroundcolor,
+    this.backgroundcolor, this.isloading,
   })  : type = CleanerButtonType.text,
         destination = null,
         bordercolor = null;
+        
 
   const CleanerButton.navigation({
     super.key,
@@ -54,7 +58,7 @@ class CleanerButton extends StatelessWidget {
     required this.destination,
     this.height,
     this.width,
-    this.backgroundcolor,
+    this.backgroundcolor, this.isloading,
   })  : type = CleanerButtonType.navigation,
         onPressed = null,
         bordercolor = null;
@@ -76,7 +80,7 @@ class CleanerButton extends StatelessWidget {
                   backgroundcolor, // Background color for ElevatedButton
             ),
             onPressed: onPressed,
-            child:
+            child:isloading == true?LoadingAnimationWidget.hexagonDots(color: CleanerAppcolors.primaryWhitecolor, size: 30.r):
                 Text(label, style: buttonfond // Text color for ElevatedButton
                     ),
           ),
