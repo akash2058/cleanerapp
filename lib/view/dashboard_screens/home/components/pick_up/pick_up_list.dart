@@ -1,4 +1,3 @@
-
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/utils/style.dart';
@@ -19,86 +18,85 @@ class PickUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<DashboardProvider>(
       builder: (context, dash, child) {
-        return Consumer<LoginProvider>(builder: (context, log, child) {
-          return Consumer<BinRequestProvider>(
-            builder: (context, bindata, child) {
-              if (bindata.loadingbinbooking == true) {
-                return Padding(
-                  padding:  EdgeInsets.symmetric(vertical: 90.r),
-                  child: Center(
-                    child: LoadingAnimationWidget.hexagonDots(
-                        color: CleanerAppcolors.primarypurple, size: 40.r),
-                  ),
-                );
-              } else if ((bindata.binbook?.data.siteRequests.length ?? 0) == 0) {
-                // If the data is empty, show "No data found"
-                return Padding(
-                  padding:  EdgeInsets.symmetric(vertical: 90.r),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Image.asset(AppIcons.nodatafound,height: 70.r),
-                        Text(
-                          'No Pick Up Request Found',
-                          style: resendfont,
-                        ),
-                      ],
+        return Consumer<LoginProvider>(
+          builder: (context, log, child) {
+            return Consumer<BinRequestProvider>(
+              builder: (context, bindata, child) {
+                if (bindata.loadingbinbooking == true) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 90.r),
+                    child: Center(
+                      child: LoadingAnimationWidget.hexagonDots(
+                        color: CleanerAppcolors.primarypurple,
+                        size: 40.r,
+                      ),
                     ),
-                  ),
-                );
-              } else {
-                return Column(
-                  spacing: 15.r,
-                  children: [
-                    ...List.generate(
-                      (bindata.binbook?.data.siteRequests.length ?? 0) > 6
-                          ? 6
-                          : (bindata.binbook?.data.siteRequests.length ?? 0),
-                      (index) {
-                        var data = bindata.binbook?.data.siteRequests[index];
-                        return BinRequestCard(
-                          onPressed: () {
-                            showModalBottomSheet(
-                              showDragHandle: true,
-                              context: context,
-                              builder: (context) {
-                                return BinBookingBottomSheet(
-                                  customername: data?.customerName ?? '',
-                                  location: data?.location ?? '',
-                                  endDate: data?.endDate ?? '',
-                                  type: data?.type ?? '',
-                                  binsizeName: data?.binSizeName ?? '',
-                                  bookingId: data?.id.toString() ?? '',
-                                  userId: log.userid,
-                                  usertoken: log.user?.data?.token ?? '',
-                                );
-                              },
-                            );
-                          },
-                          address: data?.location ?? 'N/A',
-                          quantity: data?.quantity.toString() ?? 'N/A',
-                          startdate: data?.startDate ?? 'N/A',
-                          duration: data?.orderDuration.toString() ?? 'N/A',
-                          binsizename: data?.binSizeName ?? '',
-                        );
-                      },
+                  );
+                } else if ((bindata.binbook?.data.siteRequests.length ?? 0) ==
+                    0) {
+                  // If the data is empty, show "No data found"
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 90.r),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Image.asset(AppIcons.closedd, height: 70.r),
+                          Text('No Pick Up Request Found', style: resendfont),
+                        ],
+                      ),
                     ),
-                    if ((bindata.binbook?.data.siteRequests.length ?? 0) > 6)
-                      GestureDetector(
-                        onTap: () {
-                          dash.screenTabs(dash.currenttab = 1);
+                  );
+                } else {
+                  return Column(
+                    spacing: 15.r,
+                    children: [
+                      ...List.generate(
+                        (bindata.binbook?.data.siteRequests.length ?? 0) > 6
+                            ? 6
+                            : (bindata.binbook?.data.siteRequests.length ?? 0),
+                        (index) {
+                          var data = bindata.binbook?.data.siteRequests[index];
+                          return BinRequestCard(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                showDragHandle: true,
+                                context: context,
+                                builder: (context) {
+                                  return BinBookingBottomSheet(
+                                    customername: data?.customerName ?? '',
+                                    location: data?.location ?? '',
+                                    endDate: data?.endDate ?? '',
+                                    type: data?.type ?? '',
+                                    binsizeName: data?.binSizeName ?? '',
+                                    bookingId: data?.id.toString() ?? '',
+                                    userId: log.userid,
+                                    usertoken: log.user?.data?.token ?? '',
+                                  );
+                                },
+                              );
+                            },
+                            address: data?.location ?? 'N/A',
+                            quantity: data?.quantity.toString() ?? 'N/A',
+                            startdate: data?.startDate ?? 'N/A',
+                            duration: data?.orderDuration.toString() ?? 'N/A',
+                            binsizename: data?.binSizeName ?? '',
+                          );
                         },
-                        child: Text(
-                          'See all',
-                          style: seeallfont,
+                      ),
+                      if ((bindata.binbook?.data.siteRequests.length ?? 0) > 6)
+                        GestureDetector(
+                          onTap: () {
+                            dash.screenTabs(dash.currenttab = 1);
+                          },
+                          child: Text('See all', style: seeallfont),
                         ),
-                      )
-                  ],
-                );
-              }
-            },
-          );
-        });
+                    ],
+                  );
+                }
+              },
+            );
+          },
+        );
       },
     );
   }

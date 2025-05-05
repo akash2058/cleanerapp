@@ -68,7 +68,7 @@ class BinRequestView extends StatelessWidget {
                                                 child: Column(
                                                   children: [
                                                     Image.asset(
-                                                      AppIcons.nodatafound,
+                                                      AppIcons.closedd,
                                                       height: 70.r,
                                                     ),
                                                     Text(
@@ -153,8 +153,12 @@ class BinRequestView extends StatelessWidget {
                                                   startdate:
                                                       bindata?.startDate ?? '',
                                                   duration:
-                                                      bindata?.endDate ?? '0',
-                                                  binsizename: '',
+                                                      bindata?.orderDuration
+                                                          .toString() ??
+                                                      '0',
+                                                  binsizename:
+                                                      bindata?.binSizeName ??
+                                                      'N/A',
                                                 );
                                               },
                                             ),
@@ -168,12 +172,20 @@ class BinRequestView extends StatelessWidget {
                                               true)
                                           ? Padding(
                                             padding: EdgeInsets.symmetric(
-                                              vertical: 300.r,
+                                              vertical: 200.r,
                                             ),
                                             child: Center(
-                                              child: Text(
-                                                'No Pick Up Request Found',
-                                                style: resendfont,
+                                              child: Column(
+                                                children: [
+                                                  Image.asset(
+                                                    AppIcons.closedd,
+                                                    height: 70.r,
+                                                  ),
+                                                  Text(
+                                                    'No Pick Up Request Found',
+                                                    style: resendfont,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           )

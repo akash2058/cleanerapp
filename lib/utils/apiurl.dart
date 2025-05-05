@@ -1,6 +1,6 @@
 class AppUrl {
   static const mainUrl =
-      ' https://9fdb-2404-7c00-41-695d-d586-6190-b4fa-c1c4.ngrok-free.app/api/';
+      'https://bbe6-2400-1a00-b030-3632-64ab-b902-8c48-68ba.ngrok-free.app/api/';
   // static const mainUrl = 'http://127.0.0.1:8000/api/';
   static const loginurl = '${mainUrl}login';
   static const binbooking = '${mainUrl}bin-bookings';

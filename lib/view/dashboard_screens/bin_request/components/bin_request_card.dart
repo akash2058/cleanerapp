@@ -100,7 +100,7 @@ class BinRequestCard extends StatelessWidget {
                         Column(
                           children: [
                             Text('Duration', style: greetingsStyleblack),
-                            Text(duration, style: dashboardlabelfontdarkgrey),
+                            Text('$duration days', style: dashboardlabelfontdarkgrey),
                           ],
                         ),
                       ],

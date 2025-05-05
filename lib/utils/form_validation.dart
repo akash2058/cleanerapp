@@ -21,19 +21,19 @@ String? validatePassword(String? value) {
   List<String> errors = [];
 
   // Check for at least one lowercase letter
-  if (!RegExp(r'[a-z]').hasMatch(value)) {
-    errors.add('Password must contain at least one lowercase letter.');
-  }
+  // if (!RegExp(r'[a-z]').hasMatch(value)) {
+  //   errors.add('Password must contain at least one lowercase letter.');
+  // }
 
-  // Check for at least one uppercase letter
-  if (!RegExp(r'[A-Z]').hasMatch(value)) {
-    errors.add('Password must contain at least one uppercase letter.');
-  }
+  // // Check for at least one uppercase letter
+  // if (!RegExp(r'[A-Z]').hasMatch(value)) {
+  //   errors.add('Password must contain at least one uppercase letter.');
+  // }
 
-  // Check for at least one special character
-  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-    errors.add('Password must contain at least one special character.');
-  }
+  // // Check for at least one special character
+  // if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+  //   errors.add('Password must contain at least one special character.');
+  // }
 
   // Combine all errors into a single string
   if (errors.isNotEmpty) {
