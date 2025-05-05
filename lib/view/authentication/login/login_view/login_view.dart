@@ -9,7 +9,6 @@ import 'package:binbookingapp/view/authentication/login/login_provider/login_pro
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {

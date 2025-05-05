@@ -94,13 +94,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
                     child: RefreshIndicator(
                       onRefresh: getData,
-                      child: ListView(
-                        children: [
-                          Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: 15.r,
                         children: [
-                          CleanerTextfield(
+                        ListView(
+                          children: [  CleanerTextfield(
                             fillColor: CleanerAppcolors.primaryWhitecolor,
                             onTap: () {
                               Navigator.push(
@@ -158,11 +157,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           HomeTabs(),
                           
                           if (home.tabs == 0) PickUp(),
-                          if (home.tabs == 1) DropOff(),
+                          if (home.tabs == 1) DropOff(),],
+                        )
                         ],
                       ),
-                        ],
-                      )
                     ),
                   ),
                 );
