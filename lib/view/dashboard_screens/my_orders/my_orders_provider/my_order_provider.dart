@@ -200,7 +200,7 @@ class MyOrderProvider extends ChangeNotifier {
         ),
       );
       if (accept['status'] == 'success') {
-        navigator.push(CustomPageRoute(child: DashboardView()));
+     navigator.push(MaterialPageRoute(builder: (context) => DashboardView(),));
       }
       loadingconfirmonsitepickup = false;
       notifyListeners();
@@ -272,7 +272,7 @@ class MyOrderProvider extends ChangeNotifier {
         ),
       );
       if (accept['status'] == 'success') {
-        navigator.push(CustomPageRoute(child: DashboardView()));
+        navigator.push(MaterialPageRoute(builder: (context) => DashboardView(),));
       }
     } catch (e) {
       loadingattachments = false;

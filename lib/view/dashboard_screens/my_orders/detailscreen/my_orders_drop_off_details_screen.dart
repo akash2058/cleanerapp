@@ -57,10 +57,7 @@ class _MyOrdersDropOffDetailsScreenState
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     await logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
-    await myordersdata.getMyordersData(
-    logindata.userid
-  
-    );
+    await myordersdata.getMyordersData(logindata.userid);
     print('logindata.userid${logindata.name}');
     final binrequestdata = Provider.of<BinRequestProvider>(
       context,
@@ -71,11 +68,9 @@ class _MyOrdersDropOffDetailsScreenState
 
   void refreshdata() async {
     // final logindata = Provider.of<LoginProvider>(context, listen: false);
-    
+
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
-    myordersdata.getMyorderDropOffDetail(
-      widget.bookingid,
-    );
+    myordersdata.getMyorderDropOffDetail(widget.bookingid);
     print(widget.bookingid);
   }
 
@@ -84,67 +79,89 @@ class _MyOrdersDropOffDetailsScreenState
     return Consumer<MyOrderProvider>(
       builder: (context, order, child) {
         final orderdata = order.orderdetail?.data;
-        return Consumer<LoginProvider>(builder: (context, log, child) {
-          return Scaffold(
-          backgroundColor: CleanerAppcolors.primaryWhitecolor,
-          bottomNavigationBar: BottomAppBar(
-            color: CleanerAppcolors.primaryWhitecolor,
-            height: 90.r,
-            elevation: 0,
-            child:order.orderdetail?.bookingSerialNumbers?.isEmpty??true?null: CleanerButton.elevated(
-              backgroundcolor: CleanerAppcolors.primarypurple,
-              label:order.loadingattachments == true?'Please Wait...': 'Update Order',
-              onPressed: () {
-              order.getUpdateAttachments(context,widget.bookingid,log.userid,);
-              },
-            ),
-          ),
-          appBar: AppBar(
-            backgroundColor: CleanerAppcolors.primaryWhitecolor,
-            scrolledUnderElevation: 0,
-            title: Text('Drop Off Details', style: appbartitlefont),
-          ),
-          body: NoInternetBanner(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
-              child:
-                  order.loadingmyorderdropoffdetail == true
-                      ? Center(
-                        child: LoadingAnimationWidget.hexagonDots(
-                          color: CleanerAppcolors.primarypurple,
-                          size: 30.r,
+        return Consumer<LoginProvider>(
+          builder: (context, log, child) {
+            return Scaffold(
+              backgroundColor: CleanerAppcolors.primaryWhitecolor,
+              bottomNavigationBar: BottomAppBar(
+                color: CleanerAppcolors.primaryWhitecolor,
+                height: 90.r,
+                elevation: 0,
+                child:
+                    order.orderdetail?.bookingSerialNumbers?.isEmpty ?? true
+                        ? null
+                        : CleanerButton.elevated(
+                          backgroundcolor: CleanerAppcolors.primarypurple,
+                          label:
+                              order.loadingattachments == true
+                                  ? 'Please Wait...'
+                                  : 'Update Order',
+                          onPressed: () {
+                            order.getUpdateAttachments(
+                              context,
+                              widget.bookingid,
+                              log.userid,
+                            );
+                          },
                         ),
-                      )
-                      : order.loadingattachments == true?Center(
-                        child: LoadingAnimationWidget.hexagonDots(
-                          color: CleanerAppcolors.primarypurple,
-                          size: 30.r,
-                        ),
-                      ): SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 15.r,
-                          children: [
-                            DetailsCard(
-                              customername: orderdata?.customerName ?? '',
-                              duration:
-                                  orderdata?.orderDuration.toString() ?? '0',
-                              binsizename: widget.binsizename,
-                              quantity: widget.quantity.toString(),
-                              location: widget.location,
+              ),
+              appBar: AppBar(
+                backgroundColor: CleanerAppcolors.primaryWhitecolor,
+                scrolledUnderElevation: 0,
+                title: Text('Drop Off Details', style: appbartitlefont),
+              ),
+              body: NoInternetBanner(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
+                  child:
+                      order.loadingmyorderdropoffdetail == true
+                          ? Center(
+                            child: LoadingAnimationWidget.hexagonDots(
+                              color: CleanerAppcolors.primarypurple,
+                              size: 30.r,
                             ),
-                            Text(
-                              'Please Fill The Neccessary Information',
-                              style: ordercardheaderfont,
+                          )
+                          : order.loadingattachments == true
+                          ? Center(
+                            child: LoadingAnimationWidget.hexagonDots(
+                              color: CleanerAppcolors.primarypurple,
+                              size: 30.r,
                             ),
-                            DropOffSelectImageCard(),
-                          ],
-                        ),
-                      ),
-            ),
-          ),
+                          )
+                          : SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 15.r,
+                              children: [
+                                DetailsCard(
+                                  customername: orderdata?.customerName ?? '',
+                                  duration:
+                                      orderdata?.orderDuration.toString() ??
+                                      '0',
+                                  binsizename: widget.binsizename,
+                                  quantity: widget.quantity.toString(),
+                                  location: widget.location,
+                                ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Report Damage',
+                                    style: dashboardlablefontpurple,
+                                  ),
+                                ),
+                                Text(
+                                  'Please Fill The Neccessary Information',
+                                  style: ordercardheaderfont,
+                                ),
+                                DropOffSelectImageCard(),
+                              ],
+                            ),
+                          ),
+                ),
+              ),
+            );
+          },
         );
-        },);
       },
     );
   }
@@ -165,7 +182,7 @@ class DropOffSelectImageCard extends StatelessWidget {
                     child: Center(
                       child: Column(
                         children: [
-                          
+                          Image.asset(AppIcons.closedd, height: 70.r),
                           Text('No Serial Numbers Found', style: resendfont),
                         ],
                       ),
@@ -197,7 +214,10 @@ class DropOffSelectImageCard extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(Icons.format_list_numbered_outlined, size: 25.r),
+                                    Icon(
+                                      Icons.format_list_numbered_outlined,
+                                      size: 25.r,
+                                    ),
                                     SizedBox(width: 8.r),
                                     Text(
                                       'SN#${serialdatta?.serialNumber ?? ''}',
@@ -206,25 +226,31 @@ class DropOffSelectImageCard extends StatelessWidget {
                                   ],
                                 ),
                                 Divider(),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Is Damaged',
-                                      style: dashboardlabelfontblack,
-                                    ),
-                                    Checkbox(side: BorderSide(color: CleanerAppcolors.primaryminidarkgreycolor),
-                                      activeColor: CleanerAppcolors.primarypurple,
-                                      visualDensity: VisualDensity(
-                                        horizontal: -4,
-                                        vertical: -4,
-                                      ),
-                                      value: order.isDamagedList[index],
-                                      onChanged: (value) {
-                                        order.toggleCheckbox(index, value);
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                // Row(
+                                //   children: [
+                                //     Text(
+                                //       'Is Damaged',
+                                //       style: dashboardlabelfontblack,
+                                //     ),
+                                //     Checkbox(
+                                //       side: BorderSide(
+                                //         color:
+                                //             CleanerAppcolors
+                                //                 .primaryminidarkgreycolor,
+                                //       ),
+                                //       activeColor:
+                                //           CleanerAppcolors.primarypurple,
+                                //       visualDensity: VisualDensity(
+                                //         horizontal: -4,
+                                //         vertical: -4,
+                                //       ),
+                                //       value: order.isDamagedList[index],
+                                //       onChanged: (value) {
+                                //         order.toggleCheckbox(index, value);
+                                //       },
+                                //     ),
+                                //   ],
+                                // ),
 
                                 // ✅ Unified layout with image list + add image section
                                 SizedBox(

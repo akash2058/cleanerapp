@@ -1,5 +1,6 @@
 import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
+import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
@@ -39,8 +40,13 @@ class _MyOrdersDropOffListState extends State<MyOrdersDropOffList> {
       builder: (context, order, child) {
         return    order.order?.data.warehouseOrder.isEmpty ?? true
             ? Center(child: Padding(
-              padding:  EdgeInsets.symmetric(vertical: 300.r),
-              child: Text('No DropOff Order Found',style: resendfont,),
+              padding:  EdgeInsets.symmetric(vertical: 250.r),
+              child: Column(
+                children: [
+                   Image.asset(AppIcons.closedd, height: 70.r),
+                  Text('No DropOff Order Found',style: resendfont,),
+                ],
+              ),
             ))
             : Consumer<LoginProvider>(builder: (context, log, child) {
               return order.loadingupdatewarehouse == true? LoadingAnimationWidget.hexagonDots(color: CleanerAppcolors.primarypurple,size: 30.r): Column(

@@ -57,7 +57,7 @@ class _MyOrdersPickupDetailsScreenState extends State<MyOrdersPickupDetailsScree
         color:  CleanerAppcolors.primaryWhitecolor,
         elevation: 0,
         height: 95.r,
-        child:order.orderdetail?.bookingSerialNumbers?.isEmpty??true?null: CleanerButton.elevated(
+        child:widget.quantity == 0? null: CleanerButton.elevated(
               width: MediaQuery.sizeOf(context).width,
               backgroundcolor: CleanerAppcolors.primarypurple,
               label:order.loadingserialdata == true?'Please Wait...' :'Update Order',

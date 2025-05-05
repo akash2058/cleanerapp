@@ -1,5 +1,6 @@
 import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
+import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
@@ -19,8 +20,7 @@ class MyOrdersPickUpList extends StatefulWidget {
 }
 
 class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
-    void getData() async {
-    
+  void getData() async {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     await logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
@@ -33,6 +33,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
 
     print('userid${logindata.userid}');
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MyOrderProvider>(
@@ -46,6 +47,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
               child: Center(
                 child: Column(
                   children: [
+                    Image.asset(AppIcons.closedd, height: 70.r),
                     Text('No Pick Up Request Found', style: resendfont),
                   ],
                 ),
@@ -77,7 +79,6 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                             sitedata.id.toString(),
                           );
                           getData();
-                         
                         } else {
                           Navigator.push(
                             context,
