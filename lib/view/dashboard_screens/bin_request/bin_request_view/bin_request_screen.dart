@@ -59,25 +59,21 @@ class BinRequestView extends StatelessWidget {
                                                   .siteRequests
                                                   .isEmpty ??
                                               true)
-                                          ? Center(
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 250.r,
-                                              ),
-                                              child: Center(
-                                                child: Column(
-                                                  children: [
-                                                    Image.asset(
-                                                      AppIcons.closedd,
-                                                      height: 70.r,
-                                                    ),
-                                                    Text(
-                                                      'No Pick Up Request Found',
-                                                      style: resendfont,
-                                                    ),
-                                                  ],
+                                          ? Padding(
+                                            padding:  EdgeInsets.symmetric(vertical: 250).r,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  AppIcons.closedd,
+                                                  height: 70.r,
                                                 ),
-                                              ),
+                                                Text(
+                                                  'No Pick Up Request Found',
+                                                  style: resendfont,
+                                                ),
+                                              ],
                                             ),
                                           )
                                           : Column(
@@ -133,7 +129,6 @@ class BinRequestView extends StatelessWidget {
                                                                   ?.id
                                                                   .toString() ??
                                                               '',
-                                                       
                                                         );
                                                       },
                                                     );
@@ -167,7 +162,7 @@ class BinRequestView extends StatelessWidget {
                                               true)
                                           ? Padding(
                                             padding: EdgeInsets.symmetric(
-                                              vertical: 200.r,
+                                              vertical: 250.r,
                                             ),
                                             child: Center(
                                               child: Column(
@@ -237,7 +232,6 @@ class BinRequestView extends StatelessWidget {
                                                                   ?.id
                                                                   .toString() ??
                                                               '',
-                                                        
                                                         );
                                                       },
                                                     );

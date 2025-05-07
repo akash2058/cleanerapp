@@ -78,7 +78,6 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                             log.userid,
                             sitedata.id.toString(),
                           );
-                          getData();
                         } else {
                           Navigator.push(
                             context,
