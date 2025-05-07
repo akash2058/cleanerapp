@@ -28,72 +28,99 @@ class MyOrdersPickupDetailsScreen extends StatefulWidget {
     required this.quantity,
     required this.binsizename,
     required this.duration,
-    required this.location, required this.bookingid,
+    required this.location,
+    required this.bookingid,
   });
 
   @override
-  State<MyOrdersPickupDetailsScreen> createState() => _MyOrdersPickupDetailsScreenState();
+  State<MyOrdersPickupDetailsScreen> createState() =>
+      _MyOrdersPickupDetailsScreenState();
 }
 
-class _MyOrdersPickupDetailsScreenState extends State<MyOrdersPickupDetailsScreen> {
+class _MyOrdersPickupDetailsScreenState
+    extends State<MyOrdersPickupDetailsScreen> {
   @override
   void initState() {
     super.initState();
-     WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       initialisethequantity();
     });
   }
-  Future<void> initialisethequantity()async{
-    var myorderstate = Provider.of<MyOrderProvider>(context,listen: false);
-  myorderstate.initializeControllers(widget.quantity);
+
+  Future<void> initialisethequantity() async {
+    var myorderstate = Provider.of<MyOrderProvider>(context, listen: false);
+    myorderstate.initializeControllers(widget.quantity);
   }
+
+  final serialkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyOrderProvider>(builder: (context, order, child) {
-      return Consumer<LoginProvider>(builder: (context, log, child) {
-        return Scaffold(
-      backgroundColor: CleanerAppcolors.primaryWhitecolor,
-      bottomNavigationBar: BottomAppBar(
-        color:  CleanerAppcolors.primaryWhitecolor,
-        elevation: 0,
-        height: 95.r,
-        child:widget.quantity == 0? null: CleanerButton.elevated(
-              width: MediaQuery.sizeOf(context).width,
-              backgroundcolor: CleanerAppcolors.primarypurple,
-              label:order.loadingserialdata == true?'Please Wait...' :'Update Order',
-              onPressed: () {
-                order.getSerialData(context, widget.bookingid,log.userid,);
-              },
-            ),
-      ),
-      appBar: AppBar(
-        backgroundColor: CleanerAppcolors.primaryWhitecolor,
-        scrolledUnderElevation: 0.r,
-        title: Text('Pick Up Details', style: appbartitlefont)),
-      body: NoInternetBanner(
-        child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 15.r,
-            children: [
-              DetailsCard(
-                customername: widget.customername,
-                duration: widget.duration,
-                binsizename: widget.binsizename,
-                quantity: widget.quantity.toString(),
-                location: widget.location,
+    return Consumer<MyOrderProvider>(
+      builder: (context, order, child) {
+        return Consumer<LoginProvider>(
+          builder: (context, log, child) {
+            return Scaffold(
+              backgroundColor: CleanerAppcolors.primaryWhitecolor,
+              bottomNavigationBar: BottomAppBar(
+                color: CleanerAppcolors.primaryWhitecolor,
+                elevation: 0,
+                height: 95.r,
+                child:
+                    widget.quantity == 0
+                        ? null
+                        : CleanerButton.elevated(
+                          width: MediaQuery.sizeOf(context).width,
+                          backgroundcolor: CleanerAppcolors.primarypurple,
+                          label:
+                              order.loadingserialdata == true
+                                  ? 'Please Wait...'
+                                  : 'Update Order',
+                          onPressed: () {
+                            if(serialkey.currentState!.validate()){
+                              order.getSerialData(
+                              context,
+                              widget.bookingid,
+                              log.userid,
+                            );
+                            }
+                          },
+                        ),
               ),
-              FormCard(quantity: widget.quantity),
-           
-            ],
-          ),
-        ),
+              appBar: AppBar(
+                centerTitle: true,
+                backgroundColor: CleanerAppcolors.primaryWhitecolor,
+                scrolledUnderElevation: 0.r,
+                title: Text('Pick Up Details', style: appbartitlefont),
               ),
-      )
+              body: NoInternetBanner(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: serialkey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 15.r,
+                        children: [
+                          DetailsCard(
+                            customername: widget.customername,
+                            duration: widget.duration,
+                            binsizename: widget.binsizename,
+                            quantity: widget.quantity.toString(),
+                            location: widget.location,
+                          ),
+                          FormCard(quantity: widget.quantity),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
-      },);
-    },);
   }
 }

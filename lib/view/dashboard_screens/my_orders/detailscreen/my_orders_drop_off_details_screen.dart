@@ -104,6 +104,7 @@ class _MyOrdersDropOffDetailsScreenState
                         ),
               ),
               appBar: AppBar(
+                centerTitle: true,
                 backgroundColor: CleanerAppcolors.primaryWhitecolor,
                 scrolledUnderElevation: 0,
                 title: Text('Drop Off Details', style: appbartitlefont),

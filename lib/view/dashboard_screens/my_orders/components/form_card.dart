@@ -1,4 +1,5 @@
 import 'package:binbookingapp/utils/appcolors.dart';
+import 'package:binbookingapp/utils/form_validation.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,9 @@ class FormCard extends StatelessWidget {
   const FormCard({super.key, required this.quantity});
 
   final int quantity;
-
   @override
   Widget build(BuildContext context) {
+
     return Consumer<MyOrderProvider>(builder: (context, order, child) {
       return SizedBox(
       child: DecoratedBox(
@@ -46,6 +47,7 @@ class FormCard extends StatelessWidget {
                         style: splashloadingfond,
                       ),
                       TextFormField(
+                        validator: enterserialnumber,
                         onChanged: (value) => order.updateSerial(index, value),
                         controller: order.serialControllers[index],
                         style: entertexttile,
@@ -54,7 +56,8 @@ class FormCard extends StatelessWidget {
                           contentPadding: EdgeInsets.symmetric(vertical: 10).r,
                           hintText: 'Enter serial number',
                           hintStyle: hintStyle,
-
+                          errorStyle: errorstyle,
+          
                           // 🔽 Default border when not focused
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
@@ -64,7 +67,7 @@ class FormCard extends StatelessWidget {
                               width: 1.5.r, // change thickness here
                             ),
                           ),
-
+          
                           // 🔽 Border when focused (on tap)
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(

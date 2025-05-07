@@ -156,6 +156,17 @@ String? validateConnectorid(String? value) {
 
   return null;
 }
+String? enterserialnumber(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Please enter serial number';
+  }
+
+  // if (value.length < 8) {
+  //   return 'Password must be at least 8 characters long';
+  // }
+
+  return null;
+}
 
 String? timerequired(String? value) {
   if (value == null || value.isEmpty) {
