@@ -9,6 +9,7 @@ import 'package:binbookingapp/view/dashboard_screens/bin_request/model/bin_booki
 import 'package:binbookingapp/view/dashboard_screens/home/components/bin_booking_bottom_sheet/bin_booking_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class BinSearchScreen extends StatelessWidget {
@@ -35,7 +36,9 @@ class BinSearchScreen extends StatelessWidget {
               builder: (context, provider, _) {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
-                  child: Column(
+                  child: provider.loadingbinbooking == true? LoadingAnimationWidget.hexagonDots(
+                    color: CleanerAppcolors.primarypurple,size: 40.r
+                  ): Column(
                     spacing: 20.r,
                     children: [
                       CleanerTextfield(

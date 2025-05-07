@@ -35,6 +35,7 @@ class GreetingsCard extends StatelessWidget {
                             108,
                             255,
                             0.4,
+                          // ignore: deprecated_member_use
                           ).withOpacity(0.5.r),
                           spreadRadius: 1.5.r,
                           blurRadius: 1.5.r,

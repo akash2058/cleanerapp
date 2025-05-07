@@ -34,7 +34,7 @@ class BinRequestView extends StatelessWidget {
                   binr.loadingbinbooking == true
                       ? LoadingAnimationWidget.hexagonDots(
                         color: CleanerAppcolors.primarypurple,
-                        size: 30.r,
+                        size: 40.r,
                       )
                       : Padding(
                         padding:
