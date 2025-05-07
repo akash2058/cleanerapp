@@ -22,6 +22,8 @@ class MyOrderProvider extends ChangeNotifier {
   bool loadingattachments = false;
   bool loadingupdatewarehouse = false;
   bool loadingconfirmonsitepickup = false;
+  bool loadingbookingdamage = false;
+
   MyOrderModel? _myOrderModel;
   MyOrderModel? get order => _myOrderModel;
   MyOrdersDropOffDetailModel? _myOrdersDropOffDetailModel;
@@ -364,7 +366,6 @@ class MyOrderProvider extends ChangeNotifier {
 
   getUpdateAttachments(
     BuildContext context,
-
     String bookingid,
     String driverid,
   ) async {
@@ -427,7 +428,70 @@ final navigator = Navigator.of(context);
       throw {"error": e};
     }
   }
+getbookingdamage(
+    BuildContext context,
+    String bookingid,
+    String driverid,
+  ) async {
+    try {
+      final messenger = ScaffoldMessenger.of(
+        context,
+      ); // ✅ Cache this before await
+      final screenSize = MediaQuery.sizeOf(
+        context,
+      ); // ✅ Cache mediaQuery before await
+final navigator = Navigator.of(context); 
+      var token = await Utils.getToken();
+      loadingbookingdamage = true;
+      notifyListeners();
 
+      final Map<String, dynamic> bookingdamage = buildBookingDamages();
+
+      final accept = await fetchbookingdamage(
+        driverid,
+        bookingid,
+        bookingdamage,
+        token ?? '',
+      );
+      loadingbookingdamage = false;
+      notifyListeners();
+     if (accept['status'] == 'success') {
+        navigator.push(CustomPageRoute(child: DashboardView()));
+      }
+      final status = accept['status'];
+      final message = accept['message'] ?? 'No message';
+      if (context.mounted) {
+        messenger.showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              bottom: screenSize.height - 170.r,
+              left: 10.r,
+              right: 10.r,
+            ),
+            dismissDirection: DismissDirection.up,
+            content: Text(message, style: buttonfond),
+            backgroundColor:
+                status == 'success'
+                    ? CleanerAppcolors.primarydarkGreencolor
+                    : CleanerAppcolors.primaryRedcolor,
+          ),
+        );
+      }
+    } catch (e) {
+      loadingbookingdamage = false;
+      notifyListeners();
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        );
+      }
+
+      print('Error: $e');
+      throw {"error": e};
+    }
+  }
   Map<String, dynamic> buildAttachmentData() {
     final serialNumbers = orderdetail?.bookingSerialNumbers ?? [];
 
@@ -446,7 +510,7 @@ final navigator = Navigator.of(context);
             }).toList();
 
         result[binId] = {
-          'isDamaged': isDamagedList[i],
+          // 'isDamaged': isDamagedList[i],
           'images': base64Images, // Send base64-encoded images
         };
       }
@@ -454,7 +518,29 @@ final navigator = Navigator.of(context);
 
     return result;
   }
+
+  
+ Map<String, dynamic> buildBookingDamages() {
+  final serialNumbers = orderdetail?.bookingSerialNumbers ?? [];
+
+  Map<String, dynamic> result = {};
+
+  for (int i = 0; i < serialNumbers.length; i++) {
+    final binId = serialNumbers[i].id?.toString();
+
+    if (binId != null) {
+      result[binId] = {
+        'isDamaged': isDamagedList[i],
+      };
+    }
+  }
+
+  return result;
 }
+
+}
+
+
 
 void showSafeSnackBar({
   required BuildContext context,
