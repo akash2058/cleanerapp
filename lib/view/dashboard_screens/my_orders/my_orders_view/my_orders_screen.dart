@@ -1,4 +1,3 @@
-
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
@@ -19,62 +18,56 @@ class MyOrdersScreen extends StatefulWidget {
 }
 
 class _MyOrdersScreenState extends State<MyOrdersScreen> {
-
-
- Future<void> refestdata()async{
-     final logindata = Provider.of<LoginProvider>(context, listen: false);
+  Future<void> refestdata() async {
+    final logindata = Provider.of<LoginProvider>(context, listen: false);
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
-       await logindata.loadLoginData();
-      await myordersdata.getMyordersData(
-    logindata.userid, 
-    );
+    await logindata.loadLoginData();
+    await myordersdata.getMyordersData(logindata.userid);
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MyOrderProvider>(
       builder: (context, orders, child) {
         return Scaffold(
-            appBar: AppBar(
-              scrolledUnderElevation: 0,
-              automaticallyImplyLeading: false,
-              centerTitle: true,
-              title: Text(
-                'My Orders',
-                style: appbartitlefont,
-              ),
-              backgroundColor: CleanerAppcolors.primaryminigreycolor,
-            ),
+          appBar: AppBar(
+            scrolledUnderElevation: 0,
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            title: Text('My Orders', style: appbartitlefont),
             backgroundColor: CleanerAppcolors.primaryminigreycolor,
+          ),
+          backgroundColor: CleanerAppcolors.primaryminigreycolor,
 
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
+            child: RefreshIndicator(
+              onRefresh: refestdata,
+              child:
+                  orders.loadingmyorderdata == true
+                      ? LoadingAnimationWidget.hexagonDots(
+                        color: CleanerAppcolors.primarypurple,
+                        size: 30.r,
+                      )
+                      : Column(
+                        spacing: 15.r,
+                        children: [
+                          MyOrdersTabs(),
+                          Expanded(
+                            child: ListView(
+                              children: [
+                                if (orders.tabs == 0) MyOrdersPickUpList(),
 
-            body: orders.loadingmyorderdata == true?LoadingAnimationWidget.hexagonDots(
-              color: CleanerAppcolors.primarybrowncolor,size: 30.r
-              
-            ): Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
-                child:RefreshIndicator(
-                  onRefresh: refestdata,
-                  child: Column(
-                    spacing: 15.r,
-                    children: [
-                      MyOrdersTabs(),
-                      Expanded(
-                        child: ListView(
-                          children: [ 
-                          if(orders.tabs ==0)
-                           MyOrdersPickUpList(),
-                                            
-                           if(orders.tabs ==1)
-                          MyOrdersDropOffList()],
-                        ),
+                                if (orders.tabs == 1) MyOrdersDropOffList(),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )));
+            ),
+          ),
+        );
       },
     );
   }
 }
-
-
-
