@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:binbookingapp/custom_widget/button.dart';
+import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/details_card.dart';
+import 'package:binbookingapp/view/dashboard_screens/my_orders/detailscreen/is_damaged_detailpage.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -144,9 +146,14 @@ class _MyOrdersDropOffDetailsScreenState
                                 ),
                                 Align(
                                   alignment: Alignment.center,
-                                  child: Text(
-                                    'Report Damage',
-                                    style: dashboardlablefontpurple,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, CustomPageRoute(child: IsDamagedDetailpage()));
+                                    },
+                                    child: Text(
+                                      'Report Damage',
+                                      style: dashboardlablefontpurple,
+                                    ),
                                   ),
                                 ),
                                 Text(
