@@ -70,7 +70,7 @@ class PickUp extends StatelessWidget {
                                     binsizeName: data?.binSizeName ?? '',
                                     bookingId: data?.id.toString() ?? '',
                                     userId: log.userid,
-                                    usertoken: log.user?.data?.token ?? '',
+                                   
                                   );
                                 },
                               );

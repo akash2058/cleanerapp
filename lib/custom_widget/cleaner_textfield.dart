@@ -50,7 +50,7 @@ class CleanerTextfield extends StatelessWidget {
           errorStyle: errorstyle,
           isDense: true,
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: CleanerAppcolors.primaryminidarkgreycolor),
+              borderSide: BorderSide(color: CleanerAppcolors.primarypurple),
               borderRadius: BorderRadius.circular(20.r)),
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 20).r,

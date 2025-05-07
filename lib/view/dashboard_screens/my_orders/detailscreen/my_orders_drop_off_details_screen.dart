@@ -57,7 +57,6 @@ class _MyOrdersDropOffDetailsScreenState
     await logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
     await myordersdata.getMyordersData(logindata.userid);
-    print('logindata.userid${logindata.name}');
     final binrequestdata = Provider.of<BinRequestProvider>(
       context,
       listen: false,

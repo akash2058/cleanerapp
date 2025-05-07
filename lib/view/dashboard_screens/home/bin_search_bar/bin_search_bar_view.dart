@@ -1,5 +1,11 @@
+import 'package:binbookingapp/custom_widget/cleaner_textfield.dart';
+import 'package:binbookingapp/utils/appcolors.dart';
+import 'package:binbookingapp/utils/style.dart';
+import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
+import 'package:binbookingapp/view/dashboard_screens/bin_request/components/bin_request_card.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/model/bin_booking_model.dart';
+import 'package:binbookingapp/view/dashboard_screens/home/components/bin_booking_bottom_sheet/bin_booking_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -14,48 +20,43 @@ class BinSearchScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => BinRequestProvider()..setRequests(
         model.data.siteRequests, model.data.warehouseRequests),
-      child: Scaffold(
+      child: Consumer<LoginProvider>(builder:(context, log, child) {
+        return Scaffold(
         appBar: AppBar(
-          title: Text("Search Requests"),
+          title: Text("Search Requests",style: appbartitlefont,),
         ),
         body: Consumer<BinRequestProvider>(
           builder: (context, provider, _) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onChanged: provider.filter,
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+            return Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 20,vertical: 10).r,
+              child: Column(
+                spacing: 20.r,
+                children: [
+                  CleanerTextfield(
+                    fillColor: CleanerAppcolors.primaryWhitecolor,
+                    hintlabel: 'Search',prefix: Icon(Icons.search_outlined),),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: provider.filteredRequests.length,
+                      itemBuilder: (context, index) {
+                        final item = provider.filteredRequests[index];
+                        return BinRequestCard(
+                          onPressed: () {
+                            showModalBottomSheet(context: context, builder: (context) {
+                              return BinBookingBottomSheet(customername: item.customerName, location: item.location, endDate: item.endDate, type: item.type, binsizeName: item.binSizeName, bookingId: item.id.toString(), userId: log.userid, );
+                            },);
+                          },
+                          address: item.location, quantity: item.quantity.toString(), startdate: item.startDate, binsizename: item.binSizeName, duration: item.orderDuration.toString());
+                      },
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: provider.filteredRequests.length,
-                    itemBuilder: (context, index) {
-                      final item = provider.filteredRequests[index];
-                      return Card(
-                        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6).r,
-                        child: ListTile(
-                          title: Text(item.customerName),
-                          subtitle: Text("${item.location} • ${item.startDate} → ${item.endDate}"),
-                          trailing: Text(item.binSizeName),
-                        ),
-                      );
-                    },
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             );
           },
         ),
-      ),
+      );
+      }, )
     );
   }
 }

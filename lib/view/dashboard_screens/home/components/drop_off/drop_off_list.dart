@@ -74,9 +74,8 @@ class DropOff extends StatelessWidget {
                                     endDate: waredata?.endDate ?? '',
                                     type: waredata?.type ?? '',
                                     binsizeName: waredata?.binSizeName ?? '',
-                                    bookingId: waredata?.id.toString() ?? '',
-                                    userId: log.userid,
-                                    usertoken: log.user?.data?.token ?? '',
+                                    bookingId: waredata?.id.toString() ?? '', userId: '',
+                                   
                                   );
                                 },
                               );

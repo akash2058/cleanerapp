@@ -133,12 +133,7 @@ class BinRequestView extends StatelessWidget {
                                                                   ?.id
                                                                   .toString() ??
                                                               '',
-                                                          usertoken:
-                                                              log
-                                                                  .user
-                                                                  ?.data
-                                                                  ?.token ??
-                                                              '',
+                                                       
                                                         );
                                                       },
                                                     );
@@ -242,12 +237,7 @@ class BinRequestView extends StatelessWidget {
                                                                   ?.id
                                                                   .toString() ??
                                                               '',
-                                                          usertoken:
-                                                              log
-                                                                  .user
-                                                                  ?.data
-                                                                  ?.token ??
-                                                              '',
+                                                        
                                                         );
                                                       },
                                                     );

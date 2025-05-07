@@ -15,7 +15,7 @@ class BinBookingBottomSheet extends StatefulWidget {
   final String binsizeName;
   final String bookingId;
   final String userId;
-  final String usertoken;
+ 
   const BinBookingBottomSheet({
     super.key,
     required this.customername,
@@ -25,7 +25,7 @@ class BinBookingBottomSheet extends StatefulWidget {
     required this.binsizeName,
     required this.bookingId,
     required this.userId,
-    required this.usertoken,
+
   });
 
   @override
@@ -35,7 +35,6 @@ class BinBookingBottomSheet extends StatefulWidget {
 class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getuserdata();
   }
@@ -50,7 +49,8 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
   Widget build(BuildContext context) {
     return Consumer<BinRequestProvider>(
       builder: (context, binr, child) {
-        return SizedBox(
+        return Consumer<LoginProvider>(builder: (context, log, child) {
+          return  SizedBox(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
             child: Column(
@@ -113,7 +113,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                           : 'Accept Request',
                   onPressed: () async {
                     await binr.getRequestAccept(
-                      context,  widget.userId,
+                      context,  log.userid,
                       widget.bookingId,
                     
                     ); // Delay before closing to ensure SnackBar appears
@@ -123,6 +123,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
             ),
           ),
         );
+        },);
       },
     );
   }
