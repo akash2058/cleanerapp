@@ -1,4 +1,5 @@
 import 'package:binbookingapp/custom_widget/cleaner_chip.dart';
+import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart'
     show LoginProvider;
@@ -23,6 +24,10 @@ class GreetingsCard extends StatelessWidget {
                   width: MediaQuery.sizeOf(context).width,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        opacity: 0.6.r,
+                        image: AssetImage(AppIcons.backimg)),
                       boxShadow: [
                         BoxShadow(
                           color: Color.fromRGBO(
