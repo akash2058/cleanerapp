@@ -64,7 +64,7 @@ class HomeTabs extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 13).r,
                       child: Center(
                         child: Text(
-                          'Pick Up',
+                          'Dropoff',
                           style:
                               home.tabs == 0
                                   ? resendwhitefont
@@ -124,7 +124,7 @@ class HomeTabs extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 13).r,
                       child: Center(
                         child: Text(
-                          'Drop Off',
+                          'Pickup',
                           style:
                               home.tabs == 1
                                   ? resendwhitefont

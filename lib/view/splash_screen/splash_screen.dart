@@ -6,7 +6,6 @@ import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,7 +22,8 @@ class _SplashScreen extends State<SplashScreen> {
   }
 
   checkLoginStatus() async {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 3), () {
+      // ignore: use_build_context_synchronously
       Utils.manipulateLogin(context);
     });
   }
@@ -35,13 +35,22 @@ class _SplashScreen extends State<SplashScreen> {
       body: Center(
         child: Column(
           spacing: 5.r,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Image.asset(AppIcons.applogo, height: 90.r,width: MediaQuery.sizeOf(context).width,),
-            LoadingAnimationWidget.dotsTriangle(
-              color: CleanerAppcolors.primarypurple,
-              size:45.r,
-            ),
+            SizedBox(
+              height: 370.h,
+              width: MediaQuery.sizeOf(context).width,
+              child: DecoratedBox(decoration: BoxDecoration(color: CleanerAppcolors.primarylightpurple,borderRadius:BorderRadius.only(
+                topLeft: Radius.circular(80).r,
+                topRight: Radius.circular(80).r,
+              ),
+               ),
+               child: Padding(
+                 padding:  EdgeInsets.all(50.0),
+                 child: Image.asset(AppIcons.applogo,),
+               ),
+              ),
+            )
           ],
         ),
       ),

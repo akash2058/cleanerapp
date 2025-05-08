@@ -3,31 +3,25 @@ import 'package:binbookingapp/view/authentication/login/login_view/login_view.da
 import 'package:binbookingapp/view/dashboard/dashboard_view/dashboard_view.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
-  static Future<void> manipulateLogin(BuildContext context) async {
-
+  static Future<void> manipulateLogin(context) async {
     final token = await getToken();
 
-  if (token == null || token.isEmpty) {
+    if (token == null || token.isEmpty) {
       Navigator.pushAndRemoveUntil(
-      context,
-      CustomPageRoute(child:  LoginView()),
-      (route) => false,
-    );
-    
- 
-
-  } else {
-    
-     Navigator.pushAndRemoveUntil(
-      context,
-      CustomPageRoute(child: const DashboardView()),
-      (route) => false,
-    );
-  }
+        context,
+        CustomPageRoute(child: LoginView()),
+        (route) => false,
+      );
+    } else {
+      Navigator.pushAndRemoveUntil(
+        context,
+        CustomPageRoute(child: const DashboardView()),
+        (route) => false,
+      );
+    }
   }
 
   static Future<void> saveToken(String token) async {
@@ -46,7 +40,11 @@ class Utils {
   }
 
   // New method to save user details
-  static Future<void> saveUserDetails(String name, String email, String userId) async {
+  static Future<void> saveUserDetails(
+    String name,
+    String email,
+    String userId,
+  ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('name', name);
     await prefs.setString('email', email);

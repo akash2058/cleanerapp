@@ -1,10 +1,8 @@
 import 'package:binbookingapp/custom_widget/button.dart';
 import 'package:binbookingapp/custom_widget/cleaner_textfield.dart';
-import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/form_validation.dart';
 import 'package:binbookingapp/utils/style.dart';
-import 'package:binbookingapp/view/authentication/forgot_password/forgot_password_view/forgot_password_screen.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +17,6 @@ class LoginView extends StatelessWidget {
     return Consumer<LoginProvider>(
       builder: (context, login, child) {
         final loginkey = GlobalKey<FormState>();
-
         return Scaffold(
           backgroundColor: CleanerAppcolors.primaryminigreycolor,
           body: NoInternetBanner(
@@ -76,36 +73,36 @@ class LoginView extends StatelessWidget {
                             hintlabel: 'Enter your password',
                           ),
                           SizedBox(height: 10.r),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  CustomPageRoute(
-                                    child: ForgotPasswordScreen(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'Forgot Password',
-                                style: forgotpasswordfont,
-                              ),
-                            ),
-                          ),
+                          // Align(
+                          //   alignment: Alignment.bottomRight,
+                          //   child: InkWell(
+                          //     onTap: () {
+                          //       Navigator.push(
+                          //         context,
+                          //         CustomPageRoute(
+                          //           child: ForgotPasswordScreen(),
+                          //         ),
+                          //       );
+                          //     },
+                          //     child: Text(
+                          //       'Forgot Password',
+                          //       style: forgotpasswordfont,
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(height: 10.r),
-                           CleanerButton.elevated(isloading: login.loadinglogin,
-                            
-                                height: 55.r,
-                                width: MediaQuery.sizeOf(context).width,
-                                backgroundcolor: CleanerAppcolors.primarypurple,
-                                label: 'Login',
-                                onPressed: () {
-                                  if (loginkey.currentState!.validate()) {
-                                    login.getLogin(context);
-                                  }
-                                },
-                              ),
+                          CleanerButton.elevated(
+                            isloading: login.loadinglogin,
+                            height: 55.r,
+                            width: MediaQuery.sizeOf(context).width,
+                            backgroundcolor: CleanerAppcolors.primarypurple,
+                            label: 'Login',
+                            onPressed: () {
+                              if (loginkey.currentState!.validate()) {
+                                login.getLogin(context);
+                              }
+                            },
+                          ),
                         ],
                       ),
                     ),

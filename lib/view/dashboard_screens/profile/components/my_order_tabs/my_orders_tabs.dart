@@ -30,8 +30,8 @@ class MyOrdersTabs extends StatelessWidget {
                           myorder.tabs == 0
                               ? LinearGradient(
                                 colors: [
-                                   const Color.fromARGB(255, 76, 78, 231),
-                      const Color.fromARGB(255, 92, 94, 218)
+                                  const Color.fromARGB(255, 76, 78, 231),
+                                  const Color.fromARGB(255, 92, 94, 218),
                                 ],
                               )
                               : LinearGradient(
@@ -52,7 +52,7 @@ class MyOrdersTabs extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 13).r,
                       child: Center(
                         child: Text(
-                          'Pick Up',
+                          'Dropoff',
                           style:
                               myorder.tabs == 0
                                   ? resendwhitefont
@@ -77,8 +77,8 @@ class MyOrdersTabs extends StatelessWidget {
                           myorder.tabs == 1
                               ? LinearGradient(
                                 colors: [
-                                         const Color.fromARGB(255, 76, 78, 231),
-                      const Color.fromARGB(255, 92, 94, 218)
+                                  const Color.fromARGB(255, 76, 78, 231),
+                                  const Color.fromARGB(255, 92, 94, 218),
                                 ],
                               )
                               : LinearGradient(
@@ -99,7 +99,7 @@ class MyOrdersTabs extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 13).r,
                       child: Center(
                         child: Text(
-                          'Drop Off',
+                          'Pickup',
                           style:
                               myorder.tabs == 1
                                   ? resendwhitefont

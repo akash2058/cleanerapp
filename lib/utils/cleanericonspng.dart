@@ -7,5 +7,5 @@ class AppIcons {
   static const nodatafound = 'assets/nodatafound.png';
   static const closedd = 'assets/closed.png';
   static const backimg = 'assets/backimage.jpg';
-  static const applogo = 'assets/applogo.jpg';
+  static const applogo = 'assets/applogo.png';
 }
