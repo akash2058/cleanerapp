@@ -453,6 +453,7 @@ final navigator = Navigator.of(context);
         bookingdamage,
         token ?? '',
       );
+      print(accept);
       loadingbookingdamage = false;
       notifyListeners();
      if (accept['status'] == 'success') {
@@ -519,7 +520,7 @@ final navigator = Navigator.of(context);
     return result;
   }
 
-  
+
  Map<String, dynamic> buildBookingDamages() {
   final serialNumbers = orderdetail?.bookingSerialNumbers ?? [];
 

@@ -145,7 +145,7 @@ class _MyOrdersDropOffDetailsScreenState
                                   alignment: Alignment.center,
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context, CustomPageRoute(child: IsDamagedDetailpage()));
+                                      Navigator.push(context, CustomPageRoute(child: IsDamagedDetailpage(customername: orderdata?.customerName??'', duration: orderdata?.orderDuration.toString()??'', binsizename: orderdata?.binSizeName??'', quantity: orderdata?.quantity.toString()??'', location: orderdata?.location??'', driverid: log.userid, bookingid: orderdata?.id.toString()??'',)));
                                     },
                                     child: Text(
                                       'Report Damage',
