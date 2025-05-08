@@ -53,19 +53,22 @@ class CleanerAppDrawer extends StatelessWidget {
               onTap: () {
                 showDialog(context: context, builder: (context) {
                   return AlertDialog(
+                    actionsAlignment: MainAxisAlignment.center,
                     actions: [
                     CleanerChip(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      label: 'Cancel',backgroundColor: CleanerAppcolors.primaryGreencolor,),
+                      label: 'Cancel',backgroundColor: CleanerAppcolors.primarygreycolor,),
                     CleanerChip(
                       onPressed: () {
                    log.getLogout(context);
                       },
-                      label: 'Logout',backgroundColor: CleanerAppcolors.primaryRedcolor,)
+                      label: 'Logout',backgroundColor: CleanerAppcolors.primarypurple,)
                     ],
-                    title: Center(child: Text('Log out of your account?',style: dashboardlabelfontblack,)),
+                    title: Center(child: Text(
+                      textAlign: TextAlign.center,
+                      'Are You Sure Do you want to login ?',style: dashboardlabelfontblack,)),
                   );
                 },);
               },

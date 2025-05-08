@@ -19,7 +19,7 @@ class _SplashScreen extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
+    // checkLoginStatus();
   }
 
   checkLoginStatus() async {
@@ -37,10 +37,10 @@ class _SplashScreen extends State<SplashScreen> {
           spacing: 5.r,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(AppIcons.cleanerbinlogo, height: 90.r),
+            Image.asset(AppIcons.applogo, height: 90.r,width: MediaQuery.sizeOf(context).width,),
             LoadingAnimationWidget.dotsTriangle(
               color: CleanerAppcolors.primarypurple,
-              size: 40.r,
+              size:45.r,
             ),
           ],
         ),

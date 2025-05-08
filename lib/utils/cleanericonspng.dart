@@ -6,6 +6,6 @@ class AppIcons {
   static const profileicon = 'assets/profileicon.png';
   static const nodatafound = 'assets/nodatafound.png';
   static const closedd = 'assets/closed.png';
-    static const backimg = 'assets/backimage.jpg';
-
+  static const backimg = 'assets/backimage.jpg';
+  static const applogo = 'assets/applogo.jpg';
 }
