@@ -59,9 +59,12 @@ class MyOrdersCard extends StatelessWidget {
                           size: 20.r,
                           color: CleanerAppcolors.primarylightbrowncolor,
                         ),
-                        Text(
-                          address,
-                          style: listiletitlefont,
+                        SizedBox(
+                          width: 140.r,
+                          child: Text(
+                            address,
+                            style: listiletitlefont,
+                          ),
                         ),
                       ],
                     ),

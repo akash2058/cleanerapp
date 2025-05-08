@@ -31,7 +31,7 @@ class IsDamagedDetailpage extends StatelessWidget {
             elevation: 0.r,
             child: CleanerButton.elevated(
               isloading: order.loadingbookingdamage,
-              label: 'Update',
+              label: 'Update Booking Damage',
               backgroundcolor: CleanerAppcolors.primarypurple,
               onPressed: () {
                 order.getbookingdamage(context, bookingid, driverid);

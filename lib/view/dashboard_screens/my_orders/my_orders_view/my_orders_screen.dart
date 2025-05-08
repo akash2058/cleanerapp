@@ -45,9 +45,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               onRefresh: refestdata,
               child:
                   orders.loadingmyorderdata == true
-                      ? LoadingAnimationWidget.hexagonDots(
-                        color: CleanerAppcolors.primarypurple,
-                        size: 30.r,
+                      ? Center(
+                        child: LoadingAnimationWidget.hexagonDots(
+                          color: CleanerAppcolors.primarypurple,
+                          size: 30.r,
+                        ),
                       )
                       : Column(
                         spacing: 15.r,

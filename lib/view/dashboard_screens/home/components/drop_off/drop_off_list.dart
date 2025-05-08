@@ -42,56 +42,51 @@ class DropOff extends StatelessWidget {
                         ),
                       ),
                     )
-                    : ListView.separated(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount:
-                          (bindata.binbook?.data.warehouseRequests.length ??
-                                      0) >
-                                  6
-                              ? 6
-                              : (bindata
-                                      .binbook
-                                      ?.data
-                                      .warehouseRequests
-                                      .length ??
-                                  0),
-                      separatorBuilder:
-                          (context, index) => SizedBox(height: 15.r),
-                      itemBuilder: (context, index) {
-                        final waredata =
-                            bindata.binbook?.data.warehouseRequests[index];
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 3.w,
-                          ), // give space for shadow
-                          child: BinRequestCard(
+                   :Column(
+                    spacing: 15.r,
+                    children: [
+                      ...List.generate(
+                        (bindata.binbook?.data.warehouseRequests.length ?? 0) > 6
+                            ? 6
+                            : (bindata.binbook?.data.warehouseRequests.length ?? 0),
+                        (index) {
+                          var data = bindata.binbook?.data.warehouseRequests[index];
+                          return BinRequestCard(
                             onPressed: () {
                               showModalBottomSheet(
                                 showDragHandle: true,
                                 context: context,
                                 builder: (context) {
                                   return BinBookingBottomSheet(
-                                    customername: waredata?.customerName ?? '',
-                                    location: waredata?.location ?? '',
-                                    endDate: waredata?.endDate ?? '',
-                                    type: waredata?.type ?? '',
-                                    binsizeName: waredata?.binSizeName ?? '',
-                                    bookingId: waredata?.id.toString() ?? '', userId: '',
+                                    customername: data?.customerName ?? '',
+                                    location: data?.location ?? '',
+                                    endDate: data?.endDate ?? '',
+                                    type: data?.type ?? '',
+                                    binsizeName: data?.binSizeName ?? '',
+                                    bookingId: data?.id.toString() ?? '',
+                                    userId: log.userid,
                                    
                                   );
                                 },
                               );
                             },
-                            quantity: waredata?.quantity.toString() ?? '0',
-                            address: waredata?.location ?? 'N/A',
-                            startdate: waredata?.startDate ?? 'N/A',
-                            binsizename: waredata?.binSizeName ?? 'N/A',
-                            duration: waredata?.orderDuration.toString() ?? '',
-                          ),
-                        );
-                      },
-                    );
+                            address: data?.location ?? 'N/A',
+                            quantity: data?.quantity.toString() ?? 'N/A',
+                            startdate: data?.startDate ?? 'N/A',
+                            duration: data?.orderDuration.toString() ?? 'N/A',
+                            binsizename: data?.binSizeName ?? '',
+                          );
+                        },
+                      ),
+                      if ((bindata.binbook?.data.warehouseRequests.length ?? 0) > 6)
+                        GestureDetector(
+                          onTap: () {
+                            dash.screenTabs(dash.currenttab = 1);
+                          },
+                          child: Text('See all', style: seeallfont),
+                        ),
+                    ],
+                  );
               },
             );
           },
@@ -100,3 +95,31 @@ class DropOff extends StatelessWidget {
     );
   }
 }
+
+
+  //  final waredata =
+  //                           bindata.binbook?.data.warehouseRequests[index];
+  //                       return BinRequestCard(
+  //                         onPressed: () {
+  //                           showModalBottomSheet(
+  //                             showDragHandle: true,
+  //                             context: context,
+  //                             builder: (context) {
+  //                               return BinBookingBottomSheet(
+  //                                 customername: waredata?.customerName ?? '',
+  //                                 location: waredata?.location ?? '',
+  //                                 endDate: waredata?.endDate ?? '',
+  //                                 type: waredata?.type ?? '',
+  //                                 binsizeName: waredata?.binSizeName ?? '',
+  //                                 bookingId: waredata?.id.toString() ?? '', userId: '',
+                                 
+  //                               );
+  //                             },
+  //                           );
+  //                         },
+  //                         quantity: waredata?.quantity.toString() ?? '0',
+  //                         address: waredata?.location ?? 'N/A',
+  //                         startdate: waredata?.startDate ?? 'N/A',
+  //                         binsizename: waredata?.binSizeName ?? 'N/A',
+  //                         duration: waredata?.orderDuration.toString() ?? '',
+  //                       );

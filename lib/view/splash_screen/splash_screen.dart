@@ -18,7 +18,7 @@ class _SplashScreen extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // checkLoginStatus();
+    checkLoginStatus();
   }
 
   checkLoginStatus() async {

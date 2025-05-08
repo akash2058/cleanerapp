@@ -84,14 +84,14 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                             size: 20.r,
                           ),
                         ),
-                        CustomListtile(
-                          subtitle: widget.endDate,
-                          title: 'Type',
-                          leading: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            size: 20.r,
-                          ),
-                        ),
+                        // CustomListtile(
+                        //   subtitle: widget.type,
+                        //   title: 'Type',
+                        //   leading: Icon(
+                        //     Icons.arrow_forward_ios_outlined,
+                        //     size: 20.r,
+                        //   ),
+                        // ),
                         CustomListtile(
                           subtitle: 'Bin Size:${widget.binsizeName}',
                           title: 'Bin Size Name',
