@@ -5,7 +5,6 @@ import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/dashboard/dashboard_view/dashboard_view.dart';
-import 'package:binbookingapp/view/dashboard_screens/my_orders/detailscreen/my_orders_drop_off_details_screen.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_dropoff_details_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/service/my_order_api_service.dart';
