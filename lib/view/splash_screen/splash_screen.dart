@@ -22,7 +22,7 @@ class _SplashScreen extends State<SplashScreen> {
   }
 
   checkLoginStatus() async {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       // ignore: use_build_context_synchronously
       Utils.manipulateLogin(context);
     });
@@ -35,8 +35,12 @@ class _SplashScreen extends State<SplashScreen> {
       body: Center(
         child: Column(
           spacing: 5.r,
-          mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            SizedBox(
+              height: 280.r,
+            ),
+            Image.asset(AppIcons.logobar,height: 60.r,),
+            Spacer(), 
             SizedBox(
               height: 370.h,
               width: MediaQuery.sizeOf(context).width,
@@ -46,7 +50,7 @@ class _SplashScreen extends State<SplashScreen> {
               ),
                ),
                child: Padding(
-                 padding:  EdgeInsets.all(50.0),
+                 padding:  EdgeInsets.all(80.0).r,
                  child: Image.asset(AppIcons.applogo,),
                ),
               ),

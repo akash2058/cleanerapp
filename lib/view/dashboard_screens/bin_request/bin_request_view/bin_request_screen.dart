@@ -128,7 +128,7 @@ class BinRequestView extends StatelessWidget {
                                                                   ?.user
                                                                   ?.id
                                                                   .toString() ??
-                                                              '',
+                                                              '', startdate: bindata?.startDate??'',
                                                         );
                                                       },
                                                     );
@@ -231,7 +231,7 @@ class BinRequestView extends StatelessWidget {
                                                                   ?.user
                                                                   ?.id
                                                                   .toString() ??
-                                                              '',
+                                                              '', startdate: waredata?.startDate??'',
                                                         );
                                                       },
                                                     );

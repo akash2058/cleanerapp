@@ -15,13 +15,31 @@ TextStyle get dashboardlablefontpurple {
       fontSize: 18.r,
       color:  const Color.fromARGB(255, 54, 57, 251));
 }
+TextStyle get reportdamagefont {
+  return GoogleFonts.roboto(
+    decoration: TextDecoration.underline,
+      fontWeight: FontWeight.w400,
+      fontSize: 22.r,
+      color:  const Color.fromARGB(255, 54, 57, 251));
+}
 TextStyle get dashboardlablefontgrey {
   return GoogleFonts.roboto(
       fontWeight: FontWeight.w500,
       fontSize: 18.r,
       color: CleanerAppcolors.primarygreycolor);
 }
-
+TextStyle get allowimagefont {
+  return GoogleFonts.roboto(
+      fontWeight: FontWeight.w500,
+      fontSize: 20.r,
+      color: CleanerAppcolors.primarygreycolor);
+}
+TextStyle get addimagefont {
+  return GoogleFonts.roboto(
+      fontWeight: FontWeight.w500,
+      fontSize: 22.r,
+      color: CleanerAppcolors.primarypurple);
+}
 TextStyle get appbartitlefont {
   return GoogleFonts.roboto(
       fontWeight: FontWeight.w500, fontSize: 20.r, color: Colors.black);

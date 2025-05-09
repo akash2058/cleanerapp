@@ -5,6 +5,7 @@ import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/dashboard/dashboard_view/dashboard_view.dart';
+import 'package:binbookingapp/view/dashboard_screens/my_orders/detailscreen/my_orders_drop_off_details_screen.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_dropoff_details_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/service/my_order_api_service.dart';
@@ -194,7 +195,7 @@ class MyOrderProvider extends ChangeNotifier {
           ),
           dismissDirection: DismissDirection.up,
 
-          content: Text(message, style: resendfont),
+          content: Text(message, style: buttonfond),
           backgroundColor:
               status == 'success'
                   ? CleanerAppcolors.primarydarkGreencolor
@@ -202,7 +203,9 @@ class MyOrderProvider extends ChangeNotifier {
         ),
       );
       if (accept['status'] == 'success') {
-     navigator.push(MaterialPageRoute(builder: (context) => DashboardView(),));
+        navigator.push(
+          MaterialPageRoute(builder: (context) => DashboardView()),
+        );
       }
       loadingconfirmonsitepickup = false;
       notifyListeners();
@@ -274,7 +277,9 @@ class MyOrderProvider extends ChangeNotifier {
         ),
       );
       if (accept['status'] == 'success') {
-        navigator.push(MaterialPageRoute(builder: (context) => DashboardView(),));
+        navigator.push(
+          MaterialPageRoute(builder: (context) => DashboardView()),
+        );
       }
     } catch (e) {
       loadingattachments = false;
@@ -376,7 +381,7 @@ class MyOrderProvider extends ChangeNotifier {
       final screenSize = MediaQuery.sizeOf(
         context,
       ); // ✅ Cache mediaQuery before await
-final navigator = Navigator.of(context); 
+      final navigator = Navigator.of(context);
       var token = await Utils.getToken();
       loadingattachments = true;
       notifyListeners();
@@ -391,7 +396,7 @@ final navigator = Navigator.of(context);
       );
       loadingattachments = false;
       notifyListeners();
-     if (accept['status'] == 'success') {
+      if (accept['status'] == 'success') {
         navigator.push(CustomPageRoute(child: DashboardView()));
       }
       final status = accept['status'];
@@ -428,7 +433,8 @@ final navigator = Navigator.of(context);
       throw {"error": e};
     }
   }
-getbookingdamage(
+
+  getbookingdamage(
     BuildContext context,
     String bookingid,
     String driverid,
@@ -440,7 +446,7 @@ getbookingdamage(
       final screenSize = MediaQuery.sizeOf(
         context,
       ); // ✅ Cache mediaQuery before await
-final navigator = Navigator.of(context); 
+      final navigator = Navigator.of(context);
       var token = await Utils.getToken();
       loadingbookingdamage = true;
       notifyListeners();
@@ -456,8 +462,8 @@ final navigator = Navigator.of(context);
       print(accept);
       loadingbookingdamage = false;
       notifyListeners();
-     if (accept['status'] == 'success') {
-        navigator.push(CustomPageRoute(child: DashboardView()));
+      if (accept['status'] == 'success') {
+        navigator.pop();
       }
       final status = accept['status'];
       final message = accept['message'] ?? 'No message';
@@ -493,6 +499,7 @@ final navigator = Navigator.of(context);
       throw {"error": e};
     }
   }
+
   Map<String, dynamic> buildAttachmentData() {
     final serialNumbers = orderdetail?.bookingSerialNumbers ?? [];
 
@@ -520,28 +527,22 @@ final navigator = Navigator.of(context);
     return result;
   }
 
+  Map<String, dynamic> buildBookingDamages() {
+    final serialNumbers = orderdetail?.bookingSerialNumbers ?? [];
 
- Map<String, dynamic> buildBookingDamages() {
-  final serialNumbers = orderdetail?.bookingSerialNumbers ?? [];
+    Map<String, dynamic> result = {};
 
-  Map<String, dynamic> result = {};
+    for (int i = 0; i < serialNumbers.length; i++) {
+      final binId = serialNumbers[i].id?.toString();
 
-  for (int i = 0; i < serialNumbers.length; i++) {
-    final binId = serialNumbers[i].id?.toString();
-
-    if (binId != null) {
-      result[binId] = {
-        'isDamaged': isDamagedList[i],
-      };
+      if (binId != null) {
+        result[binId] = {'isDamaged': isDamagedList[i]};
+      }
     }
+
+    return result;
   }
-
-  return result;
 }
-
-}
-
-
 
 void showSafeSnackBar({
   required BuildContext context,

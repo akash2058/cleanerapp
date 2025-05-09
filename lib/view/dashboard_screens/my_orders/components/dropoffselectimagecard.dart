@@ -63,7 +63,7 @@ class DropOffSelectImageCard extends StatelessWidget {
                                     ),
                                     SizedBox(width: 8.r),
                                     Text(
-                                      'SN#${serialdatta?.serialNumber ?? ''}',
+                                      'SN #${serialdatta?.serialNumber ?? ''}',
                                       style: ordercardheaderfont,
                                     ),
                                   ],
@@ -220,21 +220,20 @@ class DropOffSelectImageCard extends StatelessWidget {
                                                     children: [
                                                       Icon(
                                                         Icons.image_outlined,
-                                                        size: 30.r,
+                                                        size: 50.r,
                                                         color:
                                                             CleanerAppcolors
                                                                 .primarypurple,
                                                       ),
-                                                      SizedBox(height: 5.r),
                                                       Text(
                                                         'Add Image',
                                                         style:
-                                                            dashboardlablefontpurple,
+                                                            addimagefont,
                                                       ),
                                                       Text(
                                                         'Only 3 images allowed',
                                                         style:
-                                                            dashboardlablefontgrey,
+                                                            allowimagefont,
                                                       ),
                                                     ],
                                                   ),

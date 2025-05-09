@@ -4,6 +4,7 @@ import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
+import 'package:binbookingapp/view/dashboard_screens/home/components/field_bottom_sheet/field_bottom_sheet.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/my_orders_card.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/detailscreen/my_orders_pickup_details_screen.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
@@ -73,11 +74,18 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                       onPressed: () {
                         if (sitedata.stage == 'order_picked_up' &&
                             sitedata.type == 'on_site_order') {
-                          order.getConfirmonsiteupdate(
-                            context,
-                            log.userid,
-                            sitedata.id.toString(),
+                          showModalBottomSheet(
+                            backgroundColor:
+                                CleanerAppcolors.primaryminigreycolor,
+                            showDragHandle: true,
+                            context: context,
+                            builder: (context) => FieldBottomSheet(),
                           );
+                          // order.getConfirmonsiteupdate(
+                          //   context,
+                          //   log.userid,
+                          //   sitedata.id.toString(),
+                          // );
                         } else {
                           Navigator.push(
                             context,

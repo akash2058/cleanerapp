@@ -17,7 +17,16 @@ class IsDamagedDetailpage extends StatelessWidget {
   final String location;
   final String driverid;
   final String bookingid;
-  const IsDamagedDetailpage({super.key, required this.customername, required this.duration, required this.binsizename, required this.quantity, required this.location, required this.driverid, required this.bookingid});
+  const IsDamagedDetailpage({
+    super.key,
+    required this.customername,
+    required this.duration,
+    required this.binsizename,
+    required this.quantity,
+    required this.location,
+    required this.driverid,
+    required this.bookingid,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,7 @@ class IsDamagedDetailpage extends StatelessWidget {
             elevation: 0.r,
             child: CleanerButton.elevated(
               isloading: order.loadingbookingdamage,
-              label: 'Update Booking Damage',
+              label: 'Report Damage',
               backgroundcolor: CleanerAppcolors.primarypurple,
               onPressed: () {
                 order.getbookingdamage(context, bookingid, driverid);
@@ -43,83 +52,113 @@ class IsDamagedDetailpage extends StatelessWidget {
             centerTitle: true,
             title: Text('IsDamagedDetail', style: appbartitlefont),
           ),
-          body:order.loadingbookingdamage == true? LoadingAnimationWidget.hexagonDots(color: CleanerAppcolors.primarypurple, size: 40.r): Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 20,vertical: 15).r,
-            child: Column(
-              spacing: 15.r,
-              children: [
-                DetailsCard(
-                  customername: customername,
-                  duration: duration,
-                  binsizename: binsizename,
-                  quantity: quantity,
-                  location: location,
-                ),
-                SizedBox(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration( borderRadius: BorderRadius.circular(10.r),
-                              border: Border.all(
-                                color: CleanerAppcolors.primaryminidarkgreycolor,
-                              ),),
-                    child: Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 15,vertical: 10).r,
+          body:
+              order.loadingbookingdamage == true
+                  ? LoadingAnimationWidget.hexagonDots(
+                    color: CleanerAppcolors.primarypurple,
+                    size: 40.r,
+                  )
+                  : Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 15).r,
+                    child: SingleChildScrollView(
                       child: Column(
-                        children: List.generate(
-                          order.orderdetail?.bookingSerialNumbers?.length ?? 0,
-                          (index) {
-                             final serialdatta =
-                              order.orderdetail?.bookingSerialNumbers?[index];
-                            return Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.format_list_numbered_outlined,
-                                      size: 25.r,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 15.r,
+                        children: [
+                          DetailsCard(
+                            customername: customername,
+                            duration: duration,
+                            binsizename: binsizename,
+                            quantity: quantity,
+                            location: location,
+                          ),
+                          Text(
+                            'Damage Report For Bins',
+                            style: ordercardheaderfont,
+                          ),
+                          Column(
+                            spacing: 15.r,
+                            children: List.generate(
+                              order.orderdetail?.bookingSerialNumbers?.length ??
+                                  0,
+                              (index) {
+                                final serialdatta =
+                                    order
+                                        .orderdetail
+                                        ?.bookingSerialNumbers?[index];
+                                return DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    border: Border.all(
+                                      color:
+                                          CleanerAppcolors
+                                              .primaryminidarkgreycolor,
                                     ),
-                                    SizedBox(width: 8.r),
-                                    Text(
-                                      'SN#${serialdatta?.serialNumber ?? ''}',
-                                      style: ordercardheaderfont,
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(
+                                          horizontal: 15,
+                                          vertical: 10,
+                                        ).r,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons
+                                                  .format_list_numbered_outlined,
+                                              size: 25.r,
+                                            ),
+                                            SizedBox(width: 8.r),
+                                            Text(
+                                              'SN #${serialdatta?.serialNumber ?? ''}',
+                                              style: ordercardheaderfont,
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Is Damaged',
+                                              style: dashboardlabelfontblack,
+                                            ),
+                                            Checkbox(
+                                              side: BorderSide(
+                                                color:
+                                                    CleanerAppcolors
+                                                        .primaryminidarkgreycolor,
+                                              ),
+                                              activeColor:
+                                                  CleanerAppcolors
+                                                      .primarypurple,
+                                              visualDensity: VisualDensity(
+                                                horizontal: -4,
+                                                vertical: -4,
+                                              ),
+                                              value: order.isDamagedList[index],
+                                              onChanged: (value) {
+                                                order.toggleCheckbox(
+                                                  index,
+                                                  value,
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                Divider(),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Is Damaged',
-                                      style: dashboardlabelfontblack,
-                                    ),
-                                    Checkbox(
-                                      side: BorderSide(
-                                        color:
-                                            CleanerAppcolors
-                                                .primaryminidarkgreycolor,
-                                      ),
-                                      activeColor: CleanerAppcolors.primarypurple,
-                                      visualDensity: VisualDensity(
-                                        horizontal: -4,
-                                        vertical: -4,
-                                      ),
-                                      value: order.isDamagedList[index],
-                                      onChanged: (value) {
-                                        order.toggleCheckbox(index, value);
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
         );
       },
     );

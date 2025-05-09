@@ -148,13 +148,14 @@ class _MyOrdersDropOffDetailsScreenState
                                       Navigator.push(context, CustomPageRoute(child: IsDamagedDetailpage(customername: orderdata?.customerName??'', duration: orderdata?.orderDuration.toString()??'', binsizename: orderdata?.binSizeName??'', quantity: orderdata?.quantity.toString()??'', location: orderdata?.location??'', driverid: log.userid, bookingid: orderdata?.id.toString()??'',)));
                                     },
                                     child: Text(
+                                      
                                       'Report Damage',
-                                      style: dashboardlablefontpurple,
+                                      style: reportdamagefont,
                                     ),
                                   ),
                                 ),
                                 Text(
-                                  'Please Fill The Neccessary Information',
+                                  'Please Add Images Below',
                                   style: ordercardheaderfont,
                                 ),
                                 DropOffSelectImageCard(),

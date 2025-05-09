@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 class BinBookingBottomSheet extends StatefulWidget {
   final String customername;
   final String location;
+  final String startdate;
   final String endDate;
   final String type;
   final String binsizeName;
@@ -24,7 +25,7 @@ class BinBookingBottomSheet extends StatefulWidget {
     required this.type,
     required this.binsizeName,
     required this.bookingId,
-    required this.userId,
+    required this.userId, required this.startdate,
 
   });
 
@@ -52,7 +53,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
         return Consumer<LoginProvider>(builder: (context, log, child) {
           return  SizedBox(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15).r,
             child: Column(
               children: [
                 Expanded(
@@ -77,6 +78,14 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                           ),
                         ),
                         CustomListtile(
+                          subtitle: widget.startdate,
+                          title: 'Start Date',
+                          leading: Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 20.r,
+                          ),
+                        ),
+                        CustomListtile(
                           subtitle: widget.endDate,
                           title: 'End Date',
                           leading: Icon(
@@ -84,17 +93,9 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                             size: 20.r,
                           ),
                         ),
-                        // CustomListtile(
-                        //   subtitle: widget.type,
-                        //   title: 'Type',
-                        //   leading: Icon(
-                        //     Icons.arrow_forward_ios_outlined,
-                        //     size: 20.r,
-                        //   ),
-                        // ),
                         CustomListtile(
-                          subtitle: 'Bin Size:${widget.binsizeName}',
-                          title: 'Bin Size Name',
+                          subtitle: widget.binsizeName,
+                          title: 'Bin Size',
                           leading: Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 20.r,
@@ -105,6 +106,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                   ),
                 ),
                 CleanerButton.elevated(
+                  height: 60.r,
                   width: MediaQuery.sizeOf(context).width,
                   backgroundcolor: CleanerAppcolors.primarypurple,
                   label:
@@ -115,8 +117,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                     await binr.getRequestAccept(
                       context,  log.userid,
                       widget.bookingId,
-                    
-                    ); // Delay before closing to ensure SnackBar appears
+                    ); 
                   },
                 ),
               ],

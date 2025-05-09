@@ -78,7 +78,7 @@ class BinSearchScreen extends StatelessWidget {
                                               type: item.type,
                                               binsizeName: item.binSizeName,
                                               bookingId: item.id.toString(),
-                                              userId: log.userid,
+                                              userId: log.userid, startdate: item.startDate,
                                             );
                                           },
                                         );
