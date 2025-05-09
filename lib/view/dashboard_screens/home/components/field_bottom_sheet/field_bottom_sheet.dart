@@ -43,7 +43,7 @@ class FieldBottomSheet extends StatelessWidget {
                               color:
                                   CleanerAppcolors
                                       .primaryminigreycolor, // change this to your color
-                              width: 2.5.r, // change thickness here
+                              width: 1.5.r, // change thickness here
                             ),
                           ),
                           // 🔽 Default border when not focused
@@ -81,7 +81,7 @@ class FieldBottomSheet extends StatelessWidget {
                               color:
                                   CleanerAppcolors
                                       .primaryminigreycolor, // change this to your color
-                              width: 2.5.r, // change thickness here
+                              width: 1.5.r, // change thickness here
                             ),
                           ),
                           // 🔽 Default border when not focused
