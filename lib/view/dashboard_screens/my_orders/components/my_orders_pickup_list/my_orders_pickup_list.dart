@@ -97,7 +97,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                                 startDate: sitedata.startDate,
                                 endate: sitedata.endDate,
                                 quantity: sitedata.quantity,
-                                location: capitalizeEachPart(sitedata.location),
+                                location: sitedata.location,
                                 bookingid: sitedata.id.toString(),
                               ),
                             ),
@@ -125,11 +125,4 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
       },
     );
   }
-}
-String capitalizeEachPart(String input) {
-  return input.split(',').map((part) {
-    part = part.trim(); // remove any extra spaces
-    if (part.isEmpty) return '';
-    return part[0].toUpperCase() + part.substring(1).toLowerCase();
-  }).join(',');
 }
