@@ -75,8 +75,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                         if (sitedata.stage == 'order_picked_up' &&
                             sitedata.type == 'on_site_order') {
                           showModalBottomSheet(
-                            backgroundColor:
-                                CleanerAppcolors.primaryminigreycolor,
+                          
                             showDragHandle: true,
                             context: context,
                             builder: (context) => FieldBottomSheet(),
