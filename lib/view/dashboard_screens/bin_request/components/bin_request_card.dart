@@ -58,7 +58,7 @@ class BinRequestCard extends StatelessWidget {
                           size: 20.r,
                           color: CleanerAppcolors.primarylightbrowncolor,
                         ),
-                        Text(address, style: listiletitlefont),
+                        Text(capitalizeEachPart(address), style: listiletitlefont),
                       ],
                     ),
                     CleanerChip(
@@ -114,4 +114,11 @@ class BinRequestCard extends StatelessWidget {
       ),
     );
   }
+}
+String capitalizeEachPart(String input) {
+  return input.split(',').map((part) {
+    part = part.trim(); // remove any extra spaces
+    if (part.isEmpty) return '';
+    return part[0].toUpperCase() + part.substring(1).toLowerCase();
+  }).join(',');
 }

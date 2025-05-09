@@ -62,7 +62,7 @@ class MyOrdersCard extends StatelessWidget {
                         SizedBox(
                           width: 140.r,
                           child: Text(
-                            address,
+                            capitalizeEachPart(address),
                             style: listiletitlefont,
                           ),
                         ),
@@ -146,3 +146,10 @@ class MyOrdersCard extends StatelessWidget {
   }
 }
 
+String capitalizeEachPart(String input) {
+  return input.split(',').map((part) {
+    part = part.trim(); // remove any extra spaces
+    if (part.isEmpty) return '';
+    return part[0].toUpperCase() + part.substring(1).toLowerCase();
+  }).join(',');
+}
