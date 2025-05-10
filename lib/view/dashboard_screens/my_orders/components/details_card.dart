@@ -2,9 +2,11 @@ import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/cleanericonspng.dart' show AppIcons;
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/detail_label.dart';
+import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class DetailsCard extends StatelessWidget {
   final String customername;
@@ -12,18 +14,22 @@ class DetailsCard extends StatelessWidget {
   final String binsizename;
   final String quantity;
   final String location;
+   final String pendingamount;
+  final String paymentoption;
+  final String paymentreceived;
   const DetailsCard({
     super.key,
     required this.customername,
     required this.duration,
     required this.binsizename,
     required this.quantity,
-    required this.location,
+    required this.location, required this.pendingamount, required this.paymentoption, required this.paymentreceived,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Consumer<MyOrderProvider>(builder: (context, myorder, child) {
+      return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10).r,
@@ -53,6 +59,8 @@ class DetailsCard extends StatelessWidget {
               SizedBox(height: 5.r),
               DetailsLabel(label: 'Quantity', sublabel: quantity),
               SizedBox(height: 5.r),
+              if(paymentoption =='cash_on_delivery'&& pendingamount != '0')
+              DetailsLabel(label: 'Amount', sublabel: pendingamount),
 
               DetailsLabel(label: 'Location', sublabel: capitalizeEachPart(location)),
             ],
@@ -60,6 +68,7 @@ class DetailsCard extends StatelessWidget {
         ),
       ),
     );
+    },);
   }
 }
 String capitalizeEachPart(String input) {

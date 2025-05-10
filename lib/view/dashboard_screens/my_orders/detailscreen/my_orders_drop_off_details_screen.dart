@@ -23,7 +23,11 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
   final String location;
   final String duration;
   final String binsizename;
-  final String bookingid;
+  final String bookingid;   
+  final String pendingamount;
+  final String paymentoption;
+  final String paymentreceived;
+  
   const MyOrdersDropOffDetailsScreen({
     super.key,
     required this.quantity,
@@ -33,7 +37,7 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
     required this.location,
     required this.duration,
     required this.binsizename,
-    required this.bookingid,
+    required this.bookingid, required this.pendingamount, required this.paymentoption, required this.paymentreceived,
   });
 
   @override
@@ -139,13 +143,13 @@ class _MyOrdersDropOffDetailsScreenState
                                       '0',
                                   binsizename: widget.binsizename,
                                   quantity: widget.quantity.toString(),
-                                  location: widget.location,
+                                  location: widget.location, pendingamount: widget.pendingamount, paymentoption: widget.paymentoption, paymentreceived: widget.paymentreceived,
                                 ),
                                 Align(
                                   alignment: Alignment.center,
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context, CustomPageRoute(child: IsDamagedDetailpage(customername: orderdata?.customerName??'', duration: orderdata?.orderDuration.toString()??'', binsizename: orderdata?.binSizeName??'', quantity: orderdata?.quantity.toString()??'', location: orderdata?.location??'', driverid: log.userid, bookingid: orderdata?.id.toString()??'',)));
+                                      Navigator.push(context, CustomPageRoute(child: IsDamagedDetailpage(customername: orderdata?.customerName??'', duration: orderdata?.orderDuration.toString()??'', binsizename: orderdata?.binSizeName??'', quantity: orderdata?.quantity.toString()??'', location: orderdata?.location??'', driverid: log.userid, bookingid: orderdata?.id.toString()??'', pendingamount: widget.pendingamount, paymentoption:widget.paymentoption, paymentreceived: widget.paymentreceived,)));
                                     },
                                     child: Text(
                                       
