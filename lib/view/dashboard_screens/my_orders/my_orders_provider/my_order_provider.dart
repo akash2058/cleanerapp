@@ -29,6 +29,9 @@ class MyOrderProvider extends ChangeNotifier {
   MyOrdersDropOffDetailModel? _myOrdersDropOffDetailModel;
   MyOrdersDropOffDetailModel? get orderdetail => _myOrdersDropOffDetailModel;
   int tabs = 0;
+
+  TextEditingController amountreceivecontroller = TextEditingController();
+  TextEditingController paymentreceivecontroller = TextEditingController();
   void toggleTab(int index) {
     tabs = index;
     notifyListeners();
@@ -168,7 +171,8 @@ class MyOrderProvider extends ChangeNotifier {
     final messenger = ScaffoldMessenger.of(context); // cache before await
     final screenSize = MediaQuery.sizeOf(context);
     var token = await Utils.getToken();
-
+  final amountText = amountreceivecontroller.text.trim();
+    final amountToSend = amountText.isEmpty ? '0' : amountText;
     try {
       loadingconfirmonsitepickup = true;
       notifyListeners();
@@ -177,6 +181,7 @@ class MyOrderProvider extends ChangeNotifier {
         driverid,
         bookingid,
         token ?? '',
+        amountToSend
       );
       print('✅ API Response: $accept');
 
@@ -242,7 +247,7 @@ class MyOrderProvider extends ChangeNotifier {
     var token = await Utils.getToken();
 
     try {
-      loadingconfirmonsitepickup = true;
+      loadingupdatewarehouse = true;
       notifyListeners();
 
       final accept = await fetchConfirmWarehouseupdate(
@@ -251,7 +256,7 @@ class MyOrderProvider extends ChangeNotifier {
         token ?? '',
       );
 
-      loadingconfirmonsitepickup = false;
+      loadingupdatewarehouse = false;
       notifyListeners();
 
       final status = accept['status'];
@@ -281,7 +286,7 @@ class MyOrderProvider extends ChangeNotifier {
         );
       }
     } catch (e) {
-      loadingattachments = false;
+      loadingupdatewarehouse = false;
       notifyListeners();
 
       messenger.showSnackBar(
@@ -381,6 +386,8 @@ class MyOrderProvider extends ChangeNotifier {
         context,
       ); // ✅ Cache mediaQuery before await
       final navigator = Navigator.of(context);
+        final amountText = paymentreceivecontroller.text.trim();
+    final amountToSend = amountText.isEmpty ? '0' : amountText;
       var token = await Utils.getToken();
       loadingattachments = true;
       notifyListeners();
@@ -392,6 +399,7 @@ class MyOrderProvider extends ChangeNotifier {
         bookingid,
         attachments,
         token ?? '',
+        amountToSend
       );
       loadingattachments = false;
       notifyListeners();

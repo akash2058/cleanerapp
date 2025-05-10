@@ -79,7 +79,7 @@ class PickUp extends StatelessWidget {
                             quantity: data?.quantity.toString() ?? 'N/A',
                             startdate: data?.startDate ?? 'N/A',
                             duration: data?.orderDuration.toString() ?? 'N/A',
-                            binsizename: data?.binSizeName ?? '',
+                            binsizename: data?.binSizeName ?? '', requestoverdue: data?.requestOverdue?.toInt()??0,
                           );
                         },
                       ),

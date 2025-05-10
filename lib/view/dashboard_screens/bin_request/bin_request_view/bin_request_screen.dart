@@ -148,7 +148,7 @@ class BinRequestView extends StatelessWidget {
                                                       '0',
                                                   binsizename:
                                                       bindata?.binSizeName ??
-                                                      'N/A',
+                                                      'N/A', requestoverdue: bindata?.requestOverdue?.toInt()??0,
                                                 );
                                               },
                                             ),
@@ -251,7 +251,7 @@ class BinRequestView extends StatelessWidget {
                                                       '',
                                                   binsizename:
                                                       waredata?.binSizeName ??
-                                                      '',
+                                                      '', requestoverdue: waredata?.requestOverdue?.toInt()??0,
                                                 );
                                               },
                                             ),

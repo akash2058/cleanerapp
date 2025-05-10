@@ -62,7 +62,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                       spacing: 10.r,
                       children: [
                         CustomListtile(
-                          subtitle: widget.customername,
+                          subtitle: capitalizeEachPart(widget.customername),
                           title: 'Customer Name',
                           leading: Icon(
                             Icons.arrow_forward_ios_outlined,
@@ -70,7 +70,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                           ),
                         ),
                         CustomListtile(
-                          subtitle: widget.location,
+                          subtitle: capitalizeEachPart(widget.location),
                           title: 'Location',
                           leading: Icon(
                             Icons.arrow_forward_ios_outlined,
@@ -128,4 +128,14 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
       },
     );
   }
+}
+String capitalizeEachPart(String input) {
+  return input
+      .split(',')
+      .map((part) {
+        part = part.trim(); // remove any extra spaces
+        if (part.isEmpty) return '';
+        return part[0].toUpperCase() + part.substring(1).toLowerCase();
+      })
+      .join(',');
 }

@@ -20,6 +20,7 @@ class IsDamagedDetailpage extends StatelessWidget {
    final String? pendingamount;
   final String? paymentoption;
   final String? paymentreceived;
+  final String? paymenttype;
   const IsDamagedDetailpage({
     super.key,
     required this.customername,
@@ -28,7 +29,7 @@ class IsDamagedDetailpage extends StatelessWidget {
     required this.quantity,
     required this.location,
     required this.driverid,
-    required this.bookingid, required this.pendingamount, required this.paymentoption, required this.paymentreceived,
+    required this.bookingid, required this.pendingamount, required this.paymentoption, required this.paymentreceived, this.paymenttype,
   });
 
   @override
@@ -74,7 +75,7 @@ class IsDamagedDetailpage extends StatelessWidget {
                             duration: duration,
                             binsizename: binsizename,
                             quantity: quantity,
-                            location: location, paymentoption: paymentoption??'', paymentreceived: paymentreceived??'', pendingamount: pendingamount??'',
+                            location: location, paymentoption: paymentoption??'', paymentreceived: paymentreceived??'', pendingamount: pendingamount??'', paymenttype:paymenttype??'' ,
                           ),
                           Text(
                             'Damage Report For Bins',

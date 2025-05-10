@@ -1,4 +1,3 @@
-import 'package:binbookingapp/custom_widget/custom_tile.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/cleanericonspng.dart' show AppIcons;
 import 'package:binbookingapp/utils/style.dart';
@@ -18,6 +17,7 @@ class DetailsCard extends StatelessWidget {
   final String pendingamount;
   final String paymentoption;
   final String paymentreceived;
+  final String paymenttype;
   const DetailsCard({
     super.key,
     required this.customername,
@@ -26,7 +26,8 @@ class DetailsCard extends StatelessWidget {
     required this.quantity,
     required this.location,
     required this.paymentoption,
-    required this.paymentreceived, required this.pendingamount,
+    required this.paymentreceived,
+    required this.pendingamount, required this.paymenttype,
   });
 
   @override
@@ -53,7 +54,7 @@ class DetailsCard extends StatelessWidget {
                   ),
                   Divider(color: CleanerAppcolors.primaryminigreycolor),
                   SizedBox(height: 10.r),
-                  DetailsLabel(label: 'Customer Name', sublabel: customername),
+                  DetailsLabel(label: 'Customer Name', sublabel: capitalizeEachPart(customername)),
                   SizedBox(height: 5.r),
                   DetailsLabel(label: 'Duration', sublabel: '$duration days'),
                   SizedBox(height: 5.r),
@@ -61,18 +62,17 @@ class DetailsCard extends StatelessWidget {
                   SizedBox(height: 5.r),
                   DetailsLabel(label: 'Quantity', sublabel: quantity),
                   SizedBox(height: 5.r),
-                  if (paymentoption == 'cash_on_delivery' &&
-                      pendingamount != '0')
-                    CustomListtile(
-                      title: 'Pickup Amount',
-                      subtitle: pendingamount,
-                      leading: Icon(Icons.arrow_forward_ios, size: 20.r),
-                    ),
-
                   DetailsLabel(
                     label: 'Location',
                     sublabel: capitalizeEachPart(location),
                   ),
+                  SizedBox(height: 5.r),
+                  if (paymentoption == 'cash_on_delivery' &&
+                      pendingamount != '0')
+                    DetailsLabel(label: 'Total Amount', sublabel: pendingamount),
+                      SizedBox(height: 5.r),
+                    if(paymenttype != 'full_payment'&& paymentreceived !='0')
+                    DetailsLabel(label: 'Receive amount', sublabel: paymentreceived)
                 ],
               ),
             ),

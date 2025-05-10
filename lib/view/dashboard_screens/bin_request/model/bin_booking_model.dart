@@ -41,7 +41,6 @@ class BinRequestData {
   }
 }
 
-
 class RequestedItem {
   final int id;
   final int quantity;
@@ -54,6 +53,13 @@ class RequestedItem {
   final String type;
   final String stage;
   final String status;
+  final String? paymentOption;
+  final String? paymentType;
+  final String? pendingAmount;
+  final String? paymentReceived;
+  final String? remainingAmount;
+  final int? requestOverdue;
+  final int? orderOverdue;
 
   RequestedItem({
     required this.id,
@@ -67,6 +73,13 @@ class RequestedItem {
     required this.type,
     required this.stage,
     required this.status,
+    this.paymentOption,
+    this.paymentType,
+    this.pendingAmount,
+    this.paymentReceived,
+    this.remainingAmount,
+    this.requestOverdue,
+    this.orderOverdue,
   });
 
   factory RequestedItem.fromJson(Map<String, dynamic> json) {
@@ -82,6 +95,13 @@ class RequestedItem {
       type: json['type'],
       stage: json['stage'],
       status: json['status'],
+      paymentOption: json['payment_option'],
+      paymentType: json['payment_type'],
+      pendingAmount: json['pending_amount']?.toString(),
+      paymentReceived: json['payment_received']?.toString(),
+      remainingAmount: json['remaining_amount']?.toString(),
+      requestOverdue: json['request_overdue'],
+      orderOverdue: json['order_overdue'],
     );
   }
 }

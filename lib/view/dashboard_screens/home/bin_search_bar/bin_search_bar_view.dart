@@ -87,7 +87,7 @@ class BinSearchScreen extends StatelessWidget {
                                       quantity: item.quantity.toString(),
                                       startdate: item.startDate,
                                       binsizename: item.binSizeName,
-                                      duration: item.orderDuration.toString(),
+                                      duration: item.orderDuration.toString(), requestoverdue: item.requestOverdue?.toInt()??0,
                                     );
                                   },
                                 ),

@@ -11,7 +11,8 @@ class CleanerAppcolors {
   static const primarydarkGreencolor = Color(0xff27ae60);
   static const primarypurple = Color(0xff696cff);
   static const primarylightpurple = Color.fromARGB(255, 166, 167, 248);
-
+  static const primarylightyellow = Color(0xfff9e79f);
+  static const primarylightredcolor = Color(0xfff5b7b1);
   static const primarylightgreycolor = Color(0xfff2f4f4);
   static const primarybrowncolor = Color(0xffA74D32);
   static const primarylightbrowncolor = Color(0xffD78770);

@@ -10,6 +10,7 @@ class BinRequestCard extends StatelessWidget {
   final String quantity;
   final String startdate;
   final String duration;
+  final int requestoverdue;
   final VoidCallback? onTap;
   final VoidCallback? onPressed;
   const BinRequestCard({
@@ -21,6 +22,7 @@ class BinRequestCard extends StatelessWidget {
     required this.duration,
     this.onPressed,
     this.onTap,
+    required this.requestoverdue,
   });
 
   @override
@@ -58,7 +60,10 @@ class BinRequestCard extends StatelessWidget {
                           size: 20.r,
                           color: CleanerAppcolors.primarylightbrowncolor,
                         ),
-                        Text(capitalizeEachPart(address), style: listiletitlefont),
+                        Text(
+                          capitalizeEachPart(address),
+                          style: listiletitlefont,
+                        ),
                       ],
                     ),
                     CleanerChip(
@@ -77,7 +82,15 @@ class BinRequestCard extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  color: CleanerAppcolors.primaryminigreycolor,
+                  color:
+                      requestoverdue == 0
+                          ? CleanerAppcolors.primarylightgreencolor
+                          : requestoverdue == 1
+                          ? CleanerAppcolors.primarylightredcolor
+                          : requestoverdue == 3
+                          ? CleanerAppcolors.primarylightredcolor
+                          : CleanerAppcolors.primaryminigreycolor,
+
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 15, vertical: 15).r,
@@ -100,7 +113,10 @@ class BinRequestCard extends StatelessWidget {
                         Column(
                           children: [
                             Text('Duration', style: greetingsStyleblack),
-                            Text('$duration days', style: dashboardlabelfontdarkgrey),
+                            Text(
+                              '$duration days',
+                              style: dashboardlabelfontdarkgrey,
+                            ),
                           ],
                         ),
                       ],
@@ -115,10 +131,14 @@ class BinRequestCard extends StatelessWidget {
     );
   }
 }
+
 String capitalizeEachPart(String input) {
-  return input.split(',').map((part) {
-    part = part.trim(); // remove any extra spaces
-    if (part.isEmpty) return '';
-    return part[0].toUpperCase() + part.substring(1).toLowerCase();
-  }).join(',');
+  return input
+      .split(',')
+      .map((part) {
+        part = part.trim(); // remove any extra spaces
+        if (part.isEmpty) return '';
+        return part[0].toUpperCase() + part.substring(1).toLowerCase();
+      })
+      .join(',');
 }

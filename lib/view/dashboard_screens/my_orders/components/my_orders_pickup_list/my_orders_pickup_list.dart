@@ -63,7 +63,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                 ? Center(
                   child: LoadingAnimationWidget.hexagonDots(
                     color: CleanerAppcolors.primarypurple,
-                    size: 30.r,
+                    size: 45.r,
                   ),
                 )
                 : Column(
@@ -75,39 +75,46 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                         if (sitedata.stage == 'order_picked_up' &&
                             sitedata.type == 'on_site_order') {
                           showModalBottomSheet(
-                          
                             showDragHandle: true,
                             context: context,
-                            builder: (context) => FieldBottomSheet(customername: sitedata.customerName??'', pendingamount: sitedata.pendingAmount??'', paymentoption: sitedata.paymentOption??'', paymentreceived: sitedata.paymentReceived??'',),
+                            builder:
+                                (context) => FieldBottomSheet(
+                                  customername: sitedata.customerName ?? '',
+                                  pendingamount: sitedata.pendingAmount ?? '',
+                                  paymentoption: sitedata.paymentOption ?? '',
+                                  paymentreceived:
+                                      sitedata.paymentReceived ?? '',
+                                  binbookingid: sitedata.id.toString(),
+                                  logid: log.userid,
+                                ),
                           );
-                          // order.getConfirmonsiteupdate(
-                          //   context,
-                          //   log.userid,
-                          //   sitedata.id.toString(),
-                          // );
                         } else {
                           Navigator.push(
                             context,
                             CustomPageRoute(
                               child: MyOrdersPickupDetailsScreen(
-                                binsizename: sitedata.binSizeName??'',
+                                payementtype: sitedata.paymentType,
+                                binsizename: sitedata.binSizeName ?? '',
                                 duration: sitedata.orderDuration.toString(),
-                                customername: sitedata.customerName??'',
-                                startDate: sitedata.startDate??'',
-                                endate: sitedata.endDate??'',
-                                quantity: sitedata.quantity?.toInt()??0,
-                                location: sitedata.location??'',
-                                bookingid: sitedata.id.toString(), pendingamount: sitedata.pendingAmount??'', paymentoption: sitedata.paymentOption??'', paymentreceived: sitedata.paymentReceived??'',
+                                customername: sitedata.customerName ?? '',
+                                startDate: sitedata.startDate ?? '',
+                                endate: sitedata.endDate ?? '',
+                                quantity: sitedata.quantity?.toInt() ?? 0,
+                                location: sitedata.location ?? '',
+                                bookingid: sitedata.id.toString(),
+                                pendingamount: sitedata.pendingAmount ?? '',
+                                paymentoption: sitedata.paymentOption ?? '',
+                                paymentreceived: sitedata.paymentReceived ?? '',
                               ),
                             ),
                           );
                         }
                       },
-                      address: sitedata.location??'',
+                      address: sitedata.location ?? '',
                       quantity: sitedata.quantity.toString(),
-                      startdate: sitedata.startDate??'',
-                      endDate: sitedata.endDate??'',
-                      binsizename: sitedata.binSizeName??'',
+                      startdate: sitedata.startDate ?? '',
+                      endDate: sitedata.endDate ?? '',
+                      binsizename: sitedata.binSizeName ?? '',
                       buttonlabel:
                           sitedata.stage == 'order_picked_up' &&
                                   sitedata.type == 'on_site_order'
@@ -115,7 +122,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                                   ? 'Please Wait'
                                   : 'Confirm Delivery'
                               : 'View',
-                      stage: '',
+                      stage: '', orderoverdue: sitedata.orderOverdue?.toInt()??0,
                     );
                   }),
                 );

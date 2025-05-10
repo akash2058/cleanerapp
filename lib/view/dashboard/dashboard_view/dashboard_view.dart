@@ -22,11 +22,11 @@ class _DashboardViewState extends State<DashboardView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      getData();
+      getData(context);
     });
   }
 
-  void getData() async {
+  void getData(context) async {
     
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     await logindata.loadLoginData();
@@ -37,6 +37,8 @@ class _DashboardViewState extends State<DashboardView> {
       listen: false,
     );
     await binrequestdata.getBinRequestData();
+    myordersdata.paymentreceivecontroller.clear();
+    myordersdata.amountreceivecontroller.clear();
 
     print('userid${logindata.userid}');
   }

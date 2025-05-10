@@ -101,6 +101,7 @@ Future<Map<String, dynamic>> fetchConfirmonsiteupdate(
   String driverId,
   String binBookingId,
   String token,
+  String paymentreceived
 ) async {
   var headers = {
     'Content-Type': 'application/json',
@@ -111,6 +112,8 @@ Future<Map<String, dynamic>> fetchConfirmonsiteupdate(
   var data = jsonEncode({
     "driver_id": driverId,
     "booking_id": binBookingId,
+    'payment_received':paymentreceived
+    
   });
 
   print('Request Data: $data');
@@ -199,6 +202,7 @@ Future<Map<String, dynamic>> fetchUpdateAttachments(
   String binBookingId,
   Map<String, dynamic> attachments,  // Change to accept a map
   String token,
+  String paymentreceive
 ) async {
   var headers = {
     'Content-Type': 'application/json',
@@ -209,7 +213,8 @@ Future<Map<String, dynamic>> fetchUpdateAttachments(
   var data = jsonEncode({
     "driver_id": driverId,
     "booking_id": binBookingId,
-    "booking_attachments": attachments,  // Attach the map directly
+    "booking_attachments": attachments,
+    'payment_received':paymentreceive  // Attach the map directly
   });
 
   print('Request Data: $data');

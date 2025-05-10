@@ -54,7 +54,7 @@ class _MyOrdersDropOffListState extends State<MyOrdersDropOffList> {
                 return order.loadingupdatewarehouse == true
                     ? LoadingAnimationWidget.hexagonDots(
                       color: CleanerAppcolors.primarypurple,
-                      size: 30.r,
+                      size: 45.r,
                     )
                     : Column(
                       spacing: 15.r,
@@ -78,6 +78,7 @@ class _MyOrdersDropOffListState extends State<MyOrdersDropOffList> {
                                   context,
                                   CustomPageRoute(
                                     child: MyOrdersDropOffDetailsScreen(
+                                      payementtype: waredata?.paymentType??'',
                                       quantity: waredata?.quantity ?? 0,
                                       customerName:
                                           waredata?.customerName ?? '',
@@ -104,7 +105,7 @@ class _MyOrdersDropOffListState extends State<MyOrdersDropOffList> {
                                         waredata?.type == 'warehouse_dropoff'
                                     ? 'Confirm Delivery'
                                     : 'View',
-                            stage: waredata?.stage??'',
+                            stage: waredata?.stage??'', orderoverdue: waredata?.orderOverdue?.toInt()??0,
                           );
                         },
                       ),

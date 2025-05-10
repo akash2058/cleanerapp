@@ -1,4 +1,3 @@
-
 import 'package:binbookingapp/custom_widget/cleaner_chip.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
@@ -13,6 +12,7 @@ class MyOrdersCard extends StatelessWidget {
   final String buttonlabel;
   final String startdate;
   final String endDate;
+  final int orderoverdue;
   final VoidCallback? onTap;
   final VoidCallback? onPressed;
   const MyOrdersCard({
@@ -23,7 +23,10 @@ class MyOrdersCard extends StatelessWidget {
     required this.binsizename,
     required this.endDate,
     this.onPressed,
-    this.onTap, required this.buttonlabel, required this.stage,
+    this.onTap,
+    required this.buttonlabel,
+    required this.stage,
+    required this.orderoverdue,
   });
 
   @override
@@ -35,12 +38,14 @@ class MyOrdersCard extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: CleanerAppcolors.primaryWhitecolor,
-            boxShadow: [   BoxShadow(
-        color:  Color.fromRGBO(105, 108, 255, 0.4).withOpacity(0.5.r), 
-        spreadRadius: 1,  
-        blurRadius: 1,   
-        offset: Offset(0, 0), 
-      ),],
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(105, 108, 255, 0.4).withOpacity(0.5.r),
+                spreadRadius: 1,
+                blurRadius: 1,
+                offset: Offset(0, 0),
+              ),
+            ],
             borderRadius: BorderRadius.circular(20.r),
           ),
           child: Padding(
@@ -77,19 +82,23 @@ class MyOrdersCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25).r,
-                  child: Text(
-                    'Bin Size:$binsizename',
-                    style: listiletitlefont,
-                  ),
+                  child: Text('Bin Size:$binsizename', style: listiletitlefont),
                 ),
-                SizedBox(
-                  height: 5.r,
-                ),
+                SizedBox(height: 5.r),
                 Card(
                   elevation: 5.r,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r)),
-                  color: CleanerAppcolors.primaryminigreycolor,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  color:
+                      orderoverdue == 0
+                          ? CleanerAppcolors.primarylightgreencolor
+                          : orderoverdue == 1
+                          ? CleanerAppcolors.primarylightredcolor
+                          : orderoverdue == 3
+                          ? CleanerAppcolors.primarylightredcolor
+                          : CleanerAppcolors.primarylightyellow,
+
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 15, vertical: 15).r,
@@ -99,44 +108,26 @@ class MyOrdersCard extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Start Date',
-                              style: greetingsStyleblack,
-                            ),
-                            Text(
-                              startdate,
-                              style: dashboardlabelfontdarkgrey,
-                            )
+                            Text('Start Date', style: greetingsStyleblack),
+                            Text(startdate, style: dashboardlabelfontdarkgrey),
                           ],
                         ),
                         Column(
                           children: [
-                            Text(
-                              'Quantity',
-                              style: greetingsStyleblack,
-                            ),
-                            Text(
-                              quantity,
-                              style: dashboardlabelfontdarkgrey,
-                            )
+                            Text('Quantity', style: greetingsStyleblack),
+                            Text(quantity, style: dashboardlabelfontdarkgrey),
                           ],
                         ),
                         Column(
                           children: [
-                            Text(
-                              'End Date',
-                              style: greetingsStyleblack,
-                            ),
-                            Text(
-                              endDate,
-                              style: dashboardlabelfontdarkgrey,
-                            )
+                            Text('End Date', style: greetingsStyleblack),
+                            Text(endDate, style: dashboardlabelfontdarkgrey),
                           ],
                         ),
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -147,9 +138,12 @@ class MyOrdersCard extends StatelessWidget {
 }
 
 String capitalizeEachPart(String input) {
-  return input.split(',').map((part) {
-    part = part.trim(); // remove any extra spaces
-    if (part.isEmpty) return '';
-    return part[0].toUpperCase() + part.substring(1).toLowerCase();
-  }).join(',');
+  return input
+      .split(',')
+      .map((part) {
+        part = part.trim(); // remove any extra spaces
+        if (part.isEmpty) return '';
+        return part[0].toUpperCase() + part.substring(1).toLowerCase();
+      })
+      .join(',');
 }

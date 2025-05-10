@@ -167,7 +167,17 @@ String? enterserialnumber(String? value) {
 
   return null;
 }
+String? validateamount(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Please enter amount';
+  }
 
+  // if (value.length < 8) {
+  //   return 'Password must be at least 8 characters long';
+  // }
+
+  return null;
+}
 String? timerequired(String? value) {
   if (value == null || value.isEmpty) {
     return 'time required';

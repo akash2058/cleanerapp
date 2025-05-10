@@ -1,6 +1,7 @@
 import 'package:binbookingapp/custom_widget/button.dart';
 import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
+import 'package:binbookingapp/utils/form_validation.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
@@ -26,7 +27,7 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
   final String? pendingamount;
   final String? paymentoption;
   final String? paymentreceived;
-
+  final String? payementtype;
   const MyOrdersDropOffDetailsScreen({
     super.key,
     required this.quantity,
@@ -40,6 +41,7 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
     required this.pendingamount,
     required this.paymentoption,
     required this.paymentreceived,
+    this.payementtype,
   });
 
   @override
@@ -68,6 +70,7 @@ class _MyOrdersDropOffDetailsScreenState
       listen: false,
     );
     await binrequestdata.getBinRequestData();
+    // myordersdata.paymentreceivecontroller.clear();
   }
 
   void refreshdata() async {
@@ -146,9 +149,10 @@ class _MyOrdersDropOffDetailsScreenState
                                   binsizename: widget.binsizename,
                                   quantity: widget.quantity.toString(),
                                   location: widget.location,
-                                  paymentoption: widget.paymentoption??'',
-                                  paymentreceived: widget.paymentreceived??'',
-                                  pendingamount: widget.pendingamount??'',
+                                  paymentoption: widget.paymentoption ?? '',
+                                  paymentreceived: widget.paymentreceived ?? '',
+                                  pendingamount: widget.pendingamount ?? '',
+                                  paymenttype: widget.payementtype ?? '',
                                 ),
                                 Align(
                                   alignment: Alignment.center,
@@ -174,10 +178,12 @@ class _MyOrdersDropOffDetailsScreenState
                                             driverid: log.userid,
                                             bookingid:
                                                 orderdata?.id.toString() ?? '',
-                                            pendingamount: widget.pendingamount??'',
-                                            paymentoption: widget.paymentoption??'',
+                                            pendingamount:
+                                                widget.pendingamount ?? '',
+                                            paymentoption:
+                                                widget.paymentoption ?? '',
                                             paymentreceived:
-                                                widget.paymentreceived??'',
+                                                widget.paymentreceived ?? '',
                                           ),
                                         ),
                                       );
@@ -188,6 +194,60 @@ class _MyOrdersDropOffDetailsScreenState
                                     ),
                                   ),
                                 ),
+                                if (widget.payementtype != 'full_payment')
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Amount Received', style: resendfont),
+                                      TextFormField(
+                                        controller:
+                                            order.paymentreceivecontroller,
+                                        keyboardType: TextInputType.number,
+                                        validator: validateamount,
+                                        style: entertexttile,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding:
+                                              EdgeInsets.symmetric(
+                                                vertical: 10,
+                                              ).r,
+                                          hintText: 'Enter received amount',
+                                          hintStyle: hintStyle,
+                                          errorStyle: errorstyle,
+                                          disabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  CleanerAppcolors
+                                                      .primaryminigreycolor, // change this to your color
+                                              width:
+                                                  1.5.r, // change thickness here
+                                            ),
+                                          ),
+                                          // 🔽 Default border when not focused
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  CleanerAppcolors
+                                                      .primaryminidarkgreycolor, // change this to your color
+                                              width:
+                                                  1.5.r, // change thickness here
+                                            ),
+                                          ),
+
+                                          // 🔽 Border when focused (on tap)
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  CleanerAppcolors
+                                                      .primarypurple, // focused color
+                                              width: 1.5.r, // focused thickness
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 Text(
                                   'Please Add Images Below',
                                   style: ordercardheaderfont,

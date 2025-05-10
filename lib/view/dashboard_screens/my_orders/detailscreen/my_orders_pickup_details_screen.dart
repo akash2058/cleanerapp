@@ -20,8 +20,9 @@ class MyOrdersPickupDetailsScreen extends StatefulWidget {
   final String location;
   final String bookingid;
   final String? pendingamount;
-  final String ?paymentoption;
-  final String ?paymentreceived;
+  final String? paymentoption;
+  final String? paymentreceived;
+  final String? payementtype;
   const MyOrdersPickupDetailsScreen({
     super.key,
     required this.customername,
@@ -35,6 +36,7 @@ class MyOrdersPickupDetailsScreen extends StatefulWidget {
     required this.pendingamount,
     required this.paymentoption,
     required this.paymentreceived,
+    this.payementtype,
   });
 
   @override
@@ -114,8 +116,10 @@ class _MyOrdersPickupDetailsScreenState
                             binsizename: widget.binsizename,
                             quantity: widget.quantity.toString(),
                             location: widget.location,
-                            paymentoption: widget.paymentoption??'',
-                            paymentreceived: widget.paymentreceived??'', pendingamount: widget.pendingamount??'',
+                            paymentoption: widget.paymentoption ?? '',
+                            paymentreceived: widget.paymentreceived ?? '',
+                            pendingamount: widget.pendingamount ?? '',
+                            paymenttype: widget.payementtype ?? '',
                           ),
                           FormCard(quantity: widget.quantity),
                         ],

@@ -66,6 +66,8 @@ class RequestsItem {
   final String? pendingAmount;
   final String? paymentReceived;
   final int? remainingAmount;
+  final int? requestOverdue;
+  final int? orderOverdue;
 
   RequestsItem({
     this.id,
@@ -84,6 +86,8 @@ class RequestsItem {
     this.pendingAmount,
     this.paymentReceived,
     this.remainingAmount,
+    this.requestOverdue,
+    this.orderOverdue,
   });
 
   factory RequestsItem.fromJson(Map<String, dynamic> json) {
@@ -104,6 +108,8 @@ class RequestsItem {
       pendingAmount: json['pending_amount']?.toString(),
       paymentReceived: json['payment_received']?.toString(),
       remainingAmount: json['remaining_amount'],
+      requestOverdue: json['request_overdue'],
+      orderOverdue: json['order_overdue'],
     );
   }
 
@@ -125,6 +131,8 @@ class RequestsItem {
       'pending_amount': pendingAmount,
       'payment_received': paymentReceived,
       'remaining_amount': remainingAmount,
+      'request_overdue': requestOverdue,
+      'order_overdue': orderOverdue,
     };
   }
 }
