@@ -54,8 +54,10 @@ class RequestsItem {
   final String stage;
   final String status;
   final String paymentOption;
-  final String pendingAmount;
+  final String? paymentType;
+  final String? pendingAmount;
   final String paymentReceived;
+  final int? remainingAmount;
 
   RequestsItem({
     required this.id,
@@ -70,8 +72,10 @@ class RequestsItem {
     required this.stage,
     required this.status,
     required this.paymentOption,
-    required this.pendingAmount,
+    this.paymentType,
+    this.pendingAmount,
     required this.paymentReceived,
+    this.remainingAmount,
   });
 
   factory RequestsItem.fromJson(Map<String, dynamic> json) {
@@ -87,9 +91,11 @@ class RequestsItem {
       type: json['type'],
       stage: json['stage'],
       status: json['status'],
-      paymentOption: json['payment_option'],
+      paymentOption: json['payment_option'] ?? '',
+      paymentType: json['payment_type'],
       pendingAmount: json['pending_amount'],
-      paymentReceived: json['payment_received'],
+      paymentReceived: json['payment_received'] ?? '0',
+      remainingAmount: json['remaining_amount'],
     );
   }
 }

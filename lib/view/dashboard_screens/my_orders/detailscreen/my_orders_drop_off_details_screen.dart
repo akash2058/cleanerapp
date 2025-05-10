@@ -52,11 +52,11 @@ class _MyOrdersDropOffDetailsScreenState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       refreshdata();
-      getData();
+      getData(context);
     });
   }
 
-  Future<void> getData() async {
+  Future<void> getData(context) async {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     await logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);

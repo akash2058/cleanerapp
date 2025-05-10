@@ -21,7 +21,7 @@ class MyOrdersPickUpList extends StatefulWidget {
 }
 
 class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
-  void getData() async {
+  void getData(context) async {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     await logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
@@ -78,7 +78,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                           
                             showDragHandle: true,
                             context: context,
-                            builder: (context) => FieldBottomSheet(customername: sitedata.customerName, pendingamount: sitedata.pendingAmount, paymentoption: sitedata.paymentOption, paymentreceived: sitedata.paymentReceived,),
+                            builder: (context) => FieldBottomSheet(customername: sitedata.customerName, pendingamount: sitedata.pendingAmount??'', paymentoption: sitedata.paymentOption, paymentreceived: sitedata.paymentReceived,),
                           );
                           // order.getConfirmonsiteupdate(
                           //   context,
@@ -97,7 +97,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                                 endate: sitedata.endDate,
                                 quantity: sitedata.quantity,
                                 location: sitedata.location,
-                                bookingid: sitedata.id.toString(), pendingamount: sitedata.pendingAmount, paymentoption: sitedata.paymentOption, paymentreceived: sitedata.paymentReceived,
+                                bookingid: sitedata.id.toString(), pendingamount: sitedata.pendingAmount??'', paymentoption: sitedata.paymentOption, paymentreceived: sitedata.paymentReceived,
                               ),
                             ),
                           );
