@@ -39,7 +39,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
   Widget build(BuildContext context) {
     return Consumer<MyOrderProvider>(
       builder: (context, order, child) {
-        final siteRequests = order.order?.data.siteOrder ?? [];
+        final siteRequests = order.order?.data?.siteOrder ?? [];
 
         if (siteRequests.isEmpty) {
           return Center(
@@ -78,7 +78,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                           
                             showDragHandle: true,
                             context: context,
-                            builder: (context) => FieldBottomSheet(customername: sitedata.customerName, pendingamount: sitedata.pendingAmount??'', paymentoption: sitedata.paymentOption, paymentreceived: sitedata.paymentReceived,),
+                            builder: (context) => FieldBottomSheet(customername: sitedata.customerName??'', pendingamount: sitedata.pendingAmount??'', paymentoption: sitedata.paymentOption??'', paymentreceived: sitedata.paymentReceived??'',),
                           );
                           // order.getConfirmonsiteupdate(
                           //   context,
@@ -90,24 +90,24 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                             context,
                             CustomPageRoute(
                               child: MyOrdersPickupDetailsScreen(
-                                binsizename: sitedata.binSizeName,
+                                binsizename: sitedata.binSizeName??'',
                                 duration: sitedata.orderDuration.toString(),
-                                customername: sitedata.customerName,
-                                startDate: sitedata.startDate,
-                                endate: sitedata.endDate,
-                                quantity: sitedata.quantity,
-                                location: sitedata.location,
-                                bookingid: sitedata.id.toString(), pendingamount: sitedata.pendingAmount??'', paymentoption: sitedata.paymentOption, paymentreceived: sitedata.paymentReceived,
+                                customername: sitedata.customerName??'',
+                                startDate: sitedata.startDate??'',
+                                endate: sitedata.endDate??'',
+                                quantity: sitedata.quantity?.toInt()??0,
+                                location: sitedata.location??'',
+                                bookingid: sitedata.id.toString(), pendingamount: sitedata.pendingAmount??'', paymentoption: sitedata.paymentOption??'', paymentreceived: sitedata.paymentReceived??'',
                               ),
                             ),
                           );
                         }
                       },
-                      address: sitedata.location,
+                      address: sitedata.location??'',
                       quantity: sitedata.quantity.toString(),
-                      startdate: sitedata.startDate,
-                      endDate: sitedata.endDate,
-                      binsizename: sitedata.binSizeName,
+                      startdate: sitedata.startDate??'',
+                      endDate: sitedata.endDate??'',
+                      binsizename: sitedata.binSizeName??'',
                       buttonlabel:
                           sitedata.stage == 'order_picked_up' &&
                                   sitedata.type == 'on_site_order'

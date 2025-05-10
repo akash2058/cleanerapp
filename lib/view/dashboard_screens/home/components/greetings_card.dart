@@ -84,9 +84,9 @@ class GreetingsCard extends StatelessWidget {
                           Row(
                             children: [
                             Row(
-                              children: [ Icon(Icons.arrow_upward_outlined,size: 20.r,color: CleanerAppcolors.primaryWhitecolor,),Text(myorder.order?.data.siteOrder.length.toString()??'',style: dashboardlablefontwhite,)],
+                              children: [ Icon(Icons.arrow_upward_outlined,size: 20.r,color: CleanerAppcolors.primaryWhitecolor,),Text(myorder.order?.data?.siteOrder?.length.toString()??'',style: dashboardlablefontwhite,)],
                             ),
-                            Icon(Icons.arrow_downward_outlined,size: 20.r,color: CleanerAppcolors.primaryWhitecolor,),Text(myorder.order?.data.warehouseOrder.length.toString()??'',style: dashboardlablefontwhite,)
+                            Icon(Icons.arrow_downward_outlined,size: 20.r,color: CleanerAppcolors.primaryWhitecolor,),Text(myorder.order?.data?.warehouseOrder?.length.toString()??'',style: dashboardlablefontwhite,)
                             ],
                           )
                             ],

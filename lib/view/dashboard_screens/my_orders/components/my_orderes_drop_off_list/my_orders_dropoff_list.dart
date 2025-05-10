@@ -37,7 +37,7 @@ class _MyOrdersDropOffListState extends State<MyOrdersDropOffList> {
   Widget build(BuildContext context) {
     return Consumer<MyOrderProvider>(
       builder: (context, order, child) {
-        return order.order?.data.warehouseOrder.isEmpty ?? true
+        return order.order?.data?.warehouseOrder?.isEmpty ?? true
             ? Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 250.r),
@@ -59,10 +59,10 @@ class _MyOrdersDropOffListState extends State<MyOrdersDropOffList> {
                     : Column(
                       spacing: 15.r,
                       children: List.generate(
-                        order.order?.data.warehouseOrder.length ?? 0,
+                        order.order?.data?.warehouseOrder?.length ?? 0,
                         (index) {
                           var waredata =
-                              order.order?.data.warehouseOrder[index];
+                              order.order?.data?.warehouseOrder?[index];
 
                           return MyOrdersCard(
                             onPressed: () {

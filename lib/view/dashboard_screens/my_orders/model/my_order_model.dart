@@ -1,31 +1,32 @@
 class MyOrderModel {
-  final String status;
-  final String message;
-  final BinOrderData data;
+  final String? status;
+  final String? message;
+  final BinOrderData? data;
 
-  MyOrderModel({
-    required this.status,
-    required this.message,
-    required this.data,
-  });
+  MyOrderModel({this.status, this.message, this.data});
 
   factory MyOrderModel.fromJson(Map<String, dynamic> json) {
     return MyOrderModel(
       status: json['status'],
       message: json['message'],
-      data: BinOrderData.fromJson(json['data']),
+      data: json['data'] != null ? BinOrderData.fromJson(json['data']) : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'status': status,
+      'message': message,
+      'data': data?.toJson(),
+    };
   }
 }
 
 class BinOrderData {
-  final List<RequestsItem> siteOrder;
-  final List<RequestsItem> warehouseOrder;
+  final List<RequestsItem>? siteOrder;
+  final List<RequestsItem>? warehouseOrder;
 
-  BinOrderData({
-    required this.siteOrder,
-    required this.warehouseOrder,
-  });
+  BinOrderData({this.siteOrder, this.warehouseOrder});
 
   factory BinOrderData.fromJson(Map<String, dynamic> json) {
     return BinOrderData(
@@ -39,42 +40,49 @@ class BinOrderData {
           [],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'site_order': siteOrder?.map((e) => e.toJson()).toList(),
+      'warehouse_order': warehouseOrder?.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
 class RequestsItem {
-  final int id;
-  final int quantity;
-  final String startDate;
-  final String endDate;
-  final String customerName;
-  final String location;
-  final int orderDuration;
-  final String binSizeName;
-  final String type;
-  final String stage;
-  final String status;
-  final String paymentOption;
+  final int? id;
+  final int? quantity;
+  final String? startDate;
+  final String? endDate;
+  final String? customerName;
+  final String? location;
+  final int? orderDuration;
+  final String? binSizeName;
+  final String? type;
+  final String? stage;
+  final String? status;
+  final String? paymentOption;
   final String? paymentType;
   final String? pendingAmount;
-  final String paymentReceived;
+  final String? paymentReceived;
   final int? remainingAmount;
 
   RequestsItem({
-    required this.id,
-    required this.quantity,
-    required this.startDate,
-    required this.endDate,
-    required this.customerName,
-    required this.location,
-    required this.orderDuration,
-    required this.binSizeName,
-    required this.type,
-    required this.stage,
-    required this.status,
-    required this.paymentOption,
+    this.id,
+    this.quantity,
+    this.startDate,
+    this.endDate,
+    this.customerName,
+    this.location,
+    this.orderDuration,
+    this.binSizeName,
+    this.type,
+    this.stage,
+    this.status,
+    this.paymentOption,
     this.paymentType,
     this.pendingAmount,
-    required this.paymentReceived,
+    this.paymentReceived,
     this.remainingAmount,
   });
 
@@ -91,11 +99,32 @@ class RequestsItem {
       type: json['type'],
       stage: json['stage'],
       status: json['status'],
-      paymentOption: json['payment_option'] ?? '',
+      paymentOption: json['payment_option'],
       paymentType: json['payment_type'],
-      pendingAmount: json['pending_amount'],
-      paymentReceived: json['payment_received'] ?? '0',
+      pendingAmount: json['pending_amount']?.toString(),
+      paymentReceived: json['payment_received']?.toString(),
       remainingAmount: json['remaining_amount'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'Id': id,
+      'quantity': quantity,
+      'start_date': startDate,
+      'end_date': endDate,
+      'customer_name': customerName,
+      'location': location,
+      'order_duration': orderDuration,
+      'bin_size_name': binSizeName,
+      'type': type,
+      'stage': stage,
+      'status': status,
+      'payment_option': paymentOption,
+      'payment_type': paymentType,
+      'pending_amount': pendingAmount,
+      'payment_received': paymentReceived,
+      'remaining_amount': remainingAmount,
+    };
   }
 }

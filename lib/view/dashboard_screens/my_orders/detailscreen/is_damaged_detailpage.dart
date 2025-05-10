@@ -17,9 +17,9 @@ class IsDamagedDetailpage extends StatelessWidget {
   final String location;
   final String driverid;
   final String bookingid;
-   final String pendingamount;
-  final String paymentoption;
-  final String paymentreceived;
+   final String? pendingamount;
+  final String? paymentoption;
+  final String? paymentreceived;
   const IsDamagedDetailpage({
     super.key,
     required this.customername,
@@ -74,7 +74,7 @@ class IsDamagedDetailpage extends StatelessWidget {
                             duration: duration,
                             binsizename: binsizename,
                             quantity: quantity,
-                            location: location, pendingamount: '', paymentoption: '', paymentreceived: '',
+                            location: location, paymentoption: paymentoption??'', paymentreceived: paymentreceived??'', pendingamount: pendingamount??'',
                           ),
                           Text(
                             'Damage Report For Bins',

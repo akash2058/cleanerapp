@@ -1,3 +1,4 @@
+import 'package:binbookingapp/custom_widget/custom_tile.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/cleanericonspng.dart' show AppIcons;
 import 'package:binbookingapp/utils/style.dart';
@@ -14,7 +15,7 @@ class DetailsCard extends StatelessWidget {
   final String binsizename;
   final String quantity;
   final String location;
-   final String pendingamount;
+  final String pendingamount;
   final String paymentoption;
   final String paymentreceived;
   const DetailsCard({
@@ -23,58 +24,72 @@ class DetailsCard extends StatelessWidget {
     required this.duration,
     required this.binsizename,
     required this.quantity,
-    required this.location, required this.pendingamount, required this.paymentoption, required this.paymentreceived,
+    required this.location,
+    required this.paymentoption,
+    required this.paymentreceived, required this.pendingamount,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyOrderProvider>(builder: (context, myorder, child) {
-      return SizedBox(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10).r,
-          border: Border.all(color: CleanerAppcolors.primaryminigreycolor),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                spacing: 5.r,
+    return Consumer<MyOrderProvider>(
+      builder: (context, myorder, child) {
+        return SizedBox(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10).r,
+              border: Border.all(color: CleanerAppcolors.primaryminigreycolor),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(AppIcons.myordersicon, height: 20.r),
-                  Text('Orders Details', style: ordercardheaderfont),
+                  Row(
+                    spacing: 5.r,
+                    children: [
+                      Image.asset(AppIcons.myordersicon, height: 20.r),
+                      Text('Orders Details', style: ordercardheaderfont),
+                    ],
+                  ),
+                  Divider(color: CleanerAppcolors.primaryminigreycolor),
+                  SizedBox(height: 10.r),
+                  DetailsLabel(label: 'Customer Name', sublabel: customername),
+                  SizedBox(height: 5.r),
+                  DetailsLabel(label: 'Duration', sublabel: '$duration days'),
+                  SizedBox(height: 5.r),
+                  DetailsLabel(label: 'Bin Size Name', sublabel: binsizename),
+                  SizedBox(height: 5.r),
+                  DetailsLabel(label: 'Quantity', sublabel: quantity),
+                  SizedBox(height: 5.r),
+                  if (paymentoption == 'cash_on_delivery' &&
+                      pendingamount != '0')
+                    CustomListtile(
+                      title: 'Pickup Amount',
+                      subtitle: pendingamount,
+                      leading: Icon(Icons.arrow_forward_ios, size: 20.r),
+                    ),
+
+                  DetailsLabel(
+                    label: 'Location',
+                    sublabel: capitalizeEachPart(location),
+                  ),
                 ],
               ),
-              Divider(
-                color: CleanerAppcolors.primaryminigreycolor,
-              ),
-              SizedBox(height: 10.r),
-              DetailsLabel(label: 'Customer Name', sublabel: customername),
-              SizedBox(height: 5.r),
-              DetailsLabel(label: 'Duration', sublabel: '$duration days'),
-              SizedBox(height: 5.r),
-              DetailsLabel(label: 'Bin Size Name', sublabel: binsizename),
-              SizedBox(height: 5.r),
-              DetailsLabel(label: 'Quantity', sublabel: quantity),
-              SizedBox(height: 5.r),
-              if(paymentoption =='cash_on_delivery'&& pendingamount != '0')
-              DetailsLabel(label: 'Amount', sublabel: pendingamount),
-
-              DetailsLabel(label: 'Location', sublabel: capitalizeEachPart(location)),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
-    },);
   }
 }
+
 String capitalizeEachPart(String input) {
-  return input.split(',').map((part) {
-    part = part.trim(); // remove any extra spaces
-    if (part.isEmpty) return '';
-    return part[0].toUpperCase() + part.substring(1).toLowerCase();
-  }).join(',');
+  return input
+      .split(',')
+      .map((part) {
+        part = part.trim(); // remove any extra spaces
+        if (part.isEmpty) return '';
+        return part[0].toUpperCase() + part.substring(1).toLowerCase();
+      })
+      .join(',');
 }

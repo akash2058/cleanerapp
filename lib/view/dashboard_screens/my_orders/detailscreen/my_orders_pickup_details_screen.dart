@@ -19,9 +19,9 @@ class MyOrdersPickupDetailsScreen extends StatefulWidget {
   final String duration;
   final String location;
   final String bookingid;
- final String pendingamount;
-  final String paymentoption;
-  final String paymentreceived;
+  final String? pendingamount;
+  final String ?paymentoption;
+  final String ?paymentreceived;
   const MyOrdersPickupDetailsScreen({
     super.key,
     required this.customername,
@@ -31,7 +31,10 @@ class MyOrdersPickupDetailsScreen extends StatefulWidget {
     required this.binsizename,
     required this.duration,
     required this.location,
-    required this.bookingid, required this.pendingamount, required this.paymentoption, required this.paymentreceived,
+    required this.bookingid,
+    required this.pendingamount,
+    required this.paymentoption,
+    required this.paymentreceived,
   });
 
   @override
@@ -79,12 +82,12 @@ class _MyOrdersPickupDetailsScreenState
                                   ? 'Please Wait...'
                                   : 'Update Order',
                           onPressed: () {
-                            if(serialkey.currentState!.validate()){
+                            if (serialkey.currentState!.validate()) {
                               order.getSerialData(
-                              context,
-                              widget.bookingid,
-                              log.userid,
-                            );
+                                context,
+                                widget.bookingid,
+                                log.userid,
+                              );
                             }
                           },
                         ),
@@ -110,7 +113,9 @@ class _MyOrdersPickupDetailsScreenState
                             duration: widget.duration,
                             binsizename: widget.binsizename,
                             quantity: widget.quantity.toString(),
-                            location: widget.location, pendingamount: '', paymentoption: '', paymentreceived: '',
+                            location: widget.location,
+                            paymentoption: widget.paymentoption??'',
+                            paymentreceived: widget.paymentreceived??'', pendingamount: widget.pendingamount??'',
                           ),
                           FormCard(quantity: widget.quantity),
                         ],
