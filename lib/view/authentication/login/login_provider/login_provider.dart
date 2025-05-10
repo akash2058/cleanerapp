@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
@@ -25,20 +27,43 @@ class LoginProvider extends ChangeNotifier {
     hidepassword = !hidepassword;
     notifyListeners();
   }
-  Future<bool> isSessionActive() async {
-    final token = await Utils.getToken();
-    final prefs = await SharedPreferences.getInstance();
-    final loginTimeStr = prefs.getString('login_time');
+// Replace with your actual utils path
 
-    if (token == null || loginTimeStr == null) return false;
+Future<bool> isSessionActive() async {
+  final token = await Utils.getToken();
+  final prefs = await SharedPreferences.getInstance();
+  final loginTimeStr = prefs.getString('login_time');
 
-    final loginTime = DateTime.tryParse(loginTimeStr);
-    if (loginTime == null) return false;
+  if (token == null || loginTimeStr == null) return false;
 
-    // Session valid for 24 hours
+  // Parse login time
+  final loginTime = DateTime.tryParse(loginTimeStr);
+  if (loginTime == null) return false;
+
+  // Decode token and check expiry (for JWT tokens)
+  try {
+    final parts = token.split('.');
+    if (parts.length != 3) return false;
+
+    final payload = json.decode(utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+    final exp = payload['exp'];
+    if (exp == null) return false;
+
+    final expiryDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
     final now = DateTime.now();
+
+    // If current time is after expiry, session is expired
+    if (now.isAfter(expiryDate)) {
+      return false;
+    }
+
+    // Also check if it's within 24 hours of login
     return now.difference(loginTime).inHours < 24;
+  } catch (e) {
+    return false;
   }
+}
+
 
   String name = 'N/A';
   String email = 'N/A';
