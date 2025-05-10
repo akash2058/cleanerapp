@@ -1,10 +1,12 @@
 import 'package:binbookingapp/custom_widget/cleaner_chip.dart';
+import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart'
     show LoginProvider;
 import 'package:binbookingapp/view/dashboard/dashboard_provider/dashboard_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/home/home_provider/home_provider.dart';
+import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +22,8 @@ class GreetingsCard extends StatelessWidget {
           builder: (context, log, child) {
             return Consumer<DashboardProvider>(
               builder: (context, dash, child) {
-                return SizedBox(
+                return Consumer<MyOrderProvider>(builder: (context, myorder, child) {
+                  return SizedBox(
                   width: MediaQuery.sizeOf(context).width,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -63,7 +66,10 @@ class GreetingsCard extends StatelessWidget {
                             style: drivernamefont,
                           ),
                           SizedBox(height: 20.r),
-                          CleanerWhiteFontChip(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CleanerWhiteFontChip(
                             onPressed: () {
                               dash.screenTabs(dash.currenttab = 2);
                             },
@@ -75,11 +81,22 @@ class GreetingsCard extends StatelessWidget {
                               251,
                             ),
                           ),
+                          Row(
+                            children: [
+                            Row(
+                              children: [ Icon(Icons.arrow_upward_outlined,size: 20.r,color: CleanerAppcolors.primaryWhitecolor,),Text(myorder.order?.data.siteOrder.length.toString()??'',style: dashboardlablefontwhite,)],
+                            ),
+                            Icon(Icons.arrow_downward_outlined,size: 20.r,color: CleanerAppcolors.primaryWhitecolor,),Text(myorder.order?.data.warehouseOrder.length.toString()??'',style: dashboardlablefontwhite,)
+                            ],
+                          )
+                            ],
+                          )
                         ],
                       ),
                     ),
                   ),
                 );
+                },);
               },
             );
           },

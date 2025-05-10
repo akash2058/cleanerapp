@@ -17,10 +17,11 @@ TextStyle get dashboardlablefontpurple {
 }
 TextStyle get reportdamagefont {
   return GoogleFonts.roboto(
+    decorationColor: CleanerAppcolors.primarypurple,
     decoration: TextDecoration.underline,
       fontWeight: FontWeight.w400,
       fontSize: 22.r,
-      color:  const Color.fromARGB(255, 54, 57, 251));
+      color:  CleanerAppcolors.primarypurple);
 }
 TextStyle get dashboardlablefontgrey {
   return GoogleFonts.roboto(

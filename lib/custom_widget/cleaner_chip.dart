@@ -8,13 +8,14 @@ class CleanerChip extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
+  final IconData? icon;
   const CleanerChip({
     super.key,
     required this.label,
     this.onPressed,
     this.backgroundColor,
     this.height,
-    this.width,
+    this.width, this.icon,
   });
 
   @override

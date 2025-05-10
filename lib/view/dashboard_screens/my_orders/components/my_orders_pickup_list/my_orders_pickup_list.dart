@@ -4,7 +4,7 @@ import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
-import 'package:binbookingapp/view/dashboard_screens/home/components/field_bottom_sheet/field_bottom_sheet.dart';
+import 'package:binbookingapp/view/dashboard_screens/my_orders/components/field_bottom_sheet/field_bottom_sheet.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/my_orders_card.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/detailscreen/my_orders_pickup_details_screen.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
@@ -78,7 +78,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                           
                             showDragHandle: true,
                             context: context,
-                            builder: (context) => FieldBottomSheet(),
+                            builder: (context) => FieldBottomSheet(customername: sitedata.customerName, pendingamount: sitedata.pendingAmount, paymentoption: sitedata.paymentOption, paymentreceived: sitedata.paymentReceived,),
                           );
                           // order.getConfirmonsiteupdate(
                           //   context,
