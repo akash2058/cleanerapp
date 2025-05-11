@@ -145,15 +145,22 @@ class _DashboardViewState extends State<DashboardView> {
                                     largeSize: 14.r,
                                     alignment: Alignment.topRight,
                                     label: Text(
-                                      binreqest
-                                              .binbook
-                                              ?.data
-                                              .siteRequests
-                                              .length
-                                              .toString() ??
-                                          '0',
+                                      ((binreqest
+                                                      .binbook
+                                                      ?.data
+                                                      .siteRequests
+                                                      .length ??
+                                                  0) +
+                                              (binreqest
+                                                      .binbook
+                                                      ?.data
+                                                      .warehouseRequests
+                                                      .length ??
+                                                  0))
+                                          .toString(),
                                       style: badgefont,
                                     ),
+
                                     child: Image.asset(
                                       AppIcons.requesticon,
                                       height: 23.r,
@@ -211,11 +218,22 @@ class _DashboardViewState extends State<DashboardView> {
                                     alignment: Alignment.topRight,
                                     largeSize: 14.r,
                                     label: Text(
-                                      myroder.order?.data?.siteOrder?.length
-                                              .toString() ??
-                                          '',
+                                      ((myroder
+                                                      .order
+                                                      ?.data
+                                                      ?.siteOrder
+                                                      ?.length ??
+                                                  0) +
+                                              (myroder
+                                                      .order
+                                                      ?.data
+                                                      ?.warehouseOrder
+                                                      ?.length ??
+                                                  0))
+                                          .toString(),
                                       style: badgefont,
                                     ),
+
                                     child: Image.asset(
                                       AppIcons.myordersicon,
                                       height: 23.r,
