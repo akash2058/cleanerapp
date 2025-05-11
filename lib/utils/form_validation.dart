@@ -169,13 +169,11 @@ String? enterserialnumber(String? value) {
 }
 
 double totalAmount = 0; // Example total amount; this should be dynamic in your actual case
-String totalAmountStr = ''; // Example total amount; this should be dynamic in your actual case
 
-String? validateamount(String? value) {
+String? validateamount(String? value, String totalAmountStr) {
   if (value == null || value.isEmpty) {
     return null;
   }
-
 
   final enteredAmount = double.tryParse(value);
   final totalAmount = double.tryParse(totalAmountStr);
@@ -189,10 +187,17 @@ String? validateamount(String? value) {
   }
 
   if (enteredAmount > totalAmount) {
-    return 'Amount cannot exceed $totalAmount';
+    // Format: remove ".0" if it's a whole number
+    final formattedTotal = totalAmount % 1 == 0
+        ? totalAmount.toInt().toString()
+        : totalAmount.toString();
+
+    return 'Amount cannot exceed $formattedTotal';
   }
+
   return null;
 }
+
 double totalAmountreceived = 900; // Example total amount; this should be dynamic in your actual case
 
 String? validatedropAmount(String? value, String totalAmountStr) {
@@ -212,7 +217,11 @@ String? validatedropAmount(String? value, String totalAmountStr) {
   }
 
   if (enteredAmount > totalAmount) {
-    return 'Amount cannot exceed $totalAmount';
+     final formattedTotal = totalAmount % 1 == 0
+        ? totalAmount.toInt().toString()
+        : totalAmount.toString();
+
+    return 'Amount cannot exceed $formattedTotal';
   }
 
   return null;

@@ -99,7 +99,7 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 32).r,
                               child: TextFormField(
-                                validator: validateamount,
+                                validator: (value) => validateamount(value, widget.pendingamount),
                                 controller: myorder.amountreceivecontroller,
                                 keyboardType: TextInputType.number,
 
