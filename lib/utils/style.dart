@@ -59,7 +59,12 @@ TextStyle get dashboardlablefontwhite {
       fontSize: 18.r,
       color: CleanerAppcolors.primaryWhitecolor);
 }
-
+TextStyle get badgefont {
+  return GoogleFonts.roboto(
+      fontWeight: FontWeight.w500,
+      fontSize: 13.r,
+      color: CleanerAppcolors.primaryWhitecolor);
+}
 TextStyle get dashboardlablefontdarkgreenfont {
   return GoogleFonts.roboto(
       fontWeight: FontWeight.w500,
