@@ -167,17 +167,57 @@ String? enterserialnumber(String? value) {
 
   return null;
 }
+
+double totalAmount = 0; // Example total amount; this should be dynamic in your actual case
+String totalAmountStr = ''; // Example total amount; this should be dynamic in your actual case
+
 String? validateamount(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Please enter amount';
+    return null;
   }
 
-  // if (value.length < 8) {
-  //   return 'Password must be at least 8 characters long';
-  // }
+
+  final enteredAmount = double.tryParse(value);
+  final totalAmount = double.tryParse(totalAmountStr);
+
+  if (enteredAmount == null) {
+    return 'Invalid Amount';
+  }
+
+  if (totalAmount == null) {
+    return 'Invalid total amount';
+  }
+
+  if (enteredAmount > totalAmount) {
+    return 'Amount cannot exceed $totalAmount';
+  }
+  return null;
+}
+double totalAmountreceived = 900; // Example total amount; this should be dynamic in your actual case
+
+String? validatedropAmount(String? value, String totalAmountStr) {
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+
+  final enteredAmount = double.tryParse(value);
+  final totalAmount = double.tryParse(totalAmountStr);
+
+  if (enteredAmount == null) {
+    return 'Please enter a valid number';
+  }
+
+  if (totalAmount == null) {
+    return 'Invalid total amount';
+  }
+
+  if (enteredAmount > totalAmount) {
+    return 'Amount cannot exceed $totalAmount';
+  }
 
   return null;
 }
+
 String? timerequired(String? value) {
   if (value == null || value.isEmpty) {
     return 'time required';

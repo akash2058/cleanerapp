@@ -199,12 +199,19 @@ class _MyOrdersDropOffDetailsScreenState
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('Amount Received', style: resendfont),
+                                      Text(
+                                        'Amount Received',
+                                        style: resendfont,
+                                      ),
                                       TextFormField(
                                         controller:
                                             order.paymentreceivecontroller,
                                         keyboardType: TextInputType.number,
-                                        validator: validateamount,
+                                        validator:
+                                            (value) => validatedropAmount(
+                                              value,
+                                             widget.paymentreceived??'',
+                                            ),
                                         style: entertexttile,
                                         decoration: InputDecoration(
                                           isDense: true,
