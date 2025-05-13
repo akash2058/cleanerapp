@@ -2,6 +2,7 @@
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard/dashboard_provider/dashboard_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
+import 'package:binbookingapp/view/dashboard_screens/home/bin_search_bar/bin_search_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/home/home_provider/home_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:binbookingapp/view/no_internet/no_internet_provider.dart';
@@ -33,6 +34,10 @@ List<SingleChildWidget> getProviders() {
     ChangeNotifierProvider(
       lazy: false,
       create: (context) => InternetProvider(),
+    ),
+      ChangeNotifierProvider(
+      lazy: false,
+      create: (context) => SearchDataProvider(),
     ),
   ];
 }

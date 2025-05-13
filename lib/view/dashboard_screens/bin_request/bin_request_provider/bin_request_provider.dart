@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class BinRequestProvider extends ChangeNotifier {
+  
   int currenttab = 0;
   bool loadingbinbooking = false;
   bool loadingrequestaccept = false;
@@ -112,26 +113,5 @@ class BinRequestProvider extends ChangeNotifier {
     }
   }
 
-  List<RequestedItem> allRequests = [];
-  List<RequestedItem> filteredRequests = [];
 
-  void setRequests(
-    List<RequestedItem> siteRequests,
-    List<RequestedItem> warehouseRequests,
-  ) {
-    allRequests = [...siteRequests, ...warehouseRequests];
-    filteredRequests = allRequests;
-    notifyListeners();
-  }
-
-  void filter(String query) {
-    query = query.toLowerCase();
-    filteredRequests =
-        allRequests.where((item) {
-          return 
-              item.location.toLowerCase().contains(query) ||
-              item.binSizeName.toLowerCase().contains(query);
-        }).toList();
-    notifyListeners();
-  }
 }
