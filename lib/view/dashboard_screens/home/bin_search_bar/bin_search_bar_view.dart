@@ -4,18 +4,49 @@ import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
+import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_tab/bin_request_tabs.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/components/bin_request_card.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/model/bin_booking_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/home/components/bin_booking_bottom_sheet/bin_booking_bottom_sheet.dart';
+import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
-class BinSearchScreen extends StatelessWidget {
+class BinSearchScreen extends StatefulWidget {
   final BinBookingModel model;
 
   const BinSearchScreen({super.key, required this.model});
+
+  @override
+  State<BinSearchScreen> createState() => _BinSearchScreenState();
+}
+
+class _BinSearchScreenState extends State<BinSearchScreen> {
+   @override
+     void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getData(context);
+    });
+  }
+
+  void getData(context) async {
+    final logindata = Provider.of<LoginProvider>(context, listen: false);
+    await logindata.loadLoginData();
+    final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
+    await myordersdata.getMyordersData(logindata.userid);
+    final binrequestdata = Provider.of<BinRequestProvider>(
+      context,
+      listen: false,
+    );
+    await binrequestdata.getBinRequestData();
+    myordersdata.paymentreceivecontroller.clear();
+    myordersdata.amountreceivecontroller.clear();
+
+    print('userid${logindata.userid}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +54,8 @@ class BinSearchScreen extends StatelessWidget {
       create:
           (_) =>
               BinRequestProvider()..setRequests(
-                model.data.siteRequests,
-                model.data.warehouseRequests,
+                widget.model.data.siteRequests,
+                widget.model.data.warehouseRequests,
               ),
       child: Consumer<LoginProvider>(
         builder: (context, log, child) {
@@ -74,7 +105,9 @@ class BinSearchScreen extends StatelessWidget {
                                   ),
                                 )
                                 : Column(
+                                  spacing: 20.r,
                                   children: [
+                                    BinRequestTabs(),
                                     Expanded(
                                       child: ListView.builder(
                                         itemCount: provider.filteredRequests.length,

@@ -128,12 +128,9 @@ class BinRequestProvider extends ChangeNotifier {
     query = query.toLowerCase();
     filteredRequests =
         allRequests.where((item) {
-          return item.customerName.toLowerCase().contains(query) ||
+          return 
               item.location.toLowerCase().contains(query) ||
-              item.startDate.toLowerCase().contains(query) ||
-              item.endDate.toLowerCase().contains(query) ||
-              item.binSizeName.toLowerCase().contains(query) ||
-              item.type.toLowerCase().contains(query);
+              item.binSizeName.toLowerCase().contains(query);
         }).toList();
     notifyListeners();
   }
