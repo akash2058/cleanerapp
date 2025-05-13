@@ -52,9 +52,14 @@ class _MyOrdersDropOffListState extends State<MyOrdersDropOffList> {
             : Consumer<LoginProvider>(
               builder: (context, log, child) {
                 return order.loadingupdatewarehouse == true
-                    ? LoadingAnimationWidget.hexagonDots(
-                      color: CleanerAppcolors.primarypurple,
-                      size: 45.r,
+                    ? Padding(
+                      padding:  EdgeInsets.symmetric(vertical: 180).r,
+                      child: Center(
+                        child: LoadingAnimationWidget.hexagonDots(
+                          color: CleanerAppcolors.primarypurple,
+                          size: 45.r,
+                        ),
+                      ),
                     )
                     : Column(
                       spacing: 15.r,

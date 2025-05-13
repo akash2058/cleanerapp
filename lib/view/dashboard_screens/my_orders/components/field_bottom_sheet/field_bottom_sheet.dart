@@ -89,58 +89,72 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                                 ),
                               ),
                             SizedBox(height: 10.r),
-                            Row(
-                              spacing: 10.r,
-                              children: [
-                                Icon(Icons.arrow_forward_ios, size: 20.r),
-                                Text('Amount Received', style: resendfont),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 32).r,
-                              child: TextFormField(
-                                validator: (value) => validateamount(value, widget.pendingamount),
-                                controller: myorder.amountreceivecontroller,
-                                keyboardType: TextInputType.number,
 
-                                style: entertexttile,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 10).r,
-                                  hintText: 'Enter received amount',
-                                  hintStyle: hintStyle,
-                                  errorStyle: errorstyle,
-                                  disabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          CleanerAppcolors
-                                              .primaryminigreycolor, // change this to your color
-                                      width: 1.5.r, // change thickness here
+                            if (!(widget.paymentoption == 'cash_on_order' &&
+                                widget.pendingamount != '0'))
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.arrow_forward_ios, size: 20.r),
+                                      SizedBox(width: 10.r),
+                                      Text(
+                                        'Amount Received',
+                                        style: resendfont,
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 32).r,
+                                    child: TextFormField(
+                                      // validator:
+                                      //     (value) => validateamount(
+                                      //       value,
+                                      //       widget.pendingamount,
+                                      //     ),
+                                      controller:
+                                          myorder.amountreceivecontroller,
+                                      keyboardType: TextInputType.number,
+                                      style: entertexttile,
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        contentPadding:
+                                            EdgeInsets.symmetric(
+                                              vertical: 10,
+                                            ).r,
+                                        hintText: 'Enter received amount',
+                                        hintStyle: hintStyle,
+                                        errorStyle: errorstyle,
+                                        disabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color:
+                                                CleanerAppcolors
+                                                    .primaryminigreycolor,
+                                            width: 1.5.r,
+                                          ),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color:
+                                                CleanerAppcolors
+                                                    .primaryminidarkgreycolor,
+                                            width: 1.5.r,
+                                          ),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color:
+                                                CleanerAppcolors.primarypurple,
+                                            width: 1.5.r,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  // 🔽 Default border when not focused
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          CleanerAppcolors
-                                              .primaryminidarkgreycolor, // change this to your color
-                                      width: 1.5.r, // change thickness here
-                                    ),
-                                  ),
-
-                                  // 🔽 Border when focused (on tap)
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          CleanerAppcolors
-                                              .primarypurple, // focused color
-                                      width: 1.5.r, // focused thickness
-                                    ),
-                                  ),
-                                ),
+                                ],
                               ),
-                            ),
                           ],
                         ),
                       ),

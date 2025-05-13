@@ -213,11 +213,11 @@ class _MyOrdersDropOffDetailsScreenState
                                           controller:
                                               order.paymentreceivecontroller,
                                           keyboardType: TextInputType.number,
-                                          validator:
-                                              (value) => validatedropAmount(
-                                                value,
-                                               widget.paymentreceived??'',
-                                              ),
+                                          // validator:
+                                          //     (value) => validatedropAmount(
+                                          //       value,
+                                          //      widget.paymentreceived??'',
+                                          //     ),
                                           style: entertexttile,
                                           decoration: InputDecoration(
                                             isDense: true,

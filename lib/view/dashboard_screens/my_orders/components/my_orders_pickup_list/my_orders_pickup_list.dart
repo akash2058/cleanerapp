@@ -60,10 +60,13 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
         return Consumer<LoginProvider>(
           builder: (context, log, child) {
             return order.loadingconfirmonsitepickup == true
-                ? Center(
-                  child: LoadingAnimationWidget.hexagonDots(
-                    color: CleanerAppcolors.primarypurple,
-                    size: 45.r,
+                ? Padding(
+                  padding:  EdgeInsets.symmetric(vertical: 180).r,
+                  child: Center(
+                    child: LoadingAnimationWidget.hexagonDots(
+                      color: CleanerAppcolors.primarypurple,
+                      size: 45.r,
+                    ),
                   ),
                 )
                 : Column(

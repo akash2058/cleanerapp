@@ -179,7 +179,7 @@ String? validateamount(String? value, String totalAmountStr) {
   final totalAmount = double.tryParse(totalAmountStr);
 
   if (enteredAmount == null) {
-    return 'Invalid Amount';
+    return null;
   }
 
   if (totalAmount == null) {
