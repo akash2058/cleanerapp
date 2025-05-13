@@ -39,13 +39,25 @@ class BinSearchScreen extends StatelessWidget {
                   child: provider.loadingbinbooking == true? LoadingAnimationWidget.hexagonDots(
                     color: CleanerAppcolors.primarypurple,size: 40.r
                   ): Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 20.r,
                     children: [
-                      CleanerTextfield(
-                        fillColor: CleanerAppcolors.primaryWhitecolor,
-                        hintlabel: 'Search',
-                        prefix: Icon(Icons.search_outlined),
+                      Row(
+                        spacing: 10.r,
+                        children: [
+                          Expanded(
+                            child: CleanerTextfield(
+                              fillColor: CleanerAppcolors.primaryWhitecolor,
+                              hintlabel: 'Search',
+                              prefix: Icon(Icons.search_outlined),
+                            ),
+                          ),
+                          CircleAvatar(
+                            child: Icon(Icons.equalizer_rounded),
+                          )
+                        ],
                       ),
+                      Text('Based on location, binsize',style: dashboardlabelfontblack,),
                       Expanded(
                         child:
                             provider.filteredRequests.isEmpty
@@ -61,35 +73,41 @@ class BinSearchScreen extends StatelessWidget {
                                     ],
                                   ),
                                 )
-                                : ListView.builder(
-                                  itemCount: provider.filteredRequests.length,
-                                  itemBuilder: (context, index) {
-                                    final item =
-                                        provider.filteredRequests[index];
-                                    return BinRequestCard(
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) {
-                                            return BinBookingBottomSheet(
-                                              customername: item.customerName,
-                                              location: item.location,
-                                              endDate: item.endDate,
-                                              type: item.type,
-                                              binsizeName: item.binSizeName,
-                                              bookingId: item.id.toString(),
-                                              userId: log.userid, startdate: item.startDate,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      address: item.location,
-                                      quantity: item.quantity.toString(),
-                                      startdate: item.startDate,
-                                      binsizename: item.binSizeName,
-                                      duration: item.orderDuration.toString(), requestoverdue: item.requestOverdue?.toInt()??0,
-                                    );
-                                  },
+                                : Column(
+                                  children: [
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: provider.filteredRequests.length,
+                                        itemBuilder: (context, index) {
+                                          final item =
+                                              provider.filteredRequests[index];
+                                          return BinRequestCard(
+                                            onPressed: () {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) {
+                                                  return BinBookingBottomSheet(
+                                                    customername: item.customerName,
+                                                    location: item.location,
+                                                    endDate: item.endDate,
+                                                    type: item.type,
+                                                    binsizeName: item.binSizeName,
+                                                    bookingId: item.id.toString(),
+                                                    userId: log.userid, startdate: item.startDate,
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            address: item.location,
+                                            quantity: item.quantity.toString(),
+                                            startdate: item.startDate,
+                                            binsizename: item.binSizeName,
+                                            duration: item.orderDuration.toString(), requestoverdue: item.requestOverdue?.toInt()??0,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                       ),
                     ],
