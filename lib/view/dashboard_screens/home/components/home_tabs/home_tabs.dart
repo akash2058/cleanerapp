@@ -1,4 +1,5 @@
 import 'package:binbookingapp/utils/style.dart';
+import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/home/home_provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,8 @@ class HomeTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (context, home, child) {
-        return Row(
+        return Consumer<BinRequestProvider>(builder: (context, binr, child) {
+          return Row(
           spacing: 5.r,
           children: [
             Expanded(
@@ -61,14 +63,23 @@ class HomeTabs extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13).r,
+                      padding: EdgeInsets.symmetric(vertical: 13,horizontal: 35).r,
                       child: Center(
-                        child: Text(
-                          'Dropoff',
-                          style:
-                              home.tabs == 0
-                                  ? resendwhitefont
-                                  : resendfontminigrey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Dropoff',
+                              style:
+                                  home.tabs == 0
+                                      ? resendwhitefont
+                                      : resendfontminigrey,
+                            ),
+                           Badge(
+                            backgroundColor: CleanerAppcolors.primarypurple,
+                            label: Text(binr.binbook?.data.siteRequests.length.toString()??'',style: badgefont,),
+                           )
+                          ],
                         ),
                       ),
                     ),
@@ -121,14 +132,23 @@ class HomeTabs extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13).r,
+                      padding: EdgeInsets.symmetric(vertical: 13,horizontal: 35).r,
                       child: Center(
-                        child: Text(
-                          'Pickup',
-                          style:
-                              home.tabs == 1
-                                  ? resendwhitefont
-                                  : resendfontminigrey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Pickup',
+                              style:
+                                  home.tabs == 1
+                                      ? resendwhitefont
+                                      : resendfontminigrey,
+                            ),
+                             Badge(
+                            backgroundColor: CleanerAppcolors.primarypurple,
+                            label: Text(binr.binbook?.data.warehouseRequests.length.toString()??'',style: badgefont,),
+                           )
+                          ],
                         ),
                       ),
                     ),
@@ -138,6 +158,7 @@ class HomeTabs extends StatelessWidget {
             ),
           ],
         );
+        },);
       },
     );
   }
