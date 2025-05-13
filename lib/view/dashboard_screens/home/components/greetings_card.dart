@@ -68,29 +68,26 @@ class GreetingsCard extends StatelessWidget {
                               SizedBox(height: 10.r),
                               Text(log.name, style: drivernamefont),
                               SizedBox(height: 20.r),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CleanerWhiteFontChip(
-                                    onPressed: () {
-                                      dash.screenTabs(dash.currenttab = 2);
-                                    },
-                                    label: 'My Orders',
-                                    backgroundColor: const Color.fromARGB(
-                                      255,
-                                      54,
-                                      57,
-                                      251,
-                                    ),
-                                  ),
-                                  Row(
+                              CleanerWhiteFontChip(
+                                width: 190.r,
+                                onPressed: () {
+                                  dash.screenTabs(dash.currenttab = 2);
+                                },
+                                label: 'My Orders',
+                                backgroundColor: const Color.fromARGB(
+                                  255,
+                                  54,
+                                  57,
+                                  251,
+                                ),
+                                child:Row(
                                     spacing: 5.r,
                                     children: [
                                       Row(
+                                        spacing: 5.r,
                                         children: [
                                           Icon(
-                                            Icons.arrow_upward_outlined,
+                                            Icons.arrow_circle_down,
                                             size: 20.r,
                                             color:
                                                 CleanerAppcolors
@@ -109,9 +106,10 @@ class GreetingsCard extends StatelessWidget {
                                         ],
                                       ),
                                       Row(
+                                        spacing: 5.r,
                                         children: [
                                           Icon(
-                                        Icons.arrow_downward_outlined,
+                                        Icons.arrow_circle_up_outlined,
                                         size: 20.r,
                                         color:
                                             CleanerAppcolors.primaryWhitecolor,
@@ -130,7 +128,6 @@ class GreetingsCard extends StatelessWidget {
                                       )
                                     ],
                                   ),
-                                ],
                               ),
                             ],
                           ),

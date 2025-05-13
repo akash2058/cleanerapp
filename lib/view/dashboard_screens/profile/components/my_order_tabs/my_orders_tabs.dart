@@ -49,14 +49,23 @@ class MyOrdersTabs extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13).r,
+                      padding: EdgeInsets.symmetric(vertical: 13,horizontal: 35).r,
                       child: Center(
-                        child: Text(
-                          'Dropoff',
-                          style:
-                              myorder.tabs == 0
-                                  ? resendwhitefont
-                                  : resendfontminigrey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Dropoff',
+                              style:
+                                  myorder.tabs == 0
+                                      ? resendwhitefont
+                                      : resendfontminigrey,
+                            ),
+                            Badge(
+                              backgroundColor: CleanerAppcolors.primarypurple,
+                              label: Text(myorder.order?.data?.siteOrder?.length.toString()??'',style: badgefont,),
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -96,14 +105,23 @@ class MyOrdersTabs extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13).r,
+                      padding: EdgeInsets.symmetric(vertical: 13,horizontal: 35).r,
                       child: Center(
-                        child: Text(
-                          'Pickup',
-                          style:
-                              myorder.tabs == 1
-                                  ? resendwhitefont
-                                  : resendfontminigrey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Pickup',
+                              style:
+                                  myorder.tabs == 1
+                                      ? resendwhitefont
+                                      : resendfontminigrey,
+                            ),
+                            Badge(
+                              backgroundColor: CleanerAppcolors.primarypurple,
+                              label: Text(myorder.order?.data?.warehouseOrder?.length.toString()??'',style: badgefont,),
+                            )
+                          ],
                         ),
                       ),
                     ),

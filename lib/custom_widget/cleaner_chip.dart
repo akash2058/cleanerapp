@@ -9,6 +9,7 @@ class CleanerChip extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final IconData? icon;
+  final Widget? child;
   const CleanerChip({
     super.key,
     required this.label,
@@ -16,6 +17,7 @@ class CleanerChip extends StatelessWidget {
     this.backgroundColor,
     this.height,
     this.width, this.icon,
+    this.child
   });
 
   @override
@@ -49,13 +51,15 @@ class CleanerWhiteFontChip extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
+    final Widget? child;
+
   const CleanerWhiteFontChip({
     super.key,
     required this.label,
     this.onPressed,
     this.backgroundColor,
     this.height,
-    this.width,
+    this.width, this.child,
   });
 
   @override
@@ -72,9 +76,17 @@ class CleanerWhiteFontChip extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8).r,
-            child: Text(
-              label,
-              style: tabfonts,
+            child: Row(
+              spacing: 5.r,
+              children: [
+                Text(
+                  label,
+                  style: tabfonts,
+                ),
+                SizedBox(
+                  child: child,
+                )
+              ],
             ),
           ),
         ),

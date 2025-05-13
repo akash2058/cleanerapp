@@ -47,14 +47,23 @@ class BinRequestTabs extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13).r,
+                      padding: EdgeInsets.symmetric(vertical: 13,horizontal: 35).r,
                       child: Center(
-                        child: Text(
-                          'Dropoff',
-                          style:
-                              home.currenttab == 0
-                                  ? resendwhitefont
-                                  : resendfontminigrey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Dropoff',
+                              style:
+                                  home.currenttab == 0
+                                      ? resendwhitefont
+                                      : resendfontminigrey,
+                            ),
+                            Badge(
+                              backgroundColor: CleanerAppcolors.primarypurple,
+                              label: Text(home.binbook?.data.siteRequests.length.toString()??'0',style: badgefont,),
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -94,14 +103,23 @@ class BinRequestTabs extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13).r,
+                      padding: EdgeInsets.symmetric(vertical: 13,horizontal: 35).r,
                       child: Center(
-                        child: Text(
-                          'Pickup',
-                          style:
-                              home.currenttab == 1
-                                  ? resendwhitefont
-                                  : resendfontminigrey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Pickup',
+                              style:
+                                  home.currenttab == 1
+                                      ? resendwhitefont
+                                      : resendfontminigrey,
+                            ),
+                            Badge(
+                              backgroundColor: CleanerAppcolors.primarypurple,
+                              label: Text(home.binbook?.data.warehouseRequests.length.toString()??'0',style: badgefont,),
+                            )
+                          ],
                         ),
                       ),
                     ),
