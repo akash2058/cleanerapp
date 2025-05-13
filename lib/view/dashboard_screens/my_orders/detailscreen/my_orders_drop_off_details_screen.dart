@@ -1,7 +1,6 @@
 import 'package:binbookingapp/custom_widget/button.dart';
 import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
-import 'package:binbookingapp/utils/form_validation.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
