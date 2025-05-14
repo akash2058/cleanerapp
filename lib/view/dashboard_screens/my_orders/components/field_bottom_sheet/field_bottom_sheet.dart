@@ -113,7 +113,6 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                                           (value) => validateamount(
                                             value,
                                             widget.pendingamount,
-                                            widget.paymentoption
                                           ),
                                       controller:
                                           myorder.amountreceivecontroller,

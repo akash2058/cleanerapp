@@ -168,63 +168,62 @@ String? enterserialnumber(String? value) {
   return null;
 }
 
-double totalAmount = 0; // Example total amount; this should be dynamic in your actual case
 
-String? validateamount(String? value, String totalAmountStr, String paymentOption) {
-  if (paymentOption != 'cash_on_order') {
-    return null; // No validation for other payment options
+String? validateamount(String? value, String pendingAmountStr) {
+  if (value == null || value.trim().isEmpty) {
+    return null; // No validation for empty input
   }
 
-  if (value == null || value.isEmpty) {
+  final enteredAmount = double.tryParse(value.trim());
+  final pendingAmount = double.tryParse(pendingAmountStr);
+
+  // Skip validation if parsing fails
+  if (enteredAmount == null || pendingAmount == null) {
     return null;
   }
 
-  final enteredAmount = double.tryParse(value);
-  final totalAmount = double.tryParse(totalAmountStr);
-
-  if (enteredAmount == null || totalAmount == null) {
-    return 'Invalid amount';
-  }
-
-  if (enteredAmount > totalAmount) {
-    final formattedTotal = totalAmount % 1 == 0
-        ? totalAmount.toInt().toString()
-        : totalAmount.toString();
-    return 'Amount cannot exceed $formattedTotal';
+  if (enteredAmount > pendingAmount) {
+    final formattedPending = pendingAmount % 1 == 0
+        ? pendingAmount.toInt().toString()
+        : pendingAmount.toString();
+    return 'Amount cannot exceed $formattedPending';
   }
 
   return null;
 }
+
+
 
 
 double totalAmountreceived = 900; // Example total amount; this should be dynamic in your actual case
 
-String? validatedropAmount(String? value, String totalAmountStr) {
-  if (value == null || value.isEmpty) {
+String? validatedropAmount(String? value, String pendingAmountStr, String receivedAmountStr) {
+  if (value == null || value.trim().isEmpty) {
+    return null; // No validation for empty input
+  }
+
+  final enteredAmount = double.tryParse(value.trim());
+  final pendingAmount = double.tryParse(pendingAmountStr);
+  final receivedAmount = double.tryParse(receivedAmountStr);
+
+  // Skip validation if parsing fails
+  if (enteredAmount == null || pendingAmount == null || receivedAmount == null) {
     return null;
   }
 
-  final enteredAmount = double.tryParse(value);
-  final totalAmount = double.tryParse(totalAmountStr);
+  final allowableAmount = pendingAmount - receivedAmount;
 
-  if (enteredAmount == null) {
-    return 'Please enter a valid number';
-  }
+  if (enteredAmount > allowableAmount) {
+    final formattedAllowable = allowableAmount % 1 == 0
+        ? allowableAmount.toInt().toString()
+        : allowableAmount.toString();
 
-  if (totalAmount == null) {
-    return 'Invalid total amount';
-  }
-
-  if (enteredAmount > totalAmount) {
-     final formattedTotal = totalAmount % 1 == 0
-        ? totalAmount.toInt().toString()
-        : totalAmount.toString();
-
-    return 'Amount cannot exceed $formattedTotal';
+    return 'Amount cannot exceed $formattedAllowable';
   }
 
   return null;
 }
+
 
 String? timerequired(String? value) {
   if (value == null || value.isEmpty) {
