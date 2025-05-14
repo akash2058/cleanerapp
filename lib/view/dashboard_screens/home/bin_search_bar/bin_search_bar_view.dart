@@ -113,7 +113,7 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                                                 context,
                                                 listen: false,
                                               );
-                                          if (value == 'MyOrders') {
+                                          if (value == 'BinRequests') {
                                             provider.updateData(
                                               binRequests:
                                                   widget
@@ -145,8 +145,9 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                                           }
                                           provider.filter(
                                             searchController.text,
-                                          ); // Re-apply search filter
+                                          ); // Re-apply filter
                                         },
+
                                         itemBuilder:
                                             (BuildContext context) => [
                                               PopupMenuItem(
