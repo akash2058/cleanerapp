@@ -95,15 +95,11 @@ class _MyOrdersDropOffDetailsScreenState
                 color: CleanerAppcolors.primaryWhitecolor,
                 height: 90.r,
                 elevation: 0,
-                child:
-                    order.orderdetail?.bookingSerialNumbers?.isEmpty ?? true
-                        ? null
-                        : CleanerButton.elevated(
+                child: CleanerButton.elevated(
+                  isloading: order.loadingattachments,
                           backgroundcolor: CleanerAppcolors.primarypurple,
                           label:
-                              order.loadingattachments == true
-                                  ? 'Please Wait...'
-                                  : 'Update Order',
+                             'Update Order',
                           onPressed: () {
                            if(fieldkey.currentState!.validate()){
                              order.getUpdateAttachments(
@@ -129,7 +125,7 @@ class _MyOrdersDropOffDetailsScreenState
                           ? Center(
                             child: LoadingAnimationWidget.hexagonDots(
                               color: CleanerAppcolors.primarypurple,
-                              size: 30.r,
+                              size: 40.r,
                             ),
                           )
                           : order.loadingattachments == true

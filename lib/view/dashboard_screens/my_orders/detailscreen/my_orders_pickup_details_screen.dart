@@ -8,6 +8,7 @@ import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provide
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class MyOrdersPickupDetailsScreen extends StatefulWidget {
@@ -77,12 +78,10 @@ class _MyOrdersPickupDetailsScreenState
                     widget.quantity == 0
                         ? null
                         : CleanerButton.elevated(
+                          isloading: order.loadingserialdata,
                           width: MediaQuery.sizeOf(context).width,
                           backgroundcolor: CleanerAppcolors.primarypurple,
-                          label:
-                              order.loadingserialdata == true
-                                  ? 'Please Wait...'
-                                  : 'Update Order',
+                          label: 'Update Order',
                           onPressed: () {
                             if (serialkey.currentState!.validate()) {
                               order.getSerialData(
@@ -101,9 +100,11 @@ class _MyOrdersPickupDetailsScreenState
                 title: Text('Pick Up Details', style: appbartitlefont),
               ),
               body: NoInternetBanner(
-                child: Padding(
+                child: order.loadingserialdata == true?
+                Center(child: LoadingAnimationWidget.hexagonDots(color: CleanerAppcolors.primarypurple,size: 50.r)):
+                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
-                  child: SingleChildScrollView(
+                  child:  SingleChildScrollView(
                     child: Form(
                       key: serialkey,
                       child: Column(

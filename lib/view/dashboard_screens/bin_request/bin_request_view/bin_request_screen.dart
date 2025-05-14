@@ -49,10 +49,9 @@ class BinRequestView extends StatelessWidget {
                                 child: ListView(
                                   children: [
                                     if (binr.currenttab == 0)
-                                    BinRequestDropoffList(),
-                                      // Check if siteRequests is empty
-                                      if (binr.currenttab == 1)
-                                       BinRequestPickupList()
+                                      BinRequestDropoffList(),
+                                    if (binr.currenttab == 1)
+                                      BinRequestPickupList(),
                                   ],
                                 ),
                               ),
@@ -67,4 +66,3 @@ class BinRequestView extends StatelessWidget {
     );
   }
 }
-
