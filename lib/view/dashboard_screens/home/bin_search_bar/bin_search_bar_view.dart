@@ -12,88 +12,162 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
-class BinSearchScreen extends StatelessWidget {
+class BinSearchScreen extends StatefulWidget {
   final BinBookingModel model;
 
   const BinSearchScreen({super.key, required this.model});
 
   @override
+  State<BinSearchScreen> createState() => _BinSearchScreenState();
+}
+
+class _BinSearchScreenState extends State<BinSearchScreen> {
+  final TextEditingController searchController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create:
-          (_) =>
-              BinRequestProvider()..setRequests(
-                model.data.siteRequests,
-                model.data.warehouseRequests,
-              ),
+      create: (_) => BinRequestProvider()
+        ..setRequests(
+          widget.model.data.siteRequests,
+          widget.model.data.warehouseRequests,
+        ),
       child: Consumer<LoginProvider>(
         builder: (context, log, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("Search Requests", style: appbartitlefont),
+              title: Text('Search Requests', style: appbartitlefont),
             ),
             body: Consumer<BinRequestProvider>(
               builder: (context, provider, _) {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
-                  child: provider.loadingbinbooking == true? LoadingAnimationWidget.hexagonDots(
-                    color: CleanerAppcolors.primarypurple,size: 40.r
-                  ): Column(
-                    spacing: 20.r,
-                    children: [
-                      CleanerTextfield(
-                        fillColor: CleanerAppcolors.primaryWhitecolor,
-                        hintlabel: 'Search',
-                        prefix: Icon(Icons.search_outlined),
-                      ),
-                      Expanded(
-                        child:
-                            provider.filteredRequests.isEmpty
-                                ? Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(AppIcons.closedd,height: 70.r,),
-                                      Text(
-                                        'No suggestions found',
-                                        style: resendfont
+                  child: provider.loadingbinbooking
+                      ? LoadingAnimationWidget.hexagonDots(
+                          color: CleanerAppcolors.primarypurple,
+                          size: 40.r,
+                        )
+                      : Column(
+                          children: [
+                            Row(
+                              spacing: 10.r,
+                              children: [
+                                Expanded(
+                                  child: CleanerTextfield(
+                                    controller: searchController,
+                                    fillColor: CleanerAppcolors.primaryWhitecolor,
+                                    hintlabel: 'Search',
+                                    prefix: Icon(Icons.search_outlined),
+                                    onChanged: (value) {
+                                      provider.filter(value.trim());
+                                    },
+                                  ),
+                                ),
+                                CircleAvatar(
+                                  backgroundColor: CleanerAppcolors.primarypurple,
+                                  child: PopupMenuButton<String>(
+                                    child: Image.asset(AppIcons.equalizericon,height: 30.r,color: CleanerAppcolors.primaryWhitecolor,),
+                                    onSelected: (value) {
+                                      provider.setFilterType(
+                                        value,
+                                        query: searchController.text,
+                                      );
+                                    },
+                                    itemBuilder: (_) => [
+                                      PopupMenuItem(
+                                        value: 'on_site_order',
+                                        child: Text('DropOff'),
+                                      ),
+                                      
+                                      PopupMenuItem(
+                                        value: 'warehouse_dropoff',
+                                        child: Text('Pick up'),
                                       ),
                                     ],
                                   ),
-                                )
-                                : ListView.builder(
-                                  itemCount: provider.filteredRequests.length,
-                                  itemBuilder: (context, index) {
-                                    final item =
-                                        provider.filteredRequests[index];
-                                    return BinRequestCard(
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) {
-                                            return BinBookingBottomSheet(
-                                              customername: item.customerName,
-                                              location: item.location,
-                                              endDate: item.endDate,
-                                              type: item.type,
-                                              binsizeName: item.binSizeName,
-                                              bookingId: item.id.toString(),
-                                              userId: log.userid, startdate: item.startDate,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      address: item.location,
-                                      quantity: item.quantity.toString(),
-                                      startdate: item.startDate,
-                                      binsizename: item.binSizeName,
-                                      duration: item.orderDuration.toString(), requestoverdue: item.orderOverdue?.toInt()??0,
-                                    );
-                                  },
                                 ),
-                      ),
-                    ],
-                  ),
+                              ],
+                            ),
+                            SizedBox(height: 10.r),
+                            Expanded(
+                              child: searchController.text.isEmpty ||
+                                      provider.selectedType == null
+                                  ? Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.type_specimen_outlined,
+                                            size: 40.r,
+                                          ),
+                                          Text(
+                                            'Select type and type to search...',
+                                            style: resendfont,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : provider.filteredRequests.isEmpty
+                                      ? Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                AppIcons.closedd,
+                                                height: 70.r,
+                                              ),
+                                              Text(
+                                                'No suggestions found',
+                                                style: resendfont,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : SingleChildScrollView(
+                                        child: Column(
+                                          spacing: 10.r,
+                                          children: List.generate(provider.filteredRequests.length, (index) {
+                                               final item =
+                                                  provider.filteredRequests[index];
+                                              return BinRequestCard(
+                                                onPressed: () {
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return BinBookingBottomSheet(
+                                                        customername:
+                                                            item.customerName,
+                                                        location: item.location,
+                                                        endDate: item.endDate,
+                                                        type: item.type,
+                                                        binsizeName:
+                                                            item.binSizeName,
+                                                        bookingId:
+                                                            item.id.toString(),
+                                                        userId: log.userid,
+                                                        startdate: item.startDate,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                address: item.location,
+                                                quantity:
+                                                    item.quantity.toString(),
+                                                startdate: item.startDate,
+                                                binsizename: item.binSizeName,
+                                                duration:
+                                                    item.orderDuration.toString(),
+                                                requestoverdue:
+                                                    item.orderOverdue?.toInt() ?? 0,
+                                              );
+                                          },),
+                                        ),
+                                      )
+                            ),
+                          ],
+                        ),
                 );
               },
             ),
@@ -103,3 +177,9 @@ class BinSearchScreen extends StatelessWidget {
     );
   }
 }
+
+  // itemCount:
+  //                                             provider.filteredRequests.length,
+  //                                         itemBuilder: (context, index) {
+  //                                           final item =
+  //                                               provider.filteredRequests[index];

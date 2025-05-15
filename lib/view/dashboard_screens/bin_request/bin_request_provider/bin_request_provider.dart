@@ -111,27 +111,41 @@ class BinRequestProvider extends ChangeNotifier {
       throw {"error": e};
     }
   }
-
-  List<RequestedItem> allRequests = [];
+ List<RequestedItem> allRequests = [];
   List<RequestedItem> filteredRequests = [];
+  String? selectedType; // Tracks the selected filter type (e.g., 'warehouse_dropoff', 'on_site_order')
 
   void setRequests(
     List<RequestedItem> siteRequests,
     List<RequestedItem> warehouseRequests,
   ) {
     allRequests = [...siteRequests, ...warehouseRequests];
-    filteredRequests = allRequests;
+    filteredRequests = [];
     notifyListeners();
   }
 
+  void setFilterType(String? type, {String query = ''}) {
+    selectedType = type;
+    filter(query); // Reapply filter with the current query and new type
+  }
+
   void filter(String query) {
-    query = query.toLowerCase();
-    filteredRequests =
-        allRequests.where((item) {
-          return 
-              item.location.toLowerCase().contains(query) ||
-              item.binSizeName.toLowerCase().contains(query);
-        }).toList();
+    query = query.toLowerCase().trim();
+    
+    if (query.isEmpty || selectedType == null) {
+      filteredRequests = []; // No suggestions if query is empty or no type selected
+    } else {
+      filteredRequests = allRequests.where((item) {
+        // Filter by location or binSizeName matching the query and selected type
+        final matchesQuery = item.location.toLowerCase().contains(query) ||
+                             item.binSizeName.toLowerCase().contains(query);
+        final matchesType = item.type.toLowerCase() == selectedType?.toLowerCase();
+
+        return matchesQuery && matchesType;
+      }).toList();
+    }
+
     notifyListeners();
   }
+
 }

@@ -413,7 +413,7 @@ class MyOrderProvider extends ChangeNotifier {
           SnackBar(
             behavior: SnackBarBehavior.floating,
             margin: EdgeInsets.only(
-              bottom: screenSize.height - 170.r,
+              bottom: screenSize.height - 260.r,
               left: 10.r,
               right: 10.r,
             ),
@@ -430,11 +430,7 @@ class MyOrderProvider extends ChangeNotifier {
       loadingattachments = false;
       notifyListeners();
 
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
-        );
-      }
+     
 
       print('Error: $e');
       throw {"error": e};

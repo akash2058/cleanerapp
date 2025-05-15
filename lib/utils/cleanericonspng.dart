@@ -8,5 +8,7 @@ class AppIcons {
   static const closedd = 'assets/closed.png';
   static const backimg = 'assets/backimage.jpg';
   static const applogo = 'assets/applogo.png';
+    static const equalizericon = 'assets/equalizer.png';
+
   static const logobar = 'assets/logobar.png';
 }

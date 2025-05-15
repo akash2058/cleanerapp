@@ -3,6 +3,7 @@ import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_pro
 import 'package:binbookingapp/view/dashboard_screens/home/home_provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../utils/appcolors.dart';
@@ -75,9 +76,11 @@ class HomeTabs extends StatelessWidget {
                                       ? resendwhitefont
                                       : resendfontminigrey,
                             ),
-                           Badge(
+                          Badge(
                             backgroundColor: CleanerAppcolors.primarypurple,
-                            label: Text(binr.binbook?.data.siteRequests.length.toString()??'',style: badgefont,),
+                            label:binr.loadingbinbooking == true?
+                            LoadingAnimationWidget.fallingDot(color: CleanerAppcolors.primarypurple,size: 15.r):
+                             Text(binr.binbook?.data.siteRequests.length.toString()??'',style: badgefont,),
                            )
                           ],
                         ),
@@ -146,7 +149,8 @@ class HomeTabs extends StatelessWidget {
                             ),
                              Badge(
                             backgroundColor: CleanerAppcolors.primarypurple,
-                            label: Text(binr.binbook?.data.warehouseRequests.length.toString()??'',style: badgefont,),
+                            label: binr.loadingbinbooking == true?
+                            LoadingAnimationWidget.fallingDot(color: CleanerAppcolors.primarypurple,size: 15.r):Text(binr.binbook?.data.warehouseRequests.length.toString()??'',style: badgefont,),
                            )
                           ],
                         ),

@@ -21,6 +21,7 @@ class BinRequestView extends StatelessWidget {
           builder: (context, log, child) {
             return Scaffold(
               appBar: AppBar(
+                scrolledUnderElevation: 0.r,
                 backgroundColor: CleanerAppcolors.primaryminigreycolor,
                 centerTitle: true,
                 automaticallyImplyLeading: false,
@@ -42,11 +43,12 @@ class BinRequestView extends StatelessWidget {
                         child: RefreshIndicator(
                           onRefresh: () => binr.getBinRequestData(),
                           child: Column(
-                            spacing: 15.r,
+                            spacing: 10.r,
                             children: [
                               BinRequestTabs(),
                               Expanded(
                                 child: ListView(
+                                  clipBehavior: Clip.none,
                                   children: [
                                     if (binr.currenttab == 0)
                                       BinRequestDropoffList(),

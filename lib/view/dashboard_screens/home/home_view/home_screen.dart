@@ -96,7 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       body: RefreshIndicator(
                         onRefresh: getData,
                         child: ListView(
-                          children:[ Padding(
+                          clipBehavior: Clip.none,
+                          children:[ 
+                            Padding(
                             padding:
                                 EdgeInsets.symmetric(
                                   horizontal: 20,
