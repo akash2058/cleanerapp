@@ -20,7 +20,6 @@ class BinRequestProvider extends ChangeNotifier {
   BinBookingModel? _binBookingModel;
   BinBookingModel? get binbook => _binBookingModel;
   void getData(context) async {
-    
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     await logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
@@ -112,6 +111,4 @@ class BinRequestProvider extends ChangeNotifier {
       throw {"error": e};
     }
   }
-
-
 }

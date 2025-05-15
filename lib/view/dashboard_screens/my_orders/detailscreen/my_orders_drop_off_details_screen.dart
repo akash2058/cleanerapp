@@ -71,6 +71,7 @@ class _MyOrdersDropOffDetailsScreenState
       listen: false,
     );
     await binrequestdata.getBinRequestData();
+    print(widget.remainingamount);
     // myordersdata.paymentreceivecontroller.clear();
   }
 
@@ -214,8 +215,6 @@ class _MyOrdersDropOffDetailsScreenState
                                               (value) => validatedropAmount(
                                                 value,
                                                widget.remainingamount??'',
-                                             
-                                               
                                               ),
                                           style: entertexttile,
                                           decoration: InputDecoration(

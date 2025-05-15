@@ -9,6 +9,7 @@ import 'package:binbookingapp/view/dashboard_screens/home/home_provider/home_pro
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class GreetingsCard extends StatelessWidget {
@@ -93,7 +94,7 @@ class GreetingsCard extends StatelessWidget {
                                                 CleanerAppcolors
                                                     .primaryWhitecolor,
                                           ),
-                                          Text(
+                                       myorder.loadingmyorderdata == true?LoadingAnimationWidget.fallingDot(color: CleanerAppcolors.primaryWhitecolor,size: 10.r):Text(
                                             myorder
                                                     .order
                                                     ?.data
@@ -114,7 +115,7 @@ class GreetingsCard extends StatelessWidget {
                                         color:
                                             CleanerAppcolors.primaryWhitecolor,
                                       ),
-                                      Text(
+                                                                           myorder.loadingmyorderdata == true?LoadingAnimationWidget.fallingDot(color: CleanerAppcolors.primaryWhitecolor,size: 10.r):  Text(
                                         myorder
                                                 .order
                                                 ?.data

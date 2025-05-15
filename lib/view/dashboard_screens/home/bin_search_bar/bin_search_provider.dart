@@ -1,50 +1,53 @@
 import 'package:binbookingapp/view/dashboard_screens/bin_request/model/bin_booking_model.dart';
+import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_model.dart';
 import 'package:flutter/material.dart';
-enum SearchDataSource { binRequests, myOrders }
+enum SearchFilter { myOrders, binRequests }
+enum RequestTab { dropoff, pickup }
 
-class SearchDataProvider with ChangeNotifier {
-  int searchtab = 0;
+class SearchDataProvider extends ChangeNotifier {
+  SearchFilter selectedFilter = SearchFilter.myOrders;
+  RequestTab selectedTab = RequestTab.dropoff;
+  List<RequestedItem> binRequests = [];
+  List<RequestsItem> myOrders = [];
+  String searchQuery = '';
 
-  void toggleTab(int index) {
-    searchtab = index;
-    _applyFilter(); // Reapply filter when tab changes
-  }
-
-  List<RequestedItem> _allRequests = [];
-  List<RequestedItem> _filteredRequests = [];
-
-  List<RequestedItem> get filteredRequests => _filteredRequests;
-
-  SearchDataSource _currentSource = SearchDataSource.binRequests;
-  SearchDataSource get currentSource => _currentSource;
-
-  String _currentQuery = "";
-
-  void updateData({
-    required List<RequestedItem> binRequests,
-    required List<RequestedItem> myOrders,
-    required SearchDataSource source,
-  }) {
-    _currentSource = source;
-    _allRequests = source == SearchDataSource.binRequests ? binRequests : myOrders;
-    _applyFilter();
-  }
-
-  void filter(String query) {
-    _currentQuery = query.toLowerCase();
-    _applyFilter();
-  }
-
-  void _applyFilter() {
-    _filteredRequests = _allRequests.where((item) {
-      final matchesQuery = item.location.toLowerCase().contains(_currentQuery) ||
-                           item.binSizeName.toLowerCase().contains(_currentQuery);
-      final matchesTab = searchtab == 0
-          ? item.type.toLowerCase() == 'dropoff'
-          : item.type.toLowerCase() == 'pickup';
-      return matchesQuery && matchesTab;
-    }).toList();
+  void setFilter(SearchFilter filter) {
+    selectedFilter = filter;
     notifyListeners();
+  }
+
+  void setTab(RequestTab tab) {
+    selectedTab = tab;
+    notifyListeners();
+  }
+
+  void setSearchQuery(String query) {
+    searchQuery = query.toLowerCase();
+    notifyListeners();
+  }
+
+  List<dynamic> get filteredList {
+    if (selectedFilter == SearchFilter.myOrders) {
+      if (selectedTab == RequestTab.dropoff) {
+        return myOrders.where((item) =>
+          _matchesQuery(item.location, item.binSizeName)).toList();
+      } else {
+        return myOrders.where((item) =>
+          _matchesQuery(item.location, item.binSizeName)).toList();
+      }
+    } else {
+      List<RequestedItem> base = selectedTab == RequestTab.dropoff
+          ? binRequests.where((item) => item.type == 'Dropoff').toList()
+          : binRequests.where((item) => item.type == 'Pickup').toList();
+
+      return base.where((item) =>
+        _matchesQuery(item.location, item.binSizeName)).toList();
+    }
+  }
+
+  bool _matchesQuery(String? location, String? binSize) {
+    return location?.toLowerCase().contains(searchQuery) == true ||
+           binSize?.toLowerCase().contains(searchQuery) == true;
   }
 }
 
