@@ -96,61 +96,72 @@ class _HomeScreenState extends State<HomeScreen> {
                       body: RefreshIndicator(
                         onRefresh: getData,
                         child: ListView(
-                          children: [
-                            Padding(
-                              padding:
-                                  EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 10,
-                                  ).r,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 15.r,
-                                children: [
-                                  CleanerTextfield(
-                                    fillColor:
-                                        CleanerAppcolors.primaryWhitecolor,
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        CustomPageRoute(
-                                          child: BinSearchScreen(),
-                                        ),
-                                      );
-                                    },
-                                    prefix: Icon(Icons.search),
-                                    hintlabel: 'Search',
-                                  ),
-                                  GreetingsCard(),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Active Orders',
-                                        style: greetingsStyleblack,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          dash.screenTabs(dash.currenttab = 1);
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              'View more',
-                                              style: dashboardlabelfontdarkgrey,
+                          children:[ Padding(
+                            padding:
+                                EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 10,
+                                ).r,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 15.r,
+                              children: [
+                                CleanerTextfield(
+                                  fillColor: CleanerAppcolors.primaryWhitecolor,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      CustomPageRoute(
+                                        child: BinSearchScreen(
+                                          model: BinBookingModel(
+                                            status: binr.binbook?.status ?? '',
+                                            message: binr.binbook?.message ?? '',
+                                            data: BinRequestData(
+                                              siteRequests:
+                                                  binr.binbook!.data.siteRequests,
+                                              warehouseRequests:
+                                                  binr
+                                                      .binbook!
+                                                      .data
+                                                      .warehouseRequests,
                                             ),
-                                            Icon(
-                                              Icons
-                                                  .keyboard_arrow_right_outlined,
-                                              size: 30.r,
-                                            ),
-                                          ],
+                                          ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(
+                                    );
+                                  },
+                                  prefix: Icon(Icons.search),
+                                  hintlabel: 'Search',
+                                ),
+                                GreetingsCard(),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Active Orders',
+                                      style: greetingsStyleblack,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        dash.screenTabs(dash.currenttab = 1);
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'View more',
+                                            style: dashboardlabelfontdarkgrey,
+                                          ),
+                                          Icon(
+                                            Icons.keyboard_arrow_right_outlined,
+                                            size: 30.r,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                 SizedBox(
                                     child:binr.loadingbinbooking == true?Center(child: LoadingAnimationWidget.hexagonDots(color: CleanerAppcolors.primarypurple,size: 40.r)): Column(
                                       spacing: 15.r,
                                       children: [
@@ -160,10 +171,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
+                          ]
                         ),
                       ),
                     );
