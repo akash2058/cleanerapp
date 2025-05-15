@@ -110,7 +110,7 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                                         EdgeInsets.symmetric(horizontal: 32).r,
                                     child: TextFormField(
                                       validator:
-                                          (value) => validateamount(
+                                          (value) => validateAmount(
                                             value,
                                             widget.pendingamount,
                                           ),

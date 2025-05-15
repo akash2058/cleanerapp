@@ -133,9 +133,13 @@ String capitalizeEachPart(String input) {
   return input
       .split(',')
       .map((part) {
-        part = part.trim(); // remove any extra spaces
-        if (part.isEmpty) return '';
-        return part[0].toUpperCase() + part.substring(1).toLowerCase();
+        return part
+            .trim()
+            .split(' ')
+            .where((word) => word.isNotEmpty)
+            .map((word) =>
+                word[0].toUpperCase() + word.substring(1).toLowerCase())
+            .join(' ');
       })
-      .join(',');
+      .join(', ');
 }

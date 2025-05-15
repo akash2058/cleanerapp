@@ -156,6 +156,7 @@ String? validateConnectorid(String? value) {
 
   return null;
 }
+
 String? enterserialnumber(String? value) {
   if (value == null || value.isEmpty) {
     return 'Please enter serial number';
@@ -168,8 +169,7 @@ String? enterserialnumber(String? value) {
   return null;
 }
 
-
-String? validateamount(String? value, String pendingAmountStr) {
+String? validateAmount(String? value, String pendingAmountStr) {
   if (value == null || value.trim().isEmpty) {
     return null; // No validation for empty input
   }
@@ -179,6 +179,11 @@ String? validateamount(String? value, String pendingAmountStr) {
 
   // Skip validation if parsing fails
   if (enteredAmount == null || pendingAmount == null) {
+    return null;
+  }
+
+  // Skip validation if pending amount is exactly 0.00
+  if (pendingAmount == 0.0) {
     return null;
   }
 
@@ -193,37 +198,28 @@ String? validateamount(String? value, String pendingAmountStr) {
 }
 
 
-
-
-double totalAmountreceived = 900; // Example total amount; this should be dynamic in your actual case
-
-String? validatedropAmount(String? value, String pendingAmountStr, String receivedAmountStr) {
+// Example total amount; this should be dynamic in your actual case
+String? validatedropAmount(String? value, String remainingAmountStr) {
   if (value == null || value.trim().isEmpty) {
-    return null; // No validation for empty input
+    return null; // Allow empty input
   }
 
   final enteredAmount = double.tryParse(value.trim());
-  final pendingAmount = double.tryParse(pendingAmountStr);
-  final receivedAmount = double.tryParse(receivedAmountStr);
+  final remainingAmount = double.tryParse(remainingAmountStr.trim());
 
   // Skip validation if parsing fails
-  if (enteredAmount == null || pendingAmount == null || receivedAmount == null) {
+  if (enteredAmount == null || remainingAmount == null) {
     return null;
   }
 
-  final allowableAmount = pendingAmount - receivedAmount;
-
-  if (enteredAmount > allowableAmount) {
-    final formattedAllowable = allowableAmount % 1 == 0
-        ? allowableAmount.toInt().toString()
-        : allowableAmount.toString();
-
-    return 'Amount cannot exceed $formattedAllowable';
+  // ✅ Validate only if entered amount is greater than remaining amount
+  if (enteredAmount > remainingAmount) {
+    return 'Entered amount (${enteredAmount.toStringAsFixed(2)}) '
+        'exceeds remaining amount (${remainingAmount.toStringAsFixed(2)}).';
   }
 
-  return null;
+  return null; // ✅ Valid input (less than or equal to remaining)
 }
-
 
 String? timerequired(String? value) {
   if (value == null || value.isEmpty) {

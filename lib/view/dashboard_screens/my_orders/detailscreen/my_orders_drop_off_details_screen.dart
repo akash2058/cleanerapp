@@ -27,6 +27,7 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
   final String? pendingamount;
   final String? paymentoption;
   final String? paymentreceived;
+  final String? remainingamount;
   final String? payementtype;
   const MyOrdersDropOffDetailsScreen({
     super.key,
@@ -41,7 +42,7 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
     required this.pendingamount,
     required this.paymentoption,
     required this.paymentreceived,
-    this.payementtype,
+    this.payementtype, required this.remainingamount,
   });
 
   @override
@@ -212,8 +213,8 @@ class _MyOrdersDropOffDetailsScreenState
                                           validator:
                                               (value) => validatedropAmount(
                                                 value,
-                                               widget.paymentreceived??'',
-                                               widget.pendingamount??''
+                                               widget.remainingamount??'',
+                                             
                                                
                                               ),
                                           style: entertexttile,

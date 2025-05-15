@@ -94,7 +94,7 @@ class _MyOrdersDropOffListState extends State<MyOrdersDropOffList> {
                                           waredata?.orderDuration.toString() ??
                                           '',
                                       binsizename: waredata?.binSizeName ?? '',
-                                      bookingid: waredata?.id.toString() ?? '', pendingamount: waredata?.pendingAmount??'', paymentoption: waredata?.paymentOption??'', paymentreceived: waredata?.paymentReceived??'',
+                                      bookingid: waredata?.id.toString() ?? '', pendingamount: waredata?.pendingAmount??'', paymentoption: waredata?.paymentOption??'', paymentreceived: waredata?.paymentReceived??'', remainingamount: waredata?.remainingAmount.toString()??'',
                                     ),
                                   ),
                                 );
