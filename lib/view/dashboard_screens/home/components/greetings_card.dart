@@ -70,7 +70,7 @@ class GreetingsCard extends StatelessWidget {
                               Text(log.name, style: drivernamefont),
                               SizedBox(height: 20.r),
                               CleanerWhiteFontChip(
-                                width: 190.r,
+                                width: 210.r,
                                 onPressed: () {
                                   dash.screenTabs(dash.currenttab = 2);
                                 },
@@ -84,6 +84,13 @@ class GreetingsCard extends StatelessWidget {
                                 child:Row(
                                     spacing: 5.r,
                                     children: [
+                                      SizedBox(
+                                        height: 20.r,
+                                        width: 2.r,
+                                        child: DecoratedBox(decoration: BoxDecoration(
+                                          color: CleanerAppcolors.primaryWhitecolor
+                                        )),
+                                      ),
                                       Row(
                                         spacing: 5.r,
                                         children: [
