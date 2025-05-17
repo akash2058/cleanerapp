@@ -29,11 +29,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<void> getData() async {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     logindata.loadLoginData();
@@ -143,28 +138,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        child:
-                            binr.loadingbinbooking == true
-                                ? Center(
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 170).r,
-                                    child: LoadingAnimationWidget.hexagonDots(
-                                      color: CleanerAppcolors.primarypurple,
-                                      size: 40.r,
-                                    ),
-                                  ),
-                                )
-                                : Column(
-                                  spacing: 15.r,
-                                  children: [
-                                    HomeTabs(),
+                       HomeTabs(),
                                     if (home.tabs == 0) PickUp(),
                                     if (home.tabs == 1) DropOff(),
-                                  ],
-                                ),
-                      ),
                     ],
                   ),
                 ),

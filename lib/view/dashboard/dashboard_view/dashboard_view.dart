@@ -6,6 +6,7 @@ import 'package:binbookingapp/view/dashboard/dashboard_provider/dashboard_provid
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
+import 'package:binbookingapp/view/session_expire_dialog/session_expire_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -26,36 +27,33 @@ class _DashboardViewState extends State<DashboardView> {
     });
   }
 
-  void getData(context) async {
+void getData(context) async {
   try {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     await logindata.loadLoginData();
 
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
-    await myordersdata.getMyordersData(logindata.userid);
-
     final binrequestdata = Provider.of<BinRequestProvider>(context, listen: false);
-    await binrequestdata.getBinRequestData();
+
+    // Wait for both API calls to complete
+    await Future.wait([
+      myordersdata.getMyordersData(logindata.userid),
+      binrequestdata.getBinRequestData(),
+    ]);
 
     myordersdata.paymentreceivecontroller.clear();
     myordersdata.amountreceivecontroller.clear();
 
-    print('userid${logindata.userid}');
+    print('userid: ${logindata.userid}');
   } catch (e) {
     print('Error loading dashboard data: $e');
   }
 }
 
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<DashboardProvider>(
-      builder: (context, dash, child) {
-        return Consumer<MyOrderProvider>(
-          builder: (context, myroder, child) {
-            return Consumer<BinRequestProvider>(
-              builder: (context, binreqest, child) {
-                return Scaffold(
+    return Consumer3<DashboardProvider,MyOrderProvider,BinRequestProvider>(builder: (context, dash, myroder, binreqest, child) {
+      return Scaffold(
                   backgroundColor: CleanerAppcolors.primaryminigreycolor,
                   bottomNavigationBar: DecoratedBox(
                     decoration: BoxDecoration(
@@ -328,11 +326,6 @@ class _DashboardViewState extends State<DashboardView> {
                     ],
                   ),
                 );
-              },
-            );
-          },
-        );
-      },
-    );
+    },);
   }
 }

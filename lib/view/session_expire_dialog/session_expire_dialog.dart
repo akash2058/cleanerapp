@@ -1,3 +1,4 @@
+import 'package:binbookingapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:binbookingapp/view/authentication/login/login_view/login_view.dart';
@@ -27,8 +28,9 @@ class _SessionWrapperState extends State<SessionWrapper> {
         context: context,
         barrierDismissible: false,
         builder: (_) => AlertDialog(
-          title: const Text("Session Expired"),
-          content: const Text("Your session has expired. Please log in again."),
+          actionsAlignment: MainAxisAlignment.center,
+          title:  Text("Session Expired",style: appbartitlefont,),
+          content:  Text("Your session has expired. Please log in again.",style: dashboardlabelfontblack,),
           actions: [
             TextButton(
               onPressed: () {
@@ -39,7 +41,7 @@ class _SessionWrapperState extends State<SessionWrapper> {
                   (route) => false,
                 );
               },
-              child: const Text("OK"),
+              child:  Text("Go to Login"),
             ),
           ],
         ),
