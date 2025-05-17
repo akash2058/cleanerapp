@@ -3,6 +3,7 @@ import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class BinRequestTabs extends StatelessWidget {
@@ -61,7 +62,7 @@ class BinRequestTabs extends StatelessWidget {
                             ),
                             Badge(
                               backgroundColor: CleanerAppcolors.primarypurple,
-                              label: Text(home.binbook?.data.siteRequests.length.toString()??'0',style: badgefont,),
+                              label:home.loadingbinbooking == true?LoadingAnimationWidget.fallingDot(color:CleanerAppcolors.primaryWhitecolor , size: 15.r): Text(home.binbook?.data.siteRequests.length.toString()??'0',style: badgefont,),
                             )
                           ],
                         ),
@@ -117,7 +118,7 @@ class BinRequestTabs extends StatelessWidget {
                             ),
                             Badge(
                               backgroundColor: CleanerAppcolors.primarypurple,
-                              label: Text(home.binbook?.data.warehouseRequests.length.toString()??'0',style: badgefont,),
+                              label:home.loadingbinbooking == true?LoadingAnimationWidget.fallingDot(color:CleanerAppcolors.primaryWhitecolor , size: 15.r): Text(home.binbook?.data.warehouseRequests.length.toString()??'0',style: badgefont,),
                             )
                           ],
                         ),

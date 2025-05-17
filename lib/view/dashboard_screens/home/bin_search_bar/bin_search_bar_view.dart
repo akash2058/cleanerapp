@@ -7,6 +7,7 @@ import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_pro
 import 'package:binbookingapp/view/dashboard_screens/bin_request/components/bin_request_card.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/model/bin_booking_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/home/components/bin_booking_bottom_sheet/bin_booking_bottom_sheet.dart';
+import 'package:binbookingapp/view/dashboard_screens/home/home_provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -22,7 +23,6 @@ class BinSearchScreen extends StatefulWidget {
 }
 
 class _BinSearchScreenState extends State<BinSearchScreen> {
-  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,53 +51,22 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                         spacing: 10.r,
                         crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: CleanerTextfield(
-                                    controller: searchController,
-                                    fillColor: CleanerAppcolors.primaryWhitecolor,
-                                    hintlabel: 'Search',
-                                    prefix: Icon(Icons.search_outlined),
-                                    onChanged: (value) {
-                                      // If no type selected, default to DropOff
-                                    provider.filter(value);
-                                    },
-                                  ),
-                                ),
-                                SizedBox(width: 10.r),
-                                CircleAvatar(
-                                  backgroundColor: CleanerAppcolors.primarypurple,
-                                  child: PopupMenuButton<String>(
-                                    icon: Image.asset(
-                                      AppIcons.equalizericon,
-                                      height: 30.r,
-                                      color: CleanerAppcolors.primaryWhitecolor,
-                                    ),
-                                    onSelected: (value) {
-                                      provider.setFilterType(
-                                        value,
-                                        query: searchController.text,
-                                      );
-                                    },
-                                    itemBuilder: (_) => [
-                                      PopupMenuItem(
-                                        value: 'on_site_order',
-                                        child: Text('DropOff'),
-                                      ),
-                                      PopupMenuItem(
-                                        value: 'warehouse_dropoff',
-                                        child: Text('Pick up'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            CleanerTextfield(
+                              controller: provider.searchController,
+                              fillColor: CleanerAppcolors.primaryWhitecolor,
+                              hintlabel: 'Search',
+                              prefix: Icon(Icons.search_outlined),
+                              onChanged: (value) {
+                                // If no type selected, default to DropOff
+                              provider.filter(value);
+                              },
                             ),
-                            Text('Search using location and bin size name',style: dashboardlabelfontblack,),
+                            SizedBox(width: 10.r),
+                            Text('Search using location and bin size name',style: dashboardlabelfontblack),
+                            SearchTabs(),
                             SizedBox(height: 10.r),
                             Expanded(
-                              child: searchController.text.isEmpty
+                              child: provider.searchController.text.isEmpty
                                   ? Center(
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
@@ -168,6 +137,165 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
         },
       ),
     );
+  }
+}
+
+
+class SearchTabs extends StatelessWidget {
+  const SearchTabs({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer2<HomeProvider,BinRequestProvider>(builder: (context, home, binr, child) {
+      return Row(
+          spacing: 5.r,
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  binr.togglesearchtab(binr.searchtab = 0);
+                  binr.setFilterType('on_site_order',query: binr.searchController.text);
+                },
+                child: SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(
+                            105,
+                            108,
+                            255,
+                            0.4,
+                          ).withOpacity(0.5.r),
+                          spreadRadius: 1.5.r,
+                          blurRadius: 1.5.r,
+                          offset: Offset(0, 0),
+                        ),
+                      ],
+                      gradient:
+                          binr.searchtab == 0
+                              ? LinearGradient(
+                                colors: [
+                                  const Color.fromARGB(255, 76, 78, 231),
+                                  const Color.fromARGB(255, 92, 94, 218),
+                                ],
+                              )
+                              : LinearGradient(
+                                colors: [
+                                  CleanerAppcolors.primarylightgreycolor,
+                                  CleanerAppcolors.primarylightgreycolor,
+                                ],
+                              ),
+                      border: Border.all(
+                        color:
+                            binr.searchtab == 0
+                                ? Colors.transparent
+                                : CleanerAppcolors.primaryminidarkgreycolor,
+                      ),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 13,horizontal: 35).r,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Dropoff',
+                              style:
+                                  binr.searchtab == 0
+                                      ? resendwhitefont
+                                      : resendfontminigrey,
+                            ),
+                          Badge(
+                            backgroundColor: CleanerAppcolors.primarypurple,
+                            label:binr.loadingbinbooking == true?
+                            LoadingAnimationWidget.fallingDot(color: CleanerAppcolors.primaryWhitecolor,size: 15.r):
+                             Text(binr.filteredRequests.length.toString(),style: badgefont,),
+                           )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  binr.togglesearchtab(binr.searchtab = 1);
+                  binr.setFilterType('warehouse_dropoff',query: binr.searchController.text);
+                },
+                child: SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(
+                            105,
+                            108,
+                            255,
+                            0.4,
+                          ).withOpacity(0.5.r),
+                          spreadRadius: 1.5.r,
+                          blurRadius: 1.5.r,
+                          offset: Offset(0, 0),
+                        ),
+                      ],
+                      gradient:
+                          binr.searchtab == 1
+                              ? LinearGradient(
+                                colors: [
+                                  const Color.fromARGB(255, 76, 78, 231),
+                                  const Color.fromARGB(255, 92, 94, 218),
+                                ],
+                              )
+                              : LinearGradient(
+                                colors: [
+                                  CleanerAppcolors.primarylightgreycolor,
+                                  CleanerAppcolors.primarylightgreycolor,
+                                ],
+                              ),
+                      border: Border.all(
+                        color:
+                            binr.searchtab == 1
+                                ? Colors.transparent
+                                : CleanerAppcolors.primaryminidarkgreycolor,
+                      ),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 13,horizontal: 35).r,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Pickup',
+                              style:
+                                  binr.searchtab == 1
+                                      ? resendwhitefont
+                                      : resendfontminigrey,
+                            ),
+                             Badge(
+                            backgroundColor: CleanerAppcolors.primarypurple,
+                            label: binr.loadingbinbooking == true?
+                            LoadingAnimationWidget.fallingDot(color: CleanerAppcolors.primaryWhitecolor,size: 15.r):Text(binr.filteredRequests.length.toString(),style: badgefont,),
+                           )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+    },);
   }
 }
 

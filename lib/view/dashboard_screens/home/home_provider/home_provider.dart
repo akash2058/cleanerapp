@@ -1,41 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomeProvider extends ChangeNotifier {
- 
-  int tabs = 0;
-  List<String> ordersData = [
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-  ];
-
-  List<String> binRequestData = [
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-    'Summers',
-  ];
+int tabs = 0;
   void toggleTab(int index) {
     tabs = index;
     notifyListeners();

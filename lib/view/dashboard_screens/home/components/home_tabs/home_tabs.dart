@@ -13,10 +13,8 @@ class HomeTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
-      builder: (context, home, child) {
-        return Consumer<BinRequestProvider>(builder: (context, binr, child) {
-          return Row(
+    return Consumer2<HomeProvider,BinRequestProvider>(builder: (context, home, binr, child) {
+      return Row(
           spacing: 5.r,
           children: [
             Expanded(
@@ -162,8 +160,6 @@ class HomeTabs extends StatelessWidget {
             ),
           ],
         );
-        },);
-      },
-    );
+    },);
   }
 }

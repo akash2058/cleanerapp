@@ -41,8 +41,8 @@ class MyOrdersCard extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(105, 108, 255, 0.4).withOpacity(0.5.r),
-                spreadRadius: 1,
-                blurRadius: 1,
+                spreadRadius: 1.5.r,
+                blurRadius: 1.5.r,
                 offset: Offset(0, 0),
               ),
             ],

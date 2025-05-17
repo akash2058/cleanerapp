@@ -18,7 +18,6 @@ import 'package:binbookingapp/view/dashboard_screens/home/home_provider/home_pro
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,14 +32,15 @@ class _HomeScreenState extends State<HomeScreen> {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
-    await myordersdata.getMyordersData(
-      logindata.user?.data?.user?.id.toString() ?? '',
-    );
+ 
     final binrequestdata = Provider.of<BinRequestProvider>(
       context,
       listen: false,
     );
-    await binrequestdata.getBinRequestData();
+      await Future.wait([
+        myordersdata.getMyordersData(logindata.userid),
+        binrequestdata.getBinRequestData(),
+      ]);
   }
 
   @override

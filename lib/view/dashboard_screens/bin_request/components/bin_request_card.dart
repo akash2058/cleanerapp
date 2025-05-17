@@ -74,7 +74,7 @@ class BinRequestCard extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 26).r,
+                  padding: EdgeInsets.symmetric(horizontal: 25).r,
                   child: Text('Bin Size:$binsizename', style: listiletitlefont),
                 ),
                 SizedBox(height: 5.r),

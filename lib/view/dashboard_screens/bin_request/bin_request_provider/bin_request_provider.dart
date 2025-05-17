@@ -15,6 +15,7 @@ class BinRequestProvider extends ChangeNotifier {
   TextEditingController bookingidcontroller = TextEditingController();
   BinBookingModel? _binBookingModel;
   BinBookingModel? get binbook => _binBookingModel;
+TextEditingController searchController = TextEditingController();
 
   Future<void> getBinRequestData() async {
     var token = await Utils.getToken(); // Await the token
@@ -95,6 +96,16 @@ class BinRequestProvider extends ChangeNotifier {
     }
   }
   // Default to DropOff
+  int searchtab = 0;
+
+  String? currentFilterType;
+
+  int tabs = 0;
+
+  void togglesearchtab(int index) {
+    searchtab = index;
+    notifyListeners();
+  }
 
   List<RequestedItem> allRequests = [];
   List<RequestedItem> filteredRequests = [];
@@ -142,6 +153,4 @@ class BinRequestProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  notifyListeners();
 }
