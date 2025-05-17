@@ -40,14 +40,14 @@ class BinRequestView extends StatelessWidget {
                       child: Column(
                         children: [
                             Padding(
-                              padding:  const EdgeInsets.symmetric(horizontal: 20,).r,
+                              padding:  const EdgeInsets.symmetric(horizontal: 20,vertical: 10).r,
                               child: BinRequestTabs(),
                             ),
                               SizedBox(height: 10.r),
                           Expanded(
                             child: SingleChildScrollView(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10).r,
+                                padding: const EdgeInsets.symmetric(horizontal: 20,).r,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

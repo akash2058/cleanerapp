@@ -1,3 +1,4 @@
+
 import 'package:binbookingapp/custom_widget/button.dart';
 import 'package:binbookingapp/custom_widget/cleaner_textfield.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
@@ -6,6 +7,7 @@ import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -27,83 +29,93 @@ class LoginView extends StatelessWidget {
                   children: [
                     Form(
                       key: loginkey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 180.r),
-                          Text('Hello!', style: loginscreentitlefont),
-                          SizedBox(height: 5.r),
-                          Text('Welcome Back', style: loginscreentitlefont),
-                          SizedBox(height: 40.r),
-                          Text('Email', style: dashboardlablefontgrey),
-                          SizedBox(height: 8.r),
-                          CleanerTextfield(
-                            fillColor: CleanerAppcolors.primaryWhitecolor,
-                            autofills: [AutofillHints.email],
-                            validation: validateEmail,
-                            controller: login.emailcontroller,
-                            prefix: Icon(Icons.email_outlined, size: 18.r),
-                            hintlabel: 'Enter your email',
-                          ),
-                          SizedBox(height: 15.r),
-                          Text('Password', style: dashboardlablefontgrey),
-                          SizedBox(height: 5.r),
-                          CleanerTextfield(
-                            fillColor: CleanerAppcolors.primaryWhitecolor,
-                            autofills: [AutofillHints.password],
-                            validation: validatePassword,
-                            controller: login.passwordcontroller,
-                            obstructtext: login.hidepassword,
-                            suffix: InkWell(
-                              onTap: () {
-                                login.toggleHidepassword();
-                              },
-                              child: Icon(
-                                login.hidepassword == true
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
-                                size: 18.r,
-                                color:
-                                    login.hidepassword == true
-                                        ? CleanerAppcolors.primarygreycolor
-                                        : CleanerAppcolors.primarypurple,
-                              ),
+                      child: AutofillGroup(
+                        onDisposeAction: AutofillContextAction.commit,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 180.r),
+                            Text('Hello!', style: loginscreentitlefont),
+                            SizedBox(height: 5.r),
+                            Text('Welcome Back', style: loginscreentitlefont),
+                            SizedBox(height: 40.r),
+                            Text('Email', style: dashboardlablefontgrey),
+                            SizedBox(height: 8.r),
+                            CleanerTextfield(
+                              fillColor: CleanerAppcolors.primaryWhitecolor,
+                              autofills: [AutofillHints.email],
+                              validation: validateEmail,
+                              controller: login.emailcontroller,
+                              prefix: Icon(Icons.email_outlined, size: 18.r),
+                              hintlabel: 'Enter your email',
                             ),
-                            prefix: Icon(Icons.lock_clock_outlined, size: 18.r),
-                            hintlabel: 'Enter your password',
-                          ),
-                          SizedBox(height: 10.r),
-                          // Align(
-                          //   alignment: Alignment.bottomRight,
-                          //   child: InkWell(
-                          //     onTap: () {
-                          //       Navigator.push(
-                          //         context,
-                          //         CustomPageRoute(
-                          //           child: ForgotPasswordScreen(),
-                          //         ),
-                          //       );
-                          //     },
-                          //     child: Text(
-                          //       'Forgot Password',
-                          //       style: forgotpasswordfont,
-                          //     ),
-                          //   ),
-                          // ),
-                          SizedBox(height: 10.r),
-                          CleanerButton.elevated(
-                            isloading: login.loadinglogin,
-                            height: 55.r,
-                            width: MediaQuery.sizeOf(context).width,
-                            backgroundcolor: CleanerAppcolors.primarypurple,
-                            label: 'Login',
-                            onPressed: () {
-                              if (loginkey.currentState!.validate()) {
-                                login.getLogin(context);
-                              }
-                            },
-                          ),
-                        ],
+                            SizedBox(height: 15.r),
+                            Text('Password', style: dashboardlablefontgrey),
+                            SizedBox(height: 5.r),
+                            CleanerTextfield(
+                              fillColor: CleanerAppcolors.primaryWhitecolor,
+                              autofills: [AutofillHints.password],
+                              validation: validatePassword,
+                              controller: login.passwordcontroller,
+                              obstructtext: login.hidepassword,
+                              suffix: InkWell(
+                                onTap: () {
+                                  login.toggleHidepassword();
+                                },
+                                child: Icon(
+                                  login.hidepassword == true
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  size: 18.r,
+                                  color: login.hidepassword == true
+                                      ? CleanerAppcolors.primarygreycolor
+                                      : CleanerAppcolors.primarypurple,
+                                ),
+                              ),
+                              prefix: Icon(Icons.lock_clock_outlined, size: 18.r),
+                              hintlabel: 'Enter your password',
+                            ),
+                            SizedBox(height: 10.r),
+                            // Align(
+                            //   alignment: Alignment.bottomRight,
+                            //   child: InkWell(
+                            //     onTap: () {
+                            //       Navigator.push(
+                            //         context,
+                            //         CustomPageRoute(
+                            //           child: ForgotPasswordScreen(),
+                            //         ),
+                            //       );
+                            //     },
+                            //     child: Text(
+                            //       'Forgot Password',
+                            //       style: forgotpasswordfont,
+                            //     ),
+                            //   ),
+                            // ),
+                            SizedBox(height: 10.r),
+                            CleanerButton.elevated(
+                              isloading: login.loadinglogin,
+                              height: 55.r,
+                              width: MediaQuery.sizeOf(context).width,
+                              backgroundcolor: CleanerAppcolors.primarypurple,
+                              label: 'Login',
+                              onPressed: () async {
+                                if (loginkey.currentState!.validate()) {
+                                  try {
+                                    await login.getLogin(context);
+                                    // Trigger save prompt for Google Password Manager
+                                    TextInput.finishAutofillContext();
+                                  } catch (e) {
+                                    // Don't save credentials on login failure
+                                     TextInput.finishAutofillContext(shouldSave: false);
+                                 
+                                  }
+                                }
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
