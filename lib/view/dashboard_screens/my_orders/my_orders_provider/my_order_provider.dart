@@ -38,8 +38,6 @@ class MyOrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   int myordersearch = 0;
   String? selectedType;
 
@@ -53,45 +51,40 @@ class MyOrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setOrders(List<RequestsItem> dropoffOrders, List<RequestsItem> pickupOrders) {
+  void setOrders(
+    List<RequestsItem> dropoffOrders,
+    List<RequestsItem> pickupOrders,
+  ) {
     allOrders = [...dropoffOrders, ...pickupOrders];
     filteredOrders = [];
     notifyListeners();
   }
 
-
   void setFilterType(String? type, {String query = ''}) {
     selectedType = type;
     filter(query);
   }
+
  void filter(String query) {
   query = query.toLowerCase().trim();
 
-  // Always filter by type (selectedType), even if query is empty
-  filteredOrders = allOrders.where((item) {
-    final matchesType = selectedType == null
-        ? true
-        : item.type!.toLowerCase() == selectedType?.toLowerCase();
-
-    if (query.isEmpty) {
-      return matchesType;
-    } else {
-      final matchesQuery =
-          item.location!.toLowerCase().contains(query) ||
-          item.binSizeName!.toLowerCase().contains(query);
-      return matchesType && matchesQuery;
-    }
+  filteredOrders = allOrders.where((order) {
+    final matchesQuery = order.location!.toLowerCase().contains(query) ||
+        order.binSizeName!.toLowerCase().contains(query);
+    final matchesType = selectedType == null ||
+        order.type!.toLowerCase() == selectedType!.toLowerCase();
+    return matchesQuery && matchesType;
   }).toList();
+
+  // Update counts
 
   notifyListeners();
 }
-
-void init() {
-  ordersearch.addListener(() {
-    notifyListeners(); // Refresh UI when query changes
-  });
-}
-
+  void init() {
+    ordersearch.addListener(() {
+      filter(ordersearch.text);
+    });
+  }
 
   int get dropoffCount {
   final query = ordersearch.text.trim();
@@ -104,18 +97,19 @@ void init() {
           item.binSizeName!.toLowerCase().contains(query.toLowerCase()))
       .length;
 }
-
 int get pickupCount {
   final query = ordersearch.text.trim();
   if (query.isEmpty) return 0;
 
-  return filteredOrders
+  return allOrders
       .where((item) => item.type?.toLowerCase() == 'warehouse_dropoff')
       .where((item) =>
           item.location!.toLowerCase().contains(query.toLowerCase()) ||
           item.binSizeName!.toLowerCase().contains(query.toLowerCase()))
       .length;
 }
+
+
 
   Future<void> getMyordersData(id) async {
     var token = await Utils.getToken(); // Await the token
@@ -251,7 +245,7 @@ int get pickupCount {
     final messenger = ScaffoldMessenger.of(context); // cache before await
     final screenSize = MediaQuery.sizeOf(context);
     var token = await Utils.getToken();
-  final amountText = amountreceivecontroller.text.trim();
+    final amountText = amountreceivecontroller.text.trim();
     final amountToSend = amountText.isEmpty ? '0' : amountText;
     try {
       loadingconfirmonsitepickup = true;
@@ -261,7 +255,7 @@ int get pickupCount {
         driverid,
         bookingid,
         token ?? '',
-        amountToSend
+        amountToSend,
       );
       print('✅ API Response: $accept');
 
@@ -466,8 +460,8 @@ int get pickupCount {
         context,
       ); // ✅ Cache mediaQuery before await
       final navigator = Navigator.of(context);
-        final amountText = paymentreceivecontroller.text.trim();
-    final amountToSend = amountText.isEmpty ? '0' : amountText;
+      final amountText = paymentreceivecontroller.text.trim();
+      final amountToSend = amountText.isEmpty ? '0' : amountText;
       var token = await Utils.getToken();
       loadingattachments = true;
       notifyListeners();
@@ -479,7 +473,7 @@ int get pickupCount {
         bookingid,
         attachments,
         token ?? '',
-        amountToSend
+        amountToSend,
       );
       loadingattachments = false;
       notifyListeners();
@@ -509,8 +503,6 @@ int get pickupCount {
     } catch (e) {
       loadingattachments = false;
       notifyListeners();
-
-     
 
       print('Error: $e');
       throw {"error": e};
