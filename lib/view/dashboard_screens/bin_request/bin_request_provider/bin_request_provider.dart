@@ -15,7 +15,7 @@ class BinRequestProvider extends ChangeNotifier {
   TextEditingController bookingidcontroller = TextEditingController();
   BinBookingModel? _binBookingModel;
   BinBookingModel? get binbook => _binBookingModel;
-TextEditingController searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   Future<void> getBinRequestData() async {
     var token = await Utils.getToken(); // Await the token
@@ -95,22 +95,18 @@ TextEditingController searchController = TextEditingController();
       throw {"error": e};
     }
   }
-  // Default to DropOff
+
   int searchtab = 0;
-
   String? currentFilterType;
+  String? selectedType;
 
-  int tabs = 0;
+  List<RequestedItem> allRequests = [];
+  List<RequestedItem> filteredRequests = [];
 
   void togglesearchtab(int index) {
     searchtab = index;
     notifyListeners();
   }
-
-  List<RequestedItem> allRequests = [];
-  List<RequestedItem> filteredRequests = [];
-  String?
-  selectedType; // Tracks the selected filter type (e.g., 'warehouse_dropoff', 'on_site_order')
 
   void setRequests(
     List<RequestedItem> siteRequests,
@@ -127,30 +123,50 @@ TextEditingController searchController = TextEditingController();
   }
 
   void filter(String query) {
-    query = query.toLowerCase().trim();
+  query = query.toLowerCase().trim();
+
+  // Always filter by type (selectedType), even if query is empty
+  filteredRequests = allRequests.where((item) {
+    final matchesType = selectedType == null
+        ? true
+        : item.type.toLowerCase() == selectedType?.toLowerCase();
 
     if (query.isEmpty) {
-      // Show all items if query is empty, regardless of type
-      filteredRequests = allRequests;
+      return matchesType;
     } else {
-      filteredRequests =
-          allRequests.where((item) {
-            final matchesQuery =
-                item.location.toLowerCase().contains(query) ||
-                item.binSizeName.toLowerCase().contains(query);
-
-            if (selectedType == null) {
-              // If no type is selected, show matching results from all types
-              return matchesQuery;
-            } else {
-              // Filter by both query and type
-              final matchesType =
-                  item.type.toLowerCase() == selectedType?.toLowerCase();
-              return matchesQuery && matchesType;
-            }
-          }).toList();
+      final matchesQuery =
+          item.location.toLowerCase().contains(query) ||
+          item.binSizeName.toLowerCase().contains(query);
+      return matchesType && matchesQuery;
     }
+  }).toList();
 
-    notifyListeners();
-  }
+  notifyListeners();
+}
+
+
+  int get dropoffCount {
+  final query = searchController.text.trim();
+  if (query.isEmpty) return 0;
+
+  return allRequests
+      .where((item) => item.type.toLowerCase() == 'on_site_order')
+      .where((item) =>
+          item.location.toLowerCase().contains(query.toLowerCase()) ||
+          item.binSizeName.toLowerCase().contains(query.toLowerCase()))
+      .length;
+}
+
+int get pickupCount {
+  final query = searchController.text.trim();
+  if (query.isEmpty) return 0;
+
+  return allRequests
+      .where((item) => item.type.toLowerCase() == 'warehouse_dropoff')
+      .where((item) =>
+          item.location.toLowerCase().contains(query.toLowerCase()) ||
+          item.binSizeName.toLowerCase().contains(query.toLowerCase()))
+      .length;
+}
+
 }
