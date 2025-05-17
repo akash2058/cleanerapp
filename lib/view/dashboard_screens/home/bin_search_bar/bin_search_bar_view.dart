@@ -59,14 +59,7 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                                     prefix: Icon(Icons.search_outlined),
                                     onChanged: (value) {
                                       // If no type selected, default to DropOff
-                                      if (provider.selectedType == null) {
-                                        provider.setFilterType(
-                                          'on_site_order',
-                                          query: value.trim(),
-                                        );
-                                      } else {
-                                        provider.filter(value.trim());
-                                      }
+                                    provider.filter(value);
                                     },
                                   ),
                                 ),

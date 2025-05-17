@@ -64,11 +64,8 @@ class _MyOrdersPickupDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyOrderProvider>(
-      builder: (context, order, child) {
-        return Consumer<LoginProvider>(
-          builder: (context, log, child) {
-            return Scaffold(
+    return Consumer2<MyOrderProvider,LoginProvider>(builder: (context, order, log, child) {
+      return Scaffold(
               backgroundColor: CleanerAppcolors.primaryWhitecolor,
               bottomNavigationBar: BottomAppBar(
                 color: CleanerAppcolors.primaryWhitecolor,
@@ -130,9 +127,6 @@ class _MyOrdersPickupDetailsScreenState
                 ),
               ),
             );
-          },
-        );
-      },
-    );
+    },);
   }
 }

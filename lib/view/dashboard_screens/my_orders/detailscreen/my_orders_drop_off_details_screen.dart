@@ -85,14 +85,11 @@ class _MyOrdersDropOffDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyOrderProvider>(
-      builder: (context, order, child) {
-            final fieldkey = GlobalKey<FormState>();
+    return Consumer2<LoginProvider,MyOrderProvider>(builder: (context, log, order, child) {
+       final fieldkey = GlobalKey<FormState>();
 
         final orderdata = order.orderdetail?.data;
-        return Consumer<LoginProvider>(
-          builder: (context, log, child) {
-            return Scaffold(
+      return Scaffold(
               backgroundColor: CleanerAppcolors.primaryWhitecolor,
               bottomNavigationBar: BottomAppBar(
                 color: CleanerAppcolors.primaryWhitecolor,
@@ -271,9 +268,9 @@ class _MyOrdersDropOffDetailsScreenState
                 ),
               ),
             );
-          },
-        );
-      },
-    );
+    },);
   }
 }
+
+
+  

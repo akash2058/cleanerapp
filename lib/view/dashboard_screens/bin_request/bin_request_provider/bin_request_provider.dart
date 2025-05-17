@@ -1,14 +1,11 @@
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
-import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard/dashboard_view/dashboard_view.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/model/bin_booking_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/service/bin_booking_api_service.dart';
-import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class BinRequestProvider extends ChangeNotifier {
   int currenttab = 0;
@@ -18,20 +15,7 @@ class BinRequestProvider extends ChangeNotifier {
   TextEditingController bookingidcontroller = TextEditingController();
   BinBookingModel? _binBookingModel;
   BinBookingModel? get binbook => _binBookingModel;
-  void getData(context) async {
-    
-    final logindata = Provider.of<LoginProvider>(context, listen: false);
-    await logindata.loadLoginData();
-    final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
-    await myordersdata.getMyordersData(logindata.userid);
-    final binrequestdata = Provider.of<BinRequestProvider>(
-      context,
-      listen: false,
-    );
-    await binrequestdata.getBinRequestData();
 
-    print('userid${logindata.userid}');
-  }
   Future<void> getBinRequestData() async {
     var token = await Utils.getToken(); // Await the token
     print('Token: $token'); // Now you’ll get the actual value
@@ -106,16 +90,16 @@ class BinRequestProvider extends ChangeNotifier {
       loadingrequestaccept = false;
       notifyListeners();
 
-
       print('Error: $e');
       throw {"error": e};
     }
   }
-   // Default to DropOff
+  // Default to DropOff
 
- List<RequestedItem> allRequests = [];
+  List<RequestedItem> allRequests = [];
   List<RequestedItem> filteredRequests = [];
-String? selectedType = 'on_site_order'; // Tracks the selected filter type (e.g., 'warehouse_dropoff', 'on_site_order')
+  String?
+  selectedType; // Tracks the selected filter type (e.g., 'warehouse_dropoff', 'on_site_order')
 
   void setRequests(
     List<RequestedItem> siteRequests,
@@ -128,26 +112,36 @@ String? selectedType = 'on_site_order'; // Tracks the selected filter type (e.g.
 
   void setFilterType(String? type, {String query = ''}) {
     selectedType = type;
-    filter(query); // Reapply filter with the current query and new type
+    filter(query);
   }
 
   void filter(String query) {
     query = query.toLowerCase().trim();
-    
-    if (query.isEmpty || selectedType == null) {
-      filteredRequests = []; // No suggestions if query is empty or no type selected
-    } else {
-      filteredRequests = allRequests.where((item) {
-        // Filter by location or binSizeName matching the query and selected type
-        final matchesQuery = item.location.toLowerCase().contains(query) ||
-                             item.binSizeName.toLowerCase().contains(query);
-        final matchesType = item.type.toLowerCase() == selectedType?.toLowerCase();
 
-        return matchesQuery && matchesType;
-      }).toList();
+    if (query.isEmpty) {
+      // Show all items if query is empty, regardless of type
+      filteredRequests = allRequests;
+    } else {
+      filteredRequests =
+          allRequests.where((item) {
+            final matchesQuery =
+                item.location.toLowerCase().contains(query) ||
+                item.binSizeName.toLowerCase().contains(query);
+
+            if (selectedType == null) {
+              // If no type is selected, show matching results from all types
+              return matchesQuery;
+            } else {
+              // Filter by both query and type
+              final matchesType =
+                  item.type.toLowerCase() == selectedType?.toLowerCase();
+              return matchesQuery && matchesType;
+            }
+          }).toList();
     }
 
     notifyListeners();
   }
 
+  notifyListeners();
 }

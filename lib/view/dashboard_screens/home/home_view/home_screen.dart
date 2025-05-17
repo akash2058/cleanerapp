@@ -88,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
           body: RefreshIndicator(
             onRefresh: getData,
             child: ListView(
-              clipBehavior: Clip.none,
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
