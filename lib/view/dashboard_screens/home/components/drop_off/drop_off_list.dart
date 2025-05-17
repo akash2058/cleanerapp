@@ -22,15 +22,7 @@ class DropOff extends StatelessWidget {
           builder: (context, bindata, child) {
             return Consumer<LoginProvider>(
               builder: (context, log, child) {
-                return bindata.loadingbinbooking == true
-                    ? Padding(
-                      padding:  EdgeInsets.symmetric(vertical: 90).r,
-                      child: LoadingAnimationWidget.hexagonDots(
-                        color: CleanerAppcolors.primarypurple,
-                        size: 40.r,
-                      ),
-                    )
-                    : bindata.binbook?.data.warehouseRequests.isEmpty ?? true
+          return  bindata.binbook?.data.warehouseRequests.isEmpty ?? true
                     ? Padding(
                       padding: EdgeInsets.symmetric(vertical: 90.r),
                       child: Center(

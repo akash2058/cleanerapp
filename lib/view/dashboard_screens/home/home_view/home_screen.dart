@@ -50,141 +50,128 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
-      builder: (context, home, child) {
-        return Consumer<BinRequestProvider>(
-          builder: (context, binr, child) {
-            return Consumer<LoginProvider>(
-              builder: (context, log, child) {
-                return Consumer<DashboardProvider>(
-                  builder: (context, dash, child) {
-                    return Scaffold(
-                      drawer: CleanerAppDrawer(),
-                      appBar: AppBar(
-                        scrolledUnderElevation: 0,
-                        actions: [
-                          Builder(
-                            builder:
-                                (context) => GestureDetector(
-                                  onTap: () {
-                                    Scaffold.of(context).openDrawer();
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor:
-                                        CleanerAppcolors
-                                            .primaryminidarkgreycolor,
-                                    radius: 20.r,
-                                    child: CircleAvatar(
-                                      radius: 18.r,
-                                      backgroundColor: Colors.white,
-                                      child: Icon(
-                                        Icons.menu,
-                                        size: 22.r,
-                                        color:
-                                            CleanerAppcolors.primarygreycolor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+    return Consumer3<HomeProvider, DashboardProvider, BinRequestProvider>(
+      builder: (context, home, dash, binr, child) {
+        return Scaffold(
+          drawer: CleanerAppDrawer(),
+          appBar: AppBar(
+            scrolledUnderElevation: 0,
+            actions: [
+              Builder(
+                builder:
+                    (context) => GestureDetector(
+                      onTap: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      child: CircleAvatar(
+                        backgroundColor:
+                            CleanerAppcolors.primaryminidarkgreycolor,
+                        radius: 20.r,
+                        child: CircleAvatar(
+                          radius: 18.r,
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.menu,
+                            size: 22.r,
+                            color: CleanerAppcolors.primarygreycolor,
                           ),
-                          SizedBox(width: 12.r),
-                        ],
-                        backgroundColor: CleanerAppcolors.primaryminigreycolor,
-                        automaticallyImplyLeading: false,
+                        ),
                       ),
-                      backgroundColor: CleanerAppcolors.primaryminigreycolor,
-                      body: RefreshIndicator(
-                        onRefresh: getData,
-                        child: ListView(
-                          clipBehavior: Clip.none,
-                          children:[ 
-                            Padding(
-                            padding:
-                                EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 10,
-                                ).r,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: 15.r,
-                              children: [
-                                CleanerTextfield(
-                                  fillColor: CleanerAppcolors.primaryWhitecolor,
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      CustomPageRoute(
-                                        child: BinSearchScreen(
-                                          model: BinBookingModel(
-                                            status: binr.binbook?.status ?? '',
-                                            message: binr.binbook?.message ?? '',
-                                            data: BinRequestData(
-                                              siteRequests:
-                                                  binr.binbook!.data.siteRequests,
-                                              warehouseRequests:
-                                                  binr
-                                                      .binbook!
-                                                      .data
-                                                      .warehouseRequests,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  prefix: Icon(Icons.search),
-                                  hintlabel: 'Search',
-                                ),
-                                GreetingsCard(),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Active Orders',
-                                      style: greetingsStyleblack,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        dash.screenTabs(dash.currenttab = 1);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'View more',
-                                            style: dashboardlabelfontdarkgrey,
-                                          ),
-                                          Icon(
-                                            Icons.keyboard_arrow_right_outlined,
-                                            size: 30.r,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                 SizedBox(
-                                    child:binr.loadingbinbooking == true?Center(child: LoadingAnimationWidget.hexagonDots(color: CleanerAppcolors.primarypurple,size: 40.r)): Column(
-                                      spacing: 15.r,
-                                      children: [
-                                        HomeTabs(),
-                                        if (home.tabs == 0) PickUp(),
-                                        if (home.tabs == 1) DropOff(),
-                                      ],
-                                    ),
+                    ),
+              ),
+              SizedBox(width: 12.r),
+            ],
+            backgroundColor: CleanerAppcolors.primaryminigreycolor,
+            automaticallyImplyLeading: false,
+          ),
+          backgroundColor: CleanerAppcolors.primaryminigreycolor,
+          body: RefreshIndicator(
+            onRefresh: getData,
+            child: ListView(
+              clipBehavior: Clip.none,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 15.r,
+                    children: [
+                      CleanerTextfield(
+                        fillColor: CleanerAppcolors.primaryWhitecolor,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CustomPageRoute(
+                              child: BinSearchScreen(
+                                model: BinBookingModel(
+                                  status: binr.binbook?.status ?? '',
+                                  message: binr.binbook?.message ?? '',
+                                  data: BinRequestData(
+                                    siteRequests:
+                                        binr.binbook!.data.siteRequests,
+                                    warehouseRequests:
+                                        binr.binbook!.data.warehouseRequests,
                                   ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        prefix: Icon(Icons.search),
+                        hintlabel: 'Search',
+                      ),
+                      GreetingsCard(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Active Orders', style: greetingsStyleblack),
+                          GestureDetector(
+                            onTap: () {
+                              dash.screenTabs(dash.currenttab = 1);
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  'View more',
+                                  style: dashboardlabelfontdarkgrey,
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  size: 30.r,
+                                ),
                               ],
                             ),
                           ),
-                          ]
-                        ),
+                        ],
                       ),
-                    );
-                  },
-                );
-              },
-            );
-          },
+                      SizedBox(
+                        child:
+                            binr.loadingbinbooking == true
+                                ? Center(
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 170).r,
+                                    child: LoadingAnimationWidget.hexagonDots(
+                                      color: CleanerAppcolors.primarypurple,
+                                      size: 40.r,
+                                    ),
+                                  ),
+                                )
+                                : Column(
+                                  spacing: 15.r,
+                                  children: [
+                                    HomeTabs(),
+                                    if (home.tabs == 0) PickUp(),
+                                    if (home.tabs == 1) DropOff(),
+                                  ],
+                                ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

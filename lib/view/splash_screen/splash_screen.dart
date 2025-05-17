@@ -6,6 +6,7 @@ import 'package:binbookingapp/utils/cleanericonspng.dart';
 import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -40,6 +41,10 @@ class _SplashScreen extends State<SplashScreen> {
               height: 280.r,
             ),
             Image.asset(AppIcons.logobar,height: 60.r,),
+            SizedBox(
+              height: 20.r,
+            ),
+            LoadingAnimationWidget.discreteCircle(color: CleanerAppcolors.primarypurple,size: 40.r,secondRingColor: CleanerAppcolors.primaryGreencolor,thirdRingColor: CleanerAppcolors.primarygreycolor),
             Spacer(), 
             SizedBox(
               height: 370.h,

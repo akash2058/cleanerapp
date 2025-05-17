@@ -27,20 +27,25 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   void getData(context) async {
+  try {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     await logindata.loadLoginData();
+
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
     await myordersdata.getMyordersData(logindata.userid);
-    final binrequestdata = Provider.of<BinRequestProvider>(
-      context,
-      listen: false,
-    );
+
+    final binrequestdata = Provider.of<BinRequestProvider>(context, listen: false);
     await binrequestdata.getBinRequestData();
+
     myordersdata.paymentreceivecontroller.clear();
     myordersdata.amountreceivecontroller.clear();
 
     print('userid${logindata.userid}');
+  } catch (e) {
+    print('Error loading dashboard data: $e');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
