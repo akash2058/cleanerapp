@@ -42,7 +42,7 @@ class _SplashScreen extends State<SplashScreen> {
             ),
             Image.asset(AppIcons.logobar,height: 60.r,),
             SizedBox(
-              height: 20.r,
+              height: 60.r,
             ),
             LoadingAnimationWidget.discreteCircle(color: CleanerAppcolors.primarypurple,size: 40.r,secondRingColor: CleanerAppcolors.primaryGreencolor,thirdRingColor: CleanerAppcolors.primarygreycolor),
             Spacer(), 

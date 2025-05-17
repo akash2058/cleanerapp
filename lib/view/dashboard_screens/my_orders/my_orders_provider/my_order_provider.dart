@@ -32,10 +32,90 @@ class MyOrderProvider extends ChangeNotifier {
 
   TextEditingController amountreceivecontroller = TextEditingController();
   TextEditingController paymentreceivecontroller = TextEditingController();
+  TextEditingController ordersearch = TextEditingController();
   void toggleTab(int index) {
     tabs = index;
     notifyListeners();
   }
+
+
+
+  int myordersearch = 0;
+  String? selectedType;
+
+  List<RequestsItem> allOrders = [];
+  List<RequestsItem> filteredOrders = [];
+
+  void toggleSearchTab(int index) {
+    myordersearch = index;
+    selectedType = index == 0 ? 'on_site_order' : 'warehouse_dropoff';
+    filter(ordersearch.text);
+    notifyListeners();
+  }
+
+  void setOrders(List<RequestsItem> dropoffOrders, List<RequestsItem> pickupOrders) {
+    allOrders = [...dropoffOrders, ...pickupOrders];
+    filteredOrders = [];
+    notifyListeners();
+  }
+
+
+  void setFilterType(String? type, {String query = ''}) {
+    selectedType = type;
+    filter(query);
+  }
+ void filter(String query) {
+  query = query.toLowerCase().trim();
+
+  // Always filter by type (selectedType), even if query is empty
+  filteredOrders = allOrders.where((item) {
+    final matchesType = selectedType == null
+        ? true
+        : item.type!.toLowerCase() == selectedType?.toLowerCase();
+
+    if (query.isEmpty) {
+      return matchesType;
+    } else {
+      final matchesQuery =
+          item.location!.toLowerCase().contains(query) ||
+          item.binSizeName!.toLowerCase().contains(query);
+      return matchesType && matchesQuery;
+    }
+  }).toList();
+
+  notifyListeners();
+}
+
+void init() {
+  ordersearch.addListener(() {
+    notifyListeners(); // Refresh UI when query changes
+  });
+}
+
+
+  int get dropoffCount {
+  final query = ordersearch.text.trim();
+  if (query.isEmpty) return 0;
+
+  return allOrders
+      .where((item) => item.type?.toLowerCase() == 'on_site_order')
+      .where((item) =>
+          item.location!.toLowerCase().contains(query.toLowerCase()) ||
+          item.binSizeName!.toLowerCase().contains(query.toLowerCase()))
+      .length;
+}
+
+int get pickupCount {
+  final query = ordersearch.text.trim();
+  if (query.isEmpty) return 0;
+
+  return filteredOrders
+      .where((item) => item.type?.toLowerCase() == 'warehouse_dropoff')
+      .where((item) =>
+          item.location!.toLowerCase().contains(query.toLowerCase()) ||
+          item.binSizeName!.toLowerCase().contains(query.toLowerCase()))
+      .length;
+}
 
   Future<void> getMyordersData(id) async {
     var token = await Utils.getToken(); // Await the token

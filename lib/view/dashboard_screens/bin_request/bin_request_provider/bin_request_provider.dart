@@ -17,6 +17,16 @@ class BinRequestProvider extends ChangeNotifier {
   BinBookingModel? get binbook => _binBookingModel;
   TextEditingController searchController = TextEditingController();
 
+  bool _isBinRequest = true;
+
+  bool get isBinRequest => _isBinRequest;
+  
+void setIsBinRequest(bool value) {
+  _isBinRequest = value;
+  notifyListeners();
+}
+
+ // Toggle between bin requests and my orders
   Future<void> getBinRequestData() async {
     var token = await Utils.getToken(); // Await the token
     print('Token: $token'); // Now you’ll get the actual value
@@ -103,10 +113,13 @@ class BinRequestProvider extends ChangeNotifier {
   List<RequestedItem> allRequests = [];
   List<RequestedItem> filteredRequests = [];
 
-  void togglesearchtab(int index) {
-    searchtab = index;
-    notifyListeners();
-  }
+ void toggleSearchTab(int index) {
+  searchtab = index;
+  selectedType = index == 0 ? 'on_site_order' : 'warehouse_dropoff';
+  filter(searchController.text);
+  notifyListeners();
+}
+
 
   void setRequests(
     List<RequestedItem> siteRequests,
@@ -122,26 +135,27 @@ class BinRequestProvider extends ChangeNotifier {
     filter(query);
   }
 
-  void filter(String query) {
+ void filter(String query) {
   query = query.toLowerCase().trim();
 
-  // Always filter by type (selectedType), even if query is empty
-  filteredRequests = allRequests.where((item) {
-    final matchesType = selectedType == null
-        ? true
-        : item.type.toLowerCase() == selectedType?.toLowerCase();
-
-    if (query.isEmpty) {
-      return matchesType;
-    } else {
-      final matchesQuery =
-          item.location.toLowerCase().contains(query) ||
-          item.binSizeName.toLowerCase().contains(query);
-      return matchesType && matchesQuery;
-    }
+  filteredRequests = allRequests.where((order) {
+    final matchesQuery = order.location.toLowerCase().contains(query) ||
+        order.binSizeName.toLowerCase().contains(query);
+    final matchesType = selectedType == null ||
+        order.type.toLowerCase() == selectedType!.toLowerCase();
+    return matchesQuery && matchesType;
   }).toList();
 
+  // Update counts
+
   notifyListeners();
+}
+
+
+void init() {
+  searchController.addListener(() {
+    notifyListeners(); // Refresh UI when query changes
+  });
 }
 
 

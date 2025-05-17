@@ -15,6 +15,7 @@ import 'package:binbookingapp/view/dashboard_screens/home/components/greetings_c
 import 'package:binbookingapp/view/dashboard_screens/home/components/home_tabs/home_tabs.dart';
 import 'package:binbookingapp/view/dashboard_screens/home/components/pick_up/pick_up_list.dart';
 import 'package:binbookingapp/view/dashboard_screens/home/home_provider/home_provider.dart';
+import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,21 +33,26 @@ class _HomeScreenState extends State<HomeScreen> {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     logindata.loadLoginData();
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
- 
+
     final binrequestdata = Provider.of<BinRequestProvider>(
       context,
       listen: false,
     );
-      await Future.wait([
-        myordersdata.getMyordersData(logindata.userid),
-        binrequestdata.getBinRequestData(),
-      ]);
+    await Future.wait([
+      myordersdata.getMyordersData(logindata.userid),
+      binrequestdata.getBinRequestData(),
+    ]);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer3<HomeProvider, DashboardProvider, BinRequestProvider>(
-      builder: (context, home, dash, binr, child) {
+    return Consumer4<
+      DashboardProvider,
+      MyOrderProvider,
+      BinRequestProvider,
+      HomeProvider
+    >(
+      builder: (context, dash, myorder, binr, home, child) {
         return Scaffold(
           drawer: CleanerAppDrawer(),
           appBar: AppBar(
@@ -97,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             CustomPageRoute(
                               child: BinSearchScreen(
-                                model: BinBookingModel(
+                                binmodel: BinBookingModel(
                                   status: binr.binbook?.status ?? '',
                                   message: binr.binbook?.message ?? '',
                                   data: BinRequestData(
@@ -105,6 +111,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                         binr.binbook!.data.siteRequests,
                                     warehouseRequests:
                                         binr.binbook!.data.warehouseRequests,
+                                  ),
+                                ),
+                                myordermodel: MyOrderModel(
+                                  status: myorder.order?.status ?? '',
+                                  message: binr.binbook?.message ?? '',
+                                  data: BinOrderData(
+                                    siteOrder:
+                                        myorder.order!.data!.siteOrder,
+                                    warehouseOrder:
+                                        myorder.order!.data!.warehouseOrder,
                                   ),
                                 ),
                               ),
@@ -138,9 +154,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                       HomeTabs(),
-                                    if (home.tabs == 0) PickUp(),
-                                    if (home.tabs == 1) DropOff(),
+                      HomeTabs(),
+                      if (home.tabs == 0) PickUp(),
+                      if (home.tabs == 1) DropOff(),
                     ],
                   ),
                 ),
