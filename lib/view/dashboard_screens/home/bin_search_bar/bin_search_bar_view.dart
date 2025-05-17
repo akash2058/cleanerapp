@@ -50,7 +50,6 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                       : Column(
                           children: [
                             Row(
-                              spacing: 10.r,
                               children: [
                                 Expanded(
                                   child: CleanerTextfield(
@@ -59,14 +58,27 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                                     hintlabel: 'Search',
                                     prefix: Icon(Icons.search_outlined),
                                     onChanged: (value) {
-                                      provider.filter(value.trim());
+                                      // If no type selected, default to DropOff
+                                      if (provider.selectedType == null) {
+                                        provider.setFilterType(
+                                          'on_site_order',
+                                          query: value.trim(),
+                                        );
+                                      } else {
+                                        provider.filter(value.trim());
+                                      }
                                     },
                                   ),
                                 ),
+                                SizedBox(width: 10.r),
                                 CircleAvatar(
                                   backgroundColor: CleanerAppcolors.primarypurple,
                                   child: PopupMenuButton<String>(
-                                    child: Image.asset(AppIcons.equalizericon,height: 30.r,color: CleanerAppcolors.primaryWhitecolor,),
+                                    icon: Image.asset(
+                                      AppIcons.equalizericon,
+                                      height: 30.r,
+                                      color: CleanerAppcolors.primaryWhitecolor,
+                                    ),
                                     onSelected: (value) {
                                       provider.setFilterType(
                                         value,
@@ -78,7 +90,6 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                                         value: 'on_site_order',
                                         child: Text('DropOff'),
                                       ),
-                                      
                                       PopupMenuItem(
                                         value: 'warehouse_dropoff',
                                         child: Text('Pick up'),
@@ -90,20 +101,18 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                             ),
                             SizedBox(height: 10.r),
                             Expanded(
-                              child: searchController.text.isEmpty ||
-                                      provider.selectedType == null
+                              child: searchController.text.isEmpty
                                   ? Center(
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Icon(
-                                            Icons.type_specimen_outlined,
-                                            size: 40.r,
-                                          ),
+                                          Icon(Icons.type_specimen_outlined, size: 40.r),
                                           Text(
-                                            'Select type and type to search...',
+                                            provider.selectedType == null
+                                                ? 'Start typing to search DropOff requests...'
+                                                : 'Start typing to search ${provider.selectedType == 'on_site_order' ? 'DropOff' : 'Pickup'} requests...',
                                             style: resendfont,
+                                            textAlign: TextAlign.center,
                                           ),
                                         ],
                                       ),
@@ -111,13 +120,9 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                                   : provider.filteredRequests.isEmpty
                                       ? Center(
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Image.asset(
-                                                AppIcons.closedd,
-                                                height: 70.r,
-                                              ),
+                                              Image.asset(AppIcons.closedd, height: 70.r),
                                               Text(
                                                 'No suggestions found',
                                                 style: resendfont,
@@ -125,46 +130,38 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                                             ],
                                           ),
                                         )
-                                      : SingleChildScrollView(
-                                        child: Column(
-                                          spacing: 10.r,
-                                          children: List.generate(provider.filteredRequests.length, (index) {
-                                               final item =
-                                                  provider.filteredRequests[index];
-                                              return BinRequestCard(
-                                                onPressed: () {
-                                                  showModalBottomSheet(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return BinBookingBottomSheet(
-                                                        customername:
-                                                            item.customerName,
-                                                        location: item.location,
-                                                        endDate: item.endDate,
-                                                        type: item.type,
-                                                        binsizeName:
-                                                            item.binSizeName,
-                                                        bookingId:
-                                                            item.id.toString(),
-                                                        userId: log.userid,
-                                                        startdate: item.startDate,
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                                address: item.location,
-                                                quantity:
-                                                    item.quantity.toString(),
-                                                startdate: item.startDate,
-                                                binsizename: item.binSizeName,
-                                                duration:
-                                                    item.orderDuration.toString(),
-                                                requestoverdue:
-                                                    item.orderOverdue?.toInt() ?? 0,
-                                              );
-                                          },),
+                                      : ListView.separated(
+                                          itemCount: provider.filteredRequests.length,
+                                          separatorBuilder: (_, __) => SizedBox(height: 10.r),
+                                          itemBuilder: (context, index) {
+                                            final item = provider.filteredRequests[index];
+                                            return BinRequestCard(
+                                              onPressed: () {
+                                                showModalBottomSheet(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return BinBookingBottomSheet(
+                                                      customername: item.customerName,
+                                                      location: item.location,
+                                                      endDate: item.endDate,
+                                                      type: item.type,
+                                                      binsizeName: item.binSizeName,
+                                                      bookingId: item.id.toString(),
+                                                      userId: log.userid,
+                                                      startdate: item.startDate,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              address: item.location,
+                                              quantity: item.quantity.toString(),
+                                              startdate: item.startDate,
+                                              binsizename: item.binSizeName,
+                                              duration: item.orderDuration.toString(),
+                                              requestoverdue: item.orderOverdue?.toInt() ?? 0,
+                                            );
+                                          },
                                         ),
-                                      )
                             ),
                           ],
                         ),
@@ -177,6 +174,7 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
     );
   }
 }
+
 
   // itemCount:
   //                                             provider.filteredRequests.length,

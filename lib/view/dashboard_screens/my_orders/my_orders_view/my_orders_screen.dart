@@ -60,7 +60,6 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                           MyOrdersTabs(),
                           Expanded(
                             child: ListView(
-                              clipBehavior: Clip.none,
                               children: [
                                 if (orders.tabs == 0) MyOrdersPickUpList(),
 

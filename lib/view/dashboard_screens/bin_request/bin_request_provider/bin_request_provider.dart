@@ -111,9 +111,11 @@ class BinRequestProvider extends ChangeNotifier {
       throw {"error": e};
     }
   }
+   // Default to DropOff
+
  List<RequestedItem> allRequests = [];
   List<RequestedItem> filteredRequests = [];
-  String? selectedType; // Tracks the selected filter type (e.g., 'warehouse_dropoff', 'on_site_order')
+String? selectedType = 'on_site_order'; // Tracks the selected filter type (e.g., 'warehouse_dropoff', 'on_site_order')
 
   void setRequests(
     List<RequestedItem> siteRequests,
