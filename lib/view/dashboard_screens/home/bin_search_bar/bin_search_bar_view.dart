@@ -48,6 +48,8 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                           size: 40.r,
                         )
                       : Column(
+                        spacing: 10.r,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
@@ -92,6 +94,7 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                                 ),
                               ],
                             ),
+                            Text('Search using location and bin size name',style: dashboardlabelfontblack,),
                             SizedBox(height: 10.r),
                             Expanded(
                               child: searchController.text.isEmpty
@@ -102,7 +105,7 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                                           Icon(Icons.type_specimen_outlined, size: 40.r),
                                           Text(
                                             provider.selectedType == null
-                                                ? 'Start typing to search DropOff requests...'
+                                                ? 'Start typing to search'
                                                 : 'Start typing to search ${provider.selectedType == 'on_site_order' ? 'DropOff' : 'Pickup'} requests...',
                                             style: resendfont,
                                             textAlign: TextAlign.center,
