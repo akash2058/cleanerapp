@@ -98,6 +98,8 @@ class MyRequestSearchResults extends StatelessWidget {
                                         return BinRequestCard(
                                           onPressed: () {
                                             showModalBottomSheet(
+                                                                          showDragHandle: true,
+
                                               context: context,
                                               builder: (context) {
                                                 return BinBookingBottomSheet(

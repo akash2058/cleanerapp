@@ -1,5 +1,6 @@
 
 
+import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
@@ -10,6 +11,7 @@ import 'package:binbookingapp/view/dashboard_screens/home/bin_search_bar/search_
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:provider/provider.dart';
 
@@ -58,7 +60,7 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
               onSelected: (value) {
                 provider.setIsBinRequest(value == 'Bin Requests');
               },
-              icon: Icon(Icons.swap_horiz),
+              icon: Icon(Icons.swap_horizontal_circle,color: CleanerAppcolors.primarypurple),
               itemBuilder: (context) => [
                 PopupMenuItem(
                   value: 'Bin Requests',
@@ -70,6 +72,8 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
                 ),
               ],
             ),
+                        SizedBox(width: 20.r,),
+
           ],
           title: Text(
             provider.isBinRequest ? 'Search Requests' : 'Search Orders',

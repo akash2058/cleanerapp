@@ -140,7 +140,8 @@ void setIsBinRequest(bool value) {
 
   filteredRequests = allRequests.where((order) {
     final matchesQuery = order.location.toLowerCase().contains(query) ||
-        order.binSizeName.toLowerCase().contains(query);
+        order.binSizeName.toLowerCase().contains(query) ||
+        order.customerName.toLowerCase().contains(query);
     final matchesType = selectedType == null ||
         order.type.toLowerCase() == selectedType!.toLowerCase();
     return matchesQuery && matchesType;
@@ -167,7 +168,8 @@ void init() {
       .where((item) => item.type.toLowerCase() == 'on_site_order')
       .where((item) =>
           item.location.toLowerCase().contains(query.toLowerCase()) ||
-          item.binSizeName.toLowerCase().contains(query.toLowerCase()))
+          item.customerName.toLowerCase().contains(query.toLowerCase())||
+          item.binSizeName.toLowerCase().contains(query.toLowerCase())) 
       .length;
 }
 
@@ -179,6 +181,7 @@ int get pickupCount {
       .where((item) => item.type.toLowerCase() == 'warehouse_dropoff')
       .where((item) =>
           item.location.toLowerCase().contains(query.toLowerCase()) ||
+          item.customerName.toLowerCase().contains(query.toLowerCase())||
           item.binSizeName.toLowerCase().contains(query.toLowerCase()))
       .length;
 }
