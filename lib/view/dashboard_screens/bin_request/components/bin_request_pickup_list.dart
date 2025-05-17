@@ -13,11 +13,8 @@ class BinRequestPickupList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginProvider>(
-      builder: (context, log, child) {
-        return Consumer<BinRequestProvider>(
-          builder: (context, binr, child) {
-            return (binr.binbook?.data.warehouseRequests.isEmpty ?? true)
+    return Consumer2<BinRequestProvider,LoginProvider>(builder: (context, binr, log, child) {
+       return (binr.binbook?.data.warehouseRequests.isEmpty ?? true)
                 ? Padding(
                   padding: EdgeInsets.symmetric(vertical: 250.r),
                   child: Center(
@@ -67,9 +64,6 @@ class BinRequestPickupList extends StatelessWidget {
                     },
                   ),
                 );
-          },
-        );
-      },
-    );
+    },);
   }
 }

@@ -48,10 +48,8 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BinRequestProvider>(
-      builder: (context, binr, child) {
-        return Consumer<LoginProvider>(builder: (context, log, child) {
-          return  SizedBox(
+    return Consumer2<BinRequestProvider,LoginProvider>(builder: (context, binr, log, child) {
+      return SizedBox(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15).r,
             child: Column(
@@ -124,9 +122,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
             ),
           ),
         );
-        },);
-      },
-    );
+    },);
   }
 }
 String capitalizeEachPart(String input) {

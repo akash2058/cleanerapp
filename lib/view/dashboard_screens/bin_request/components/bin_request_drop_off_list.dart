@@ -13,59 +13,54 @@ class BinRequestDropoffList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BinRequestProvider>(
-      builder: (context, binr, child) {
-        return Consumer<LoginProvider>(
-          builder: (context, log, child) {
-            return (binr.binbook?.data.siteRequests.isEmpty ?? true)
-                ? Padding(
-                  padding: EdgeInsets.symmetric(vertical: 250).r,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(AppIcons.closedd, height: 70.r),
-                      Text('No Drop off Request Found', style: resendfont),
-                    ],
-                  ),
-                )
-                : Column(
-                  spacing: 15.r,
-                  children: List.generate(
-                    binr.binbook?.data.siteRequests.length ?? 0,
-                    (index) {
-                      var bindata = binr.binbook?.data.siteRequests[index];
-                      return BinRequestCard(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            showDragHandle: true,
-                            context: context,
-                            builder: (context) {
-                              return BinBookingBottomSheet(
-                                customername: bindata?.customerName ?? '',
-                                location: bindata?.location ?? '',
-                                endDate: bindata?.endDate ?? '',
-                                type: bindata?.type ?? '',
-                                binsizeName: bindata?.binSizeName ?? '',
-                                bookingId: bindata?.id.toString() ?? '',
-                                userId:
-                                    log.user?.data?.user?.id.toString() ?? '',
-                                startdate: bindata?.startDate ?? '',
-                              );
-                            },
+    return Consumer2<BinRequestProvider, LoginProvider>(
+      builder: (context, binr, log, child) {
+        return (binr.binbook?.data.siteRequests.isEmpty ?? true)
+            ? Padding(
+              padding: EdgeInsets.symmetric(vertical: 250).r,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(AppIcons.closedd, height: 70.r),
+                  Text('No Drop off Request Found', style: resendfont),
+                ],
+              ),
+            )
+            : Column(
+              spacing: 15.r,
+              children: List.generate(
+                binr.binbook?.data.siteRequests.length ?? 0,
+                (index) {
+                  var bindata = binr.binbook?.data.siteRequests[index];
+                  return BinRequestCard(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        showDragHandle: true,
+                        context: context,
+                        builder: (context) {
+                          return BinBookingBottomSheet(
+                            customername: bindata?.customerName ?? '',
+                            location: bindata?.location ?? '',
+                            endDate: bindata?.endDate ?? '',
+                            type: bindata?.type ?? '',
+                            binsizeName: bindata?.binSizeName ?? '',
+                            bookingId: bindata?.id.toString() ?? '',
+                            userId: log.user?.data?.user?.id.toString() ?? '',
+                            startdate: bindata?.startDate ?? '',
                           );
                         },
-                        address: bindata?.location ?? 'N/A',
-                        quantity: bindata?.quantity.toString() ?? '0',
-                        startdate: bindata?.startDate ?? '',
-                        duration: bindata?.orderDuration.toString() ?? '0',
-                        binsizename: bindata?.binSizeName ?? 'N/A',
-                        requestoverdue: bindata?.requestOverdue?.toInt() ?? 0,
                       );
                     },
-                  ),
-                );
-          },
-        );
+                    address: bindata?.location ?? 'N/A',
+                    quantity: bindata?.quantity.toString() ?? '0',
+                    startdate: bindata?.startDate ?? '',
+                    duration: bindata?.orderDuration.toString() ?? '0',
+                    binsizename: bindata?.binSizeName ?? 'N/A',
+                    requestoverdue: bindata?.requestOverdue?.toInt() ?? 0,
+                  );
+                },
+              ),
+            );
       },
     );
   }

@@ -71,16 +71,26 @@ Future<bool> isSessionActive() async {
   String gender = 'N/A';
   String contact = 'N/A';
   String address = 'N/A';
-  Future<void> loadLoginData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    email = prefs.getString('email') ?? '';
-    name = prefs.getString('name') ?? '';
-    userid = prefs.getString('userid') ?? '';
-    gender = prefs.getString('gender')??'';
-    contact = prefs.getString('contact')??'';
-    address = prefs.getString('address')??'';
-    notifyListeners();
+Future<void> loadLoginData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  name = _checkEmpty(prefs.getString('name'));
+  email = _checkEmpty(prefs.getString('email'));
+  userid = _checkEmpty(prefs.getString('userid'));
+  gender = _checkEmpty(prefs.getString('gender'));
+  contact = _checkEmpty(prefs.getString('contact'));
+  address = _checkEmpty(prefs.getString('address'));
+
+  notifyListeners();
+}
+
+String _checkEmpty(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'N/A';
   }
+  return value;
+}
+
 
 
   Future<void> getLogin(context) async {
