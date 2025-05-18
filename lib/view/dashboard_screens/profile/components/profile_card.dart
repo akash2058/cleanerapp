@@ -21,7 +21,7 @@ class ProfileCard extends StatelessWidget {
               spacing: 12.r,
               children: [
                 CircleAvatar(
-                  child: Icon(Icons.person),
+                  child: Icon(log.gender == 'male'?  Icons.person_outlined:Icons.person_3_outlined),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +31,7 @@ class ProfileCard extends StatelessWidget {
                       style: listiletitlefont,
                     ),
                     SizedBox(
-                      width: 180.r,
+                      width: 190.r,
                       child: Text(
                        log.email,
                         style: dashboardlablefontgrey,

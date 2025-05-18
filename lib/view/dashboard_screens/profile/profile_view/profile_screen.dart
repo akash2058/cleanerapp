@@ -1,9 +1,8 @@
-
 import 'package:binbookingapp/custom_widget/custom_tile.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
-import 'package:binbookingapp/utils/cleanericonspng.dart' show AppIcons;
 import 'package:binbookingapp/utils/style.dart';
-import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart' show LoginProvider;
+import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart'
+    show LoginProvider;
 import 'package:binbookingapp/view/dashboard_screens/profile/components/profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,11 +20,8 @@ class ProfileScreen extends StatelessWidget {
             scrolledUnderElevation: 0.r,
             centerTitle: true,
             automaticallyImplyLeading: false,
-                backgroundColor: CleanerAppcolors.primaryminigreycolor,
-            title: Text(
-              'Profile',
-              style: appbartitlefont,
-            ),
+            backgroundColor: CleanerAppcolors.primaryminigreycolor,
+            title: Text('Profile', style: appbartitlefont),
           ),
           backgroundColor: CleanerAppcolors.primaryminigreycolor,
           body: Padding(
@@ -36,38 +32,25 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCard(),
                 Divider(),
                 CustomListtile(
-                  leading: Image.asset(
-                    AppIcons.myordersicon,
-                    height: 30.r,
-                  ),
-                  title: 'My Orders',
-                  subtitle: '20',
-                ),
-                CustomListtile(
-                  leading: Icon(
-                    Icons.place_outlined,
-                    size: 30.r,
-                  ),
+                  leading: Icon(Icons.place_outlined, size: 30.r),
                   title: 'Address',
                   subtitle: log.address,
                 ),
                 CustomListtile(
-                    leading: Icon(
-                      Icons.phone_outlined,
-                      size: 30.r,
-                    ),
-                    title: 'Contact',
-                    subtitle: 
-                    log.contact),
+                  leading: Icon(Icons.phone_outlined, size: 30.r),
+                  title: 'Contact',
+                  subtitle: log.contact,
+                ),
                 CustomListtile(
-                    leading: Icon(
-                      log.gender == 'male'
-                          ? Icons.person_outline
-                          : Icons.person_2_outlined,
-                      size: 30.r,
-                    ),
-                    title: 'Gender',
-                    subtitle: log.gender),
+                  leading: Icon(
+                    log.gender == 'male'
+                        ? Icons.person_outline
+                        : Icons.person_2_outlined,
+                    size: 30.r,
+                  ),
+                  title: 'Gender',
+                  subtitle: log.gender,
+                ),
               ],
             ),
           ),

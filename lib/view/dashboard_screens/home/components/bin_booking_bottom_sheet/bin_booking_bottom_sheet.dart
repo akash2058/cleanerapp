@@ -16,7 +16,7 @@ class BinBookingBottomSheet extends StatefulWidget {
   final String binsizeName;
   final String bookingId;
   final String userId;
- 
+
   const BinBookingBottomSheet({
     super.key,
     required this.customername,
@@ -25,8 +25,8 @@ class BinBookingBottomSheet extends StatefulWidget {
     required this.type,
     required this.binsizeName,
     required this.bookingId,
-    required this.userId, required this.startdate,
-
+    required this.userId,
+    required this.startdate,
   });
 
   @override
@@ -43,16 +43,17 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
   void getuserdata() async {
     final logindata = Provider.of<LoginProvider>(context, listen: false);
     logindata.loadLoginData();
-     print('get${widget.bookingId}');
+    print('get${widget.bookingId}');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<BinRequestProvider,LoginProvider>(builder: (context, binr, log, child) {
-      return SizedBox(
+    return Consumer2<BinRequestProvider, LoginProvider>(
+      builder: (context, binr, log, child) {
+        return SizedBox(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15).r,
-            child: Column(
+            child: Column( 
               children: [
                 Expanded(
                   child: SingleChildScrollView(
@@ -104,27 +105,28 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                   ),
                 ),
                 CleanerButton.elevated(
+                  isloading: binr.loadingrequestaccept,
                   height: 60.r,
                   width: MediaQuery.sizeOf(context).width,
                   backgroundcolor: CleanerAppcolors.primarypurple,
-                  label:
-                      binr.loadingrequestaccept == true
-                          ? 'Please Wait....'
-                          : 'Accept Request',
+                  label: 'Accept Request',
                   onPressed: () async {
                     await binr.getRequestAccept(
-                      context,  log.userid,
+                      context,
+                      log.userid,
                       widget.bookingId,
-                    ); 
+                    );
                   },
                 ),
               ],
             ),
           ),
         );
-    },);
+      },
+    );
   }
 }
+
 String capitalizeEachPart(String input) {
   return input
       .split(',')
@@ -133,8 +135,9 @@ String capitalizeEachPart(String input) {
             .trim()
             .split(' ')
             .where((word) => word.isNotEmpty)
-            .map((word) =>
-                word[0].toUpperCase() + word.substring(1).toLowerCase())
+            .map(
+              (word) => word[0].toUpperCase() + word.substring(1).toLowerCase(),
+            )
             .join(' ');
       })
       .join(', ');
