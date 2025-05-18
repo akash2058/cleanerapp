@@ -24,7 +24,7 @@ class PickUp extends StatelessWidget {
               builder: (context, bindata, child) {
                 if (bindata.loadingbinbooking == true) {
                   return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 90.r),
+                    padding: EdgeInsets.symmetric(vertical: 150.r),
                     child: Center(
                       child: LoadingAnimationWidget.hexagonDots(
                         color: CleanerAppcolors.primarypurple,
