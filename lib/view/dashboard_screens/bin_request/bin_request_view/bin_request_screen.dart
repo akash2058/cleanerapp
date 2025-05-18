@@ -38,12 +38,12 @@ class BinRequestView extends StatelessWidget {
                   : RefreshIndicator(
                       onRefresh: () => binr.getBinRequestData(),
                       child: Column(
+                        spacing: 10.r,
                         children: [
                             Padding(
                               padding:  const EdgeInsets.symmetric(horizontal: 20,vertical: 10).r,
                               child: BinRequestTabs(),
                             ),
-                              SizedBox(height: 10.r),
                           Expanded(
                             child: ListView(
                               padding: const EdgeInsets.symmetric(horizontal: 20,).r,

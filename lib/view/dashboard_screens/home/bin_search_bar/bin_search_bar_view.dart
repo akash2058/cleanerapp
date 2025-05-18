@@ -87,7 +87,6 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
     },
   ),
 );
-
   }
 }
 

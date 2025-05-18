@@ -79,6 +79,7 @@ class BinRequestCard extends StatelessWidget {
                 ),
                 SizedBox(height: 5.r),
                 Card(
+                  elevation: 5.r,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.r),
                   ),

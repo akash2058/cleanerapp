@@ -55,7 +55,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                         ),
                       )
                       : Column(
-                        spacing: 15.r,
+                        spacing: 20.r,
                         children: [
                           MyOrdersTabs(),
                           Expanded(
