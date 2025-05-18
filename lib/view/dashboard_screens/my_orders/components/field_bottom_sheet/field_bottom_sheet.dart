@@ -30,7 +30,7 @@ class FieldBottomSheet extends StatefulWidget {
 }
 
 class _FieldBottomSheetState extends State<FieldBottomSheet> {
-      final fieldkey = GlobalKey<FormState>();
+  final fieldkey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -49,7 +49,6 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<MyOrderProvider>(
       builder: (context, myorder, child) {
         return SizedBox(
@@ -90,7 +89,7 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                                 ),
                               ),
                             SizedBox(height: 10.r),
-                                      
+
                             if (!(widget.paymentoption == 'cash_on_order' &&
                                 widget.pendingamount != '0'))
                               Column(
