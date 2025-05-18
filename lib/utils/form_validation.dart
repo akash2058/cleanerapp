@@ -215,7 +215,7 @@ String? validatedropAmount(String? value, String remainingAmountStr) {
   // ✅ Validate only if entered amount is greater than remaining amount
   if (enteredAmount > remainingAmount) {
     return 'Entered amount (${enteredAmount.toStringAsFixed(2)}) '
-        'exceeds remaining amount (${remainingAmount.toStringAsFixed(2)}).';
+        'exceeds(${remainingAmount.toStringAsFixed(2)}).';
   }
 
   return null; // ✅ Valid input (less than or equal to remaining)

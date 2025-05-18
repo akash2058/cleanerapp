@@ -45,18 +45,13 @@ class BinRequestView extends StatelessWidget {
                             ),
                               SizedBox(height: 10.r),
                           Expanded(
-                            child: SingleChildScrollView(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20,).r,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    binr.currenttab == 0
-                                        ? BinRequestDropoffList()
-                                        : BinRequestPickupList(),
-                                  ],
-                                ),
-                              ),
+                            child: ListView(
+                              padding: const EdgeInsets.symmetric(horizontal: 20,).r,
+                              children: [
+                                binr.currenttab == 0
+                                  ? BinRequestDropoffList()
+                                  : BinRequestPickupList(),
+                              ],
                             ),
                           ),
                         ],
