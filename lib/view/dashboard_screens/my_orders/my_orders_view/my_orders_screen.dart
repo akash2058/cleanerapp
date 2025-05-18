@@ -46,7 +46,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               child:
                   orders.loadingmyorderdata == true
                       ? Padding(
-                        padding: EdgeInsets.symmetric(vertical: 180).r,
+                        padding: EdgeInsets.symmetric(vertical: 250).r,
                         child: Center(
                           child: LoadingAnimationWidget.hexagonDots(
                             color: CleanerAppcolors.primarypurple,

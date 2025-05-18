@@ -53,7 +53,7 @@ class _MyOrdersDropOffListState extends State<MyOrdersDropOffList> {
               builder: (context, log, child) {
                 return order.loadingupdatewarehouse == true
                     ? Padding(
-                      padding:  EdgeInsets.symmetric(vertical: 180).r,
+                      padding:  EdgeInsets.symmetric(vertical: 250).r,
                       child: Center(
                         child: LoadingAnimationWidget.hexagonDots(
                           color: CleanerAppcolors.primarypurple,
