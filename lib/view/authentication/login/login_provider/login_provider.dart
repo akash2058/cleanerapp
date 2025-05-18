@@ -183,7 +183,7 @@ Future<void> getLogin(context) async {
           SnackBar(
             behavior: SnackBarBehavior.floating,
             margin: EdgeInsets.only(
-              bottom: MediaQuery.sizeOf(context).height - 220.r,
+              bottom: MediaQuery.sizeOf(context).height - 170.r,
               left: 10.r,
               right: 10.r,
             ),
