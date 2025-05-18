@@ -10,6 +10,7 @@ import 'package:binbookingapp/view/dashboard_screens/home/bin_search_bar/search_
 
 import 'package:binbookingapp/view/dashboard_screens/my_orders/model/my_order_model.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
+import 'package:binbookingapp/view/session_expire_dialog/session_expire_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -80,9 +81,9 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
             style: appbartitlefont,
           ),
         ),
-        body: provider.isBinRequest
+        body:SessionWrapper(child:  provider.isBinRequest
             ? MyRequestSearchResults()
-            : MyOrdersSearchResults(),
+            : MyOrdersSearchResults(),)
       );
     },
   ),

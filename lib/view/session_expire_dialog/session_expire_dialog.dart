@@ -15,10 +15,13 @@ class SessionWrapper extends StatefulWidget {
 
 class _SessionWrapperState extends State<SessionWrapper> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => checkSession());
-  }
+ void initState() {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    await Future.delayed(const Duration(milliseconds: 500)); // Short delay
+    checkSession();
+  });
+}
 
   Future<void> checkSession() async {
     final isValid = await context.read<LoginProvider>().isSessionActive();
@@ -34,6 +37,7 @@ class _SessionWrapperState extends State<SessionWrapper> {
           actions: [
             TextButton(
               onPressed: () {
+                checkSession();
                 Navigator.of(context).pop(); // Close dialog
                 Navigator.pushAndRemoveUntil(
                   context,
