@@ -52,6 +52,8 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
 
 class _MyOrdersDropOffDetailsScreenState
     extends State<MyOrdersDropOffDetailsScreen> {
+        final fieldkey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -74,7 +76,6 @@ class _MyOrdersDropOffDetailsScreenState
     print(widget.remainingamount);
     // myordersdata.paymentreceivecontroller.clear();
   }
-
   void refreshdata() async {
     // final logindata = Provider.of<LoginProvider>(context, listen: false);
 
@@ -86,7 +87,7 @@ class _MyOrdersDropOffDetailsScreenState
   @override
   Widget build(BuildContext context) {
     return Consumer2<LoginProvider,MyOrderProvider>(builder: (context, log, order, child) {
-       final fieldkey = GlobalKey<FormState>();
+     
 
         final orderdata = order.orderdetail?.data;
       return Scaffold(
