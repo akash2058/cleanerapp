@@ -70,7 +70,7 @@ class GreetingsCard extends StatelessWidget {
                               Text(log.name, style: drivernamefont),
                               SizedBox(height: 20.r),
                               CleanerWhiteFontChip(
-                                width: 210.r,
+                                width: 195.r,
                                 onPressed: () {
                                   dash.screenTabs(dash.currenttab = 2);
                                 },
