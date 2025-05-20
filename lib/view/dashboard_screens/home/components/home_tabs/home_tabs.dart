@@ -78,7 +78,7 @@ class HomeTabs extends StatelessWidget {
                             backgroundColor: CleanerAppcolors.primarypurple,
                             label:binr.loadingbinbooking == true?
                             LoadingAnimationWidget.fallingDot(color: CleanerAppcolors.primaryWhitecolor,size: 15.r):
-                             Text(binr.binbook?.data.siteRequests.length.toString()??'',style: badgefont,),
+                             Text(binr.binbook?.data.siteRequests.length.toString()??'0',style: badgefont,),
                            )
                           ],
                         ),
@@ -148,7 +148,7 @@ class HomeTabs extends StatelessWidget {
                              Badge(
                             backgroundColor: CleanerAppcolors.primarypurple,
                             label: binr.loadingbinbooking == true?
-                            LoadingAnimationWidget.fallingDot(color: CleanerAppcolors.primaryWhitecolor,size: 15.r):Text(binr.binbook?.data.warehouseRequests.length.toString()??'',style: badgefont,),
+                            LoadingAnimationWidget.fallingDot(color: CleanerAppcolors.primaryWhitecolor,size: 15.r):Text(binr.binbook?.data.warehouseRequests.length.toString()??'0',style: badgefont,),
                            )
                           ],
                         ),

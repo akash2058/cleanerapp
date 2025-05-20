@@ -108,7 +108,7 @@ class GreetingsCard extends StatelessWidget {
                                                     ?.siteOrder
                                                     ?.length
                                                     .toString() ??
-                                                '',
+                                                '0',
                                             style: dashboardlablefontwhite,
                                           ),
                                         ],
@@ -129,7 +129,7 @@ class GreetingsCard extends StatelessWidget {
                                                 ?.warehouseOrder
                                                 ?.length
                                                 .toString() ??
-                                            '',
+                                            '0',
                                         style: dashboardlablefontwhite,
                                       ),
                                         ],
