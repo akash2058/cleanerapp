@@ -3,9 +3,9 @@ class AppUrl {
       'https://e64f-2400-1a00-b030-df75-8502-bddc-8b2d-e15f.ngrok-free.app/api/';
   // static const mainUrl = 'http://127.0.0.1:8000/api/';
   static const loginurl = '${mainUrl}login';
-  static const binbooking = '${mainUrl}bin-booking';
+  static const binbooking = '${mainUrl}bin-bookings';
   static const myorder = '${mainUrl}bin-bookings/order?driver_id=';
-  static const acceptrequest = '${mainUrl}bin-booking/accept';
+  static const acceptrequest = '${mainUrl}bin-bookings/accept';
   static const updateserialnumber =
       '${mainUrl}bin-bookings/update-serial-number/';
   static const binbookingdetails = '${mainUrl}bin-booking/';
