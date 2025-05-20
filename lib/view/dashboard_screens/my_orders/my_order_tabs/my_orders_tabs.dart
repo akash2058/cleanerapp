@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../utils/appcolors.dart';
+import '../../../../utils/appcolors.dart';
 
 class MyOrdersTabs extends StatelessWidget {
   const MyOrdersTabs({super.key});
@@ -63,7 +63,7 @@ class MyOrdersTabs extends StatelessWidget {
                             ),
                             Badge(
                               backgroundColor: CleanerAppcolors.primarypurple,
-                              label: Text(myorder.order?.data?.siteOrder?.length.toString()??'',style: badgefont,),
+                              label: Text(myorder.order?.data?.siteOrder?.length.toString()??'0',style: badgefont,),
                             )
                           ],
                         ),
@@ -119,7 +119,7 @@ class MyOrdersTabs extends StatelessWidget {
                             ),
                             Badge(
                               backgroundColor: CleanerAppcolors.primarypurple,
-                              label: Text(myorder.order?.data?.warehouseOrder?.length.toString()??'',style: badgefont,),
+                              label: Text(myorder.order?.data?.warehouseOrder?.length.toString()??'0',style: badgefont,),
                             )
                           ],
                         ),

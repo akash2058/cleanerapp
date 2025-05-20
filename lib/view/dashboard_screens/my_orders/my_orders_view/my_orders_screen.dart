@@ -4,7 +4,7 @@ import 'package:binbookingapp/view/authentication/login/login_provider/login_pro
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/my_orderes_drop_off_list/my_orders_dropoff_list.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/my_orders_pickup_list/my_orders_pickup_list.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
-import 'package:binbookingapp/view/dashboard_screens/profile/components/my_order_tabs/my_orders_tabs.dart';
+import 'package:binbookingapp/view/dashboard_screens/my_orders/my_order_tabs/my_orders_tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
