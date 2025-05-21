@@ -8,7 +8,7 @@ class AppUrl {
   static const acceptrequest = '${mainUrl}bin-bookings/accept';
   static const updateserialnumber =
       '${mainUrl}bin-bookings/update-serial-number/';
-  static const binbookingdetails = '${mainUrl}bin-booking/';
+  static const binbookingdetails = '${mainUrl}bin-bookings/';
   static const logout = '${mainUrl}logout';
   static const updateattachments =
       '${mainUrl}bin-bookings/update-booking-attachments/';
