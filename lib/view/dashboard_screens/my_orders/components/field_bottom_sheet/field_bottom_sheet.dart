@@ -58,7 +58,7 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
               color: CleanerAppcolors.primarylightgreycolor,
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15).r,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0).r,
               child: Form(
                 key: fieldkey,
                 child: Column(
@@ -159,7 +159,6 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                         ),
                       ),
                     ),
-                    Spacer(),
                     CleanerButton.elevated(
                       isloading: myorder.loadingconfirmonsitepickup,
                       height: 55.r,
@@ -176,6 +175,9 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                         }
                       },
                     ),
+                    SizedBox(
+                      height: 20.r,
+                    )
                   ],
                 ),
               ),
