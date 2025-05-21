@@ -13,12 +13,14 @@ import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
-
+  
   @override
+  
   Widget build(BuildContext context) {
+     final loginkey = GlobalKey<FormState>();
     return Consumer<LoginProvider>(
       builder: (context, login, child) {
-        final loginkey = GlobalKey<FormState>();
+       
         return Scaffold(
           backgroundColor: CleanerAppcolors.primaryminigreycolor,
           body: NoInternetBanner(

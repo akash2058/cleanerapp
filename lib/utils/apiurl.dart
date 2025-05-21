@@ -1,6 +1,6 @@
 class AppUrl {
   static const mainUrl =
-      'https://e64f-2400-1a00-b030-df75-8502-bddc-8b2d-e15f.ngrok-free.app/api/';
+      'http://nextlevelbins.com.au/api/';
   // static const mainUrl = 'http://127.0.0.1:8000/api/';
   static const loginurl = '${mainUrl}login';
   static const binbooking = '${mainUrl}bin-bookings';
