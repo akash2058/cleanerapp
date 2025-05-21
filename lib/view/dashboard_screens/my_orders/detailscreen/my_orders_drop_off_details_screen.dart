@@ -196,7 +196,7 @@ class _MyOrdersDropOffDetailsScreenState
                                       ),
                                     ),
                                   ),
-                                  if (widget.payementtype != 'full_payment')
+                                  if (widget.payementtype != 'full_payment'&&widget.paymentoption !='cash_on_order')
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
