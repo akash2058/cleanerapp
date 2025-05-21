@@ -67,7 +67,7 @@ class GreetingsCard extends StatelessWidget {
                             children: [
                               Text(home.getGreeting(), style: buttonfond),
                               SizedBox(height: 10.r),
-                              Text(log.name, style: drivernamefont),
+                              Text(capitalizeEachPart(log.name), style: drivernamefont),
                               SizedBox(height: 20.r),
                               CleanerWhiteFontChip(
                                 width: 195.r,
@@ -151,4 +151,19 @@ class GreetingsCard extends StatelessWidget {
       },
     );
   }
+}
+String capitalizeEachPart(String input) {
+  return input
+      .split(',')
+      .map((part) {
+        return part
+            .trim()
+            .split(' ')
+            .where((word) => word.isNotEmpty)
+            .map(
+              (word) => word[0].toUpperCase() + word.substring(1).toLowerCase(),
+            )
+            .join(' ');
+      })
+      .join(', ');
 }
