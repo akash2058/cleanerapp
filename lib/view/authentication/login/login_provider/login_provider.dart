@@ -96,6 +96,11 @@ class LoginProvider extends ChangeNotifier {
     return value;
   }
 
+Future<void> clearCache() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
+}
+
 Future<void> getLogin(context) async {
   try {
     loadinglogin = true;
@@ -112,7 +117,7 @@ Future<void> getLogin(context) async {
       final token = _userModel?.data?.token ?? '';
       Utils.saveToken(token); // Save token once, via your utility
       final prefs = await SharedPreferences.getInstance();
-
+      clearCache();
       await prefs.setString('gender', _userModel?.data?.user?.gender ?? '');
       await prefs.setString('address', _userModel?.data?.user?.address ?? '');
       await prefs.setString('contact', _userModel?.data?.user?.contact ?? '');
