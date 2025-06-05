@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Utils {
   static Future<void> manipulateLogin(context) async {
     final token = await getToken();
-
+print('token${token}');
     if (token == null || token.isEmpty) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -24,9 +24,9 @@ class Utils {
     }
   }
 
-  static Future<void> saveToken(String token) async {
+  static Future<void> saveToken(String? token) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("token", token);
+    await prefs.setString("token", token!);
   }
 
   static Future<String?> getToken() async {

@@ -5,7 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Binbookingapp</string>
+	<key>NSCameraUsageDescription</key>
+    <string>We need camera access to take photos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need photo library access to choose images.</string>
+    <key>NSFaceIDUsageDescription</key>
+    <string>We use Face ID for secure authentication.</string>
+	<string>BinBooking</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
