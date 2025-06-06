@@ -10,6 +10,7 @@ import 'package:binbookingapp/view/dashboard/dashboard_view/dashboard_view.dart'
 import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -95,7 +96,18 @@ class LoginProvider extends ChangeNotifier {
     }
     return value;
   }
+Future<void> clearAppCache() async {
+  try {
+    final cacheDir = await getTemporaryDirectory();
 
+    if (cacheDir.existsSync()) {
+      cacheDir.deleteSync(recursive: true);
+      print('✅ Cache cleared.');
+    }
+  } catch (e) {
+    print('⚠️ Error clearing cache: $e');
+  }
+}
 
 Future<void> getLogin(context) async {
   try {
@@ -179,6 +191,7 @@ Future<void> getLogin(context) async {
       notifyListeners();
       final logout = await fetchLogout(token);
       if (logout['status'] == 'success') {
+       await clearAppCache();
         await Utils.deleteToken();
         Navigator.push(context, CustomPageRoute(child: LoginView()));
         ScaffoldMessenger.of(context).showSnackBar(

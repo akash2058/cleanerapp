@@ -1,4 +1,3 @@
-
 import 'package:binbookingapp/custom_widget/button.dart';
 import 'package:binbookingapp/custom_widget/cleaner_textfield.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
@@ -13,14 +12,12 @@ import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
-  
+
   @override
-  
   Widget build(BuildContext context) {
-     final loginkey = GlobalKey<FormState>();
+    final loginkey = GlobalKey<FormState>();
     return Consumer<LoginProvider>(
       builder: (context, login, child) {
-       
         return Scaffold(
           backgroundColor: CleanerAppcolors.primaryminigreycolor,
           body: NoInternetBanner(
@@ -69,12 +66,16 @@ class LoginView extends StatelessWidget {
                                       ? Icons.visibility_off_outlined
                                       : Icons.visibility_outlined,
                                   size: 18.r,
-                                  color: login.hidepassword == true
-                                      ? CleanerAppcolors.primarygreycolor
-                                      : CleanerAppcolors.primarypurple,
+                                  color:
+                                      login.hidepassword == true
+                                          ? CleanerAppcolors.primarygreycolor
+                                          : CleanerAppcolors.primarypurple,
                                 ),
                               ),
-                              prefix: Icon(Icons.lock_clock_outlined, size: 18.r),
+                              prefix: Icon(
+                                Icons.lock_clock_outlined,
+                                size: 18.r,
+                              ),
                               hintlabel: 'Enter your password',
                             ),
                             SizedBox(height: 10.r),
@@ -110,8 +111,9 @@ class LoginView extends StatelessWidget {
                                     TextInput.finishAutofillContext();
                                   } catch (e) {
                                     // Don't save credentials on login failure
-                                     TextInput.finishAutofillContext(shouldSave: false);
-                                 
+                                    TextInput.finishAutofillContext(
+                                      shouldSave: false,
+                                    );
                                   }
                                 }
                               },
