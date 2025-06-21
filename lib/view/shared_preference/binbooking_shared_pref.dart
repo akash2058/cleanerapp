@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Utils {
   static Future<void> manipulateLogin(context) async {
     final token = await getToken();
-print('token${token}');
+    print('token$token');
     if (token == null || token.isEmpty) {
       Navigator.pushAndRemoveUntil(
         context,
