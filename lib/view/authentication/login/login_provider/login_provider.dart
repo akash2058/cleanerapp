@@ -1,5 +1,3 @@
-
-
 import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/style.dart';
@@ -30,46 +28,45 @@ class LoginProvider extends ChangeNotifier {
   }
   // Replace with your actual utils path
 
- Future<bool> isSessionActive() async {
-  try {
-    final token = await Utils.getToken();
-    if (token == null || token.isEmpty) {
-      print('Token is null or empty');
+  Future<bool> isSessionActive() async {
+    try {
+      final token = await Utils.getToken();
+      if (token == null || token.isEmpty) {
+        print('Token is null or empty');
+        return false;
+      }
+
+      final prefs = await SharedPreferences.getInstance();
+      final loginTimeStr = prefs.getString('login_time');
+      if (loginTimeStr == null) {
+        print('Login time not found');
+        return false;
+      }
+
+      final loginTime = DateTime.tryParse(loginTimeStr);
+      if (loginTime == null) {
+        print('Login time parsing failed');
+        return false;
+      }
+
+      final now = DateTime.now();
+      final hoursSinceLogin = now.difference(loginTime).inHours;
+
+      print('Hours since login: $hoursSinceLogin');
+
+      // Only check 24-hour session expiry
+      if (hoursSinceLogin >= 24) {
+        print('Session expired: more than 24 hours since login');
+        return false;
+      }
+
+      print('Session is active');
+      return true;
+    } catch (e) {
+      print('Error checking session: $e');
       return false;
     }
-
-    final prefs = await SharedPreferences.getInstance();
-    final loginTimeStr = prefs.getString('login_time');
-    if (loginTimeStr == null) {
-      print('Login time not found');
-      return false;
-    }
-
-    final loginTime = DateTime.tryParse(loginTimeStr);
-    if (loginTime == null) {
-      print('Login time parsing failed');
-      return false;
-    }
-
-    final now = DateTime.now();
-    final hoursSinceLogin = now.difference(loginTime).inHours;
-
-    print('Hours since login: $hoursSinceLogin');
-
-    // Only check 24-hour session expiry
-    if (hoursSinceLogin >= 24) {
-      print('Session expired: more than 24 hours since login');
-      return false;
-    }
-
-    print('Session is active');
-    return true;
-  } catch (e) {
-    print('Error checking session: $e');
-    return false;
   }
-}
-
 
   String name = 'N/A';
   String email = 'N/A';
@@ -96,93 +93,96 @@ class LoginProvider extends ChangeNotifier {
     }
     return value;
   }
-Future<void> clearAppCache() async {
-  try {
-    final cacheDir = await getTemporaryDirectory();
 
-    if (cacheDir.existsSync()) {
-      cacheDir.deleteSync(recursive: true);
-      print('✅ Cache cleared.');
+  Future<void> clearAppCache() async {
+    try {
+      final cacheDir = await getTemporaryDirectory();
+
+      if (cacheDir.existsSync()) {
+        cacheDir.deleteSync(recursive: true);
+        print('✅ Cache cleared.');
+      }
+    } catch (e) {
+      print('⚠️ Error clearing cache: $e');
     }
-  } catch (e) {
-    print('⚠️ Error clearing cache: $e');
   }
-}
 
-Future<void> getLogin(context) async {
-  try {
-    loadinglogin = true;
-    notifyListeners();
+  Future<void> getLogin(context) async {
+    try {
+      loadinglogin = true;
+      notifyListeners();
 
-    final userMap = await fetchLogindata(
-      emailcontroller.text,
-      passwordcontroller.text,
-    );
+      final userMap = await fetchLogindata(
+        emailcontroller.text,
+        passwordcontroller.text,
+      );
 
-    _userModel = UserModel.fromJson(userMap);
+      _userModel = UserModel.fromJson(userMap);
 
-    if (userMap['status'] == 'success') {
-      final token = _userModel?.data?.token ?? '';
-      Utils.saveToken(token); 
-      print('tokkkes${token}');
-      // Save token once, via your utility
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('gender', _userModel?.data?.user?.gender ?? '');
-      await prefs.setString('address', _userModel?.data?.user?.address ?? '');
-      await prefs.setString('contact', _userModel?.data?.user?.contact ?? '');
-      await prefs.setString('name', _userModel?.data?.user?.name ?? '');
-      await prefs.setString('email', _userModel?.data?.user?.email ?? '');
-      await prefs.setString('userid', _userModel?.data?.user?.id.toString() ?? '');
-      await prefs.setString('login_time', DateTime.now().toIso8601String());
+      if (userMap['status'] == 'success') {
+        final token = _userModel?.data?.token ?? '';
+        Utils.saveToken(token);
+        print('tokkkes$token');
+        // Save token once, via your utility
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('gender', _userModel?.data?.user?.gender ?? '');
+        await prefs.setString('address', _userModel?.data?.user?.address ?? '');
+        await prefs.setString('contact', _userModel?.data?.user?.contact ?? '');
+        await prefs.setString('name', _userModel?.data?.user?.name ?? '');
+        await prefs.setString('email', _userModel?.data?.user?.email ?? '');
+        await prefs.setString(
+          'userid',
+          _userModel?.data?.user?.id.toString() ?? '',
+        );
+        await prefs.setString('login_time', DateTime.now().toIso8601String());
 
-      // No need to save 'token' again here if already done via Utils
+        // No need to save 'token' again here if already done via Utils
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(
-            bottom: MediaQuery.sizeOf(context).height - 170.r,
-            left: 10.r,
-            right: 10.r,
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.sizeOf(context).height - 170.r,
+              left: 10.r,
+              right: 10.r,
+            ),
+            dismissDirection: DismissDirection.up,
+            backgroundColor: CleanerAppcolors.primaryGreencolor,
+            content: Text(userMap['message'], style: buttonfond),
           ),
-          dismissDirection: DismissDirection.up,
-          backgroundColor: CleanerAppcolors.primaryGreencolor,
-          content: Text(userMap['message'], style: buttonfond),
-        ),
-      );
+        );
 
-      Navigator.pushAndRemoveUntil(
-        context,
-        CustomPageRoute(child: const DashboardView()),
-        (route) => false,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(
-            bottom: MediaQuery.sizeOf(context).height - 220.r,
-            left: 10.r,
-            right: 10.r,
+        Navigator.pushAndRemoveUntil(
+          context,
+          CustomPageRoute(child: const DashboardView()),
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.sizeOf(context).height - 220.r,
+              left: 10.r,
+              right: 10.r,
+            ),
+            dismissDirection: DismissDirection.up,
+            backgroundColor: CleanerAppcolors.primaryRedcolor,
+            content: Text(userMap['message'], style: buttonfond),
           ),
-          dismissDirection: DismissDirection.up,
-          backgroundColor: CleanerAppcolors.primaryRedcolor,
-          content: Text(userMap['message'], style: buttonfond),
-        ),
-      );
+        );
+      }
+
+      loadinglogin = false;
+      notifyListeners();
+    } catch (e) {
+      loadinglogin = false;
+      notifyListeners();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
+      print('Error: $e');
+      throw {"error": e};
     }
-
-    loadinglogin = false;
-    notifyListeners();
-  } catch (e) {
-    loadinglogin = false;
-    notifyListeners();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
-    print('Error: $e');
-    throw {"error": e};
   }
-}
-
 
   Future<void> getLogout(context) async {
     var token = await Utils.getToken(); // Await the token
@@ -191,7 +191,7 @@ Future<void> getLogin(context) async {
       notifyListeners();
       final logout = await fetchLogout(token);
       if (logout['status'] == 'success') {
-       await clearAppCache();
+        await clearAppCache();
         await Utils.deleteToken();
         Navigator.push(context, CustomPageRoute(child: LoginView()));
         ScaffoldMessenger.of(context).showSnackBar(
