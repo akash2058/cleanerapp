@@ -1,4 +1,4 @@
-package com.example.binbookingapp
+package com.nextlevelbin.binbookingapp
 
 import io.flutter.embedding.android.FlutterActivity
 
