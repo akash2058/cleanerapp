@@ -5,7 +5,9 @@ import 'package:binbookingapp/view/dashboard_screens/bin_request/model/bin_booki
 import 'package:binbookingapp/view/dashboard_screens/bin_request/service/bin_booking_api_service.dart';
 import 'package:binbookingapp/view/shared_preference/binbooking_shared_pref.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BinRequestProvider extends ChangeNotifier {
   int currenttab = 0;
@@ -25,6 +27,38 @@ void setIsBinRequest(bool value) {
   _isBinRequest = value;
   notifyListeners();
 }
+void launchDialer(String phoneNumber) async {
+  final Uri uri = Uri(scheme: 'tel', path: phoneNumber);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri);
+  } else {
+    throw 'Could not launch $uri';
+  }
+  notifyListeners();
+}
+void copyToClipboard(String text, BuildContext context) {
+   final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+     final screenSize = MediaQuery.sizeOf(context);
+  Clipboard.setData(ClipboardData(text: text));
+  messenger.showSnackBar(SnackBar(
+    behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            bottom: screenSize.height - 170.r,
+            left: 10.r,
+            right: 10.r,
+          ),
+          dismissDirection: DismissDirection.up,
+
+    content: Text('Address Copied',style: buttonfond,)));
+  navigator.pop();
+  notifyListeners();
+  
+
+
+  // Optional: Show a SnackBar or Toast
+}
+
 
  // Toggle between bin requests and my orders
   Future<void> getBinRequestData() async {

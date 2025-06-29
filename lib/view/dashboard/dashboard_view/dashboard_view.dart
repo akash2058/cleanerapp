@@ -238,7 +238,7 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ),
                           Text(
-                            'My Orders',
+                            'My Job/Task',
                             style:
                                 dash.currenttab == 2
                                     ? dashboardlablefontpurple

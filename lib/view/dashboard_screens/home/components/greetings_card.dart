@@ -70,11 +70,11 @@ class GreetingsCard extends StatelessWidget {
                               Text(capitalizeEachPart(log.name), style: drivernamefont),
                               SizedBox(height: 20.r),
                               CleanerWhiteFontChip(
-                                width: 195.r,
+                                width: 220.r,
                                 onPressed: () {
                                   dash.screenTabs(dash.currenttab = 2);
                                 },
-                                label: 'My Orders',
+                                label: 'My Job/Task',
                                 backgroundColor: const Color.fromARGB(
                                   255,
                                   54,

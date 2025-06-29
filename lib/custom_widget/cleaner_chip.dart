@@ -35,6 +35,7 @@ class CleanerChip extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10).r,
             child: Text(
+              textAlign: TextAlign.center,
               label,
               style: dashboardlablefontwhite,
             ),

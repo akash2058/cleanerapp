@@ -69,8 +69,28 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                           ),
                         ),
                         CustomListtile(
+                          trailing: GestureDetector(
+                            onTap: () {
+                              binr.copyToClipboard(widget.location, context);
+                            },
+                            child: Icon(Icons.copy_outlined,size: 30.r,)),
                           subtitle: capitalizeEachPart(widget.location),
                           title: 'Location',
+                          leading: Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 20.r,
+                          ),
+                        ),
+                         CustomListtile(
+                          trailing: GestureDetector(
+                            onTap: () {
+                              binr.launchDialer('9833233256');
+                            },
+                            child: Icon(Icons.call_outlined,size: 30.r,
+                            ),
+                          ),
+                          subtitle: '9813515294',
+                          title: 'Customer Contact',
                           leading: Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 20.r,
