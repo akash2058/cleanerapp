@@ -1,3 +1,4 @@
+
 import 'package:binbookingapp/custom_widget/button.dart';
 import 'package:binbookingapp/custom_widget/transaction_route.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
@@ -12,7 +13,6 @@ import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provide
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class MyOrdersDropOffDetailsScreen extends StatefulWidget {
@@ -42,7 +42,8 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
     required this.pendingamount,
     required this.paymentoption,
     required this.paymentreceived,
-    this.payementtype, required this.remainingamount,
+    this.payementtype,
+    required this.remainingamount,
   });
 
   @override
@@ -52,7 +53,7 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
 
 class _MyOrdersDropOffDetailsScreenState
     extends State<MyOrdersDropOffDetailsScreen> {
-        final fieldkey = GlobalKey<FormState>();
+  final fieldkey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -76,6 +77,7 @@ class _MyOrdersDropOffDetailsScreenState
     print(widget.remainingamount);
     // myordersdata.paymentreceivecontroller.clear();
   }
+
   void refreshdata() async {
     // final logindata = Provider.of<LoginProvider>(context, listen: false);
 
@@ -86,62 +88,43 @@ class _MyOrdersDropOffDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<LoginProvider,MyOrderProvider>(builder: (context, log, order, child) {
-     
-
+    return Consumer2<LoginProvider, MyOrderProvider>(
+      builder: (context, log, order, child) {
         final orderdata = order.orderdetail?.data;
-      return Scaffold(
-              backgroundColor: CleanerAppcolors.primaryWhitecolor,
-              bottomNavigationBar: BottomAppBar(
-                color: CleanerAppcolors.primaryWhitecolor,
-                height: 90.r,
-                elevation: 0,
-                child: CleanerButton.elevated(
-                  isloading: order.loadingattachments,
-                          backgroundcolor: CleanerAppcolors.primarypurple,
-                          label:
-                             'Update Order',
-                          onPressed: () {
-                           if(fieldkey.currentState!.validate()){
-                             order.getUpdateAttachments(
-                              context,
-                              widget.bookingid,
-                              log.userid,
-                            );
-                           }
-                          },
-                        ),
-              ),
-              appBar: AppBar(
-                centerTitle: true,
-                backgroundColor: CleanerAppcolors.primaryWhitecolor,
-                scrolledUnderElevation: 0,
-                title: Text('Drop Off Details', style: appbartitlefont),
-              ),
-              body: NoInternetBanner(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
-                  child:
-                      order.loadingmyorderdropoffdetail == true
-                          ? Center(
-                            child: LoadingAnimationWidget.hexagonDots(
-                              color: CleanerAppcolors.primarypurple,
-                              size: 40.r,
-                            ),
-                          )
-                          : order.loadingattachments == true
-                          ? Center(
-                            child: LoadingAnimationWidget.hexagonDots(
-                              color: CleanerAppcolors.primarypurple,
-                              size: 30.r,
-                            ),
-                          )
-                          : SingleChildScrollView(
-                            child: Form(
-                              key: fieldkey,
+        return Scaffold(
+          resizeToAvoidBottomInset: true, // ✅ auto-resizes when keyboard shows
+          backgroundColor: CleanerAppcolors.primaryWhitecolor,
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: CleanerAppcolors.primaryWhitecolor,
+            scrolledUnderElevation: 0,
+            title: Text('Drop Off Details', style: appbartitlefont),
+          ),
+          body: NoInternetBanner(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Form(
+                key: fieldkey,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final bottomInset =
+                        MediaQuery.of(context).viewInsets.bottom;
+
+                    return IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              physics:
+                                  constraints.maxHeight > 700.h
+                                      ? const NeverScrollableScrollPhysics()
+                                      : const AlwaysScrollableScrollPhysics(),
+                              padding: EdgeInsets.only(
+                                top: 15.r,
+                                bottom: bottomInset + 120.r,
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 15.r,
                                 children: [
                                   DetailsCard(
                                     customername: orderdata?.customerName ?? '',
@@ -152,126 +135,124 @@ class _MyOrdersDropOffDetailsScreenState
                                     quantity: widget.quantity.toString(),
                                     location: widget.location,
                                     paymentoption: widget.paymentoption ?? '',
-                                    paymentreceived: widget.paymentreceived ?? '',
+                                    paymentreceived:
+                                        widget.paymentreceived ?? '',
                                     pendingamount: widget.pendingamount ?? '',
                                     paymenttype: widget.payementtype ?? '',
                                   ),
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          CustomPageRoute(
-                                            child: IsDamagedDetailpage(
-                                              customername:
-                                                  orderdata?.customerName ?? '',
-                                              duration:
-                                                  orderdata?.orderDuration
-                                                      .toString() ??
-                                                  '',
-                                              binsizename:
-                                                  orderdata?.binSizeName ?? '',
-                                              quantity:
-                                                  orderdata?.quantity
-                                                      .toString() ??
-                                                  '',
-                                              location: orderdata?.location ?? '',
-                                              driverid: log.userid,
-                                              bookingid:
-                                                  orderdata?.id.toString() ?? '',
-                                              pendingamount:
-                                                  widget.pendingamount ?? '',
-                                              paymentoption:
-                                                  widget.paymentoption ?? '',
-                                              paymentreceived:
-                                                  widget.paymentreceived ?? '',
-                                            ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        CustomPageRoute(
+                                          child: IsDamagedDetailpage(
+                                            customername:
+                                                orderdata?.customerName ?? '',
+                                            duration:
+                                                orderdata?.orderDuration
+                                                    .toString() ??
+                                                '',
+                                            binsizename:
+                                                orderdata?.binSizeName ?? '',
+                                            quantity:
+                                                orderdata?.quantity
+                                                    .toString() ??
+                                                '',
+                                            location: orderdata?.location ?? '',
+                                            driverid: log.userid,
+                                            bookingid:
+                                                orderdata?.id.toString() ?? '',
+                                            pendingamount:
+                                                widget.pendingamount ?? '',
+                                            paymentoption:
+                                                widget.paymentoption ?? '',
+                                            paymentreceived:
+                                                widget.paymentreceived ?? '',
                                           ),
-                                        );
-                                      },
+                                        ),
+                                      );
+                                    },
+                                    child: Center(
                                       child: Text(
                                         'Report Damage',
                                         style: reportdamagefont,
                                       ),
                                     ),
                                   ),
-                                  if (widget.payementtype != 'full_payment'&&widget.paymentoption !='cash_on_order')
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Amount Received',
-                                          style: resendfont,
-                                        ),
-                                        TextFormField(
-                                          controller:
-                                              order.paymentreceivecontroller,
-                                          keyboardType: TextInputType.number,
-                                          validator:
-                                              (value) => validatedropAmount(
-                                                value,
-                                               widget.remainingamount??'',
-                                              ),
-                                          style: entertexttile,
-                                          decoration: InputDecoration(
-                                            isDense: true,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                  vertical: 10,
-                                                ).r,
-                                            hintText: 'Enter received amount',
-                                            hintStyle: hintStyle,
-                                            errorStyle: errorstyle,
-                                            disabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    CleanerAppcolors
-                                                        .primaryminigreycolor, // change this to your color
-                                                width:
-                                                    1.5.r, // change thickness here
-                                              ),
-                                            ),
-                                            // 🔽 Default border when not focused
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    CleanerAppcolors
-                                                        .primaryminidarkgreycolor, // change this to your color
-                                                width:
-                                                    1.5.r, // change thickness here
-                                              ),
-                                            ),
-                              
-                                            // 🔽 Border when focused (on tap)
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    CleanerAppcolors
-                                                        .primarypurple, // focused color
-                                                width: 1.5.r, // focused thickness
-                                              ),
-                                            ),
+                                  if (widget.payementtype != 'full_payment' &&
+                                      widget.paymentoption !=
+                                          'cash_on_order') ...[
+                                    Text('Amount Received', style: resendfont),
+                                    TextFormField(
+                                      controller:
+                                          order.paymentreceivecontroller,
+                                      keyboardType: TextInputType.number,
+                                      validator:
+                                          (value) => validatedropAmount(
+                                            value,
+                                            widget.remainingamount ?? '',
+                                          ),
+                                      style: entertexttile,
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        hintText: 'Enter received amount',
+                                        hintStyle: hintStyle,
+                                        errorStyle: errorstyle,
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color:
+                                                CleanerAppcolors.primarypurple,
+                                            width: 1.5.r,
                                           ),
                                         ),
-                                      ],
+                                      ),
                                     ),
+                                  ],
+                                  SizedBox(height: 20.r),
                                   Text(
                                     'Please Add Images Below',
                                     style: ordercardheaderfont,
                                   ),
+                                  SizedBox(height: 20.r),
                                   DropOffSelectImageCard(),
                                 ],
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ),
-            );
-    },);
+            ),
+          ),
+
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.only(
+              left: 15.w,
+              right: 15.w,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20.r,
+            ),
+            child: CleanerButton.elevated(
+              height: 55.r,
+              width: MediaQuery.sizeOf(context).width,
+              isloading: order.loadingattachments,
+              backgroundcolor: CleanerAppcolors.primarypurple,
+              label: 'Update Order',
+              onPressed: () {
+                if (fieldkey.currentState!.validate()) {
+                  order.getUpdateAttachments(
+                    context,
+                    widget.bookingid,
+                    log.userid,
+                  );
+                }
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 }
-
-
-  

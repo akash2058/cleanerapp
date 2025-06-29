@@ -67,66 +67,77 @@ class _MyOrdersPickupDetailsScreenState
     return Consumer2<MyOrderProvider,LoginProvider>(builder: (context, order, log, child) {
       return Scaffold(
               backgroundColor: CleanerAppcolors.primaryWhitecolor,
-              bottomNavigationBar: BottomAppBar(
-                color: CleanerAppcolors.primaryWhitecolor,
-                elevation: 0,
-                height: 95.r,
-                child:
-                    widget.quantity == 0
-                        ? null
-                        : CleanerButton.elevated(
-                          isloading: order.loadingserialdata,
-                          width: MediaQuery.sizeOf(context).width,
-                          backgroundcolor: CleanerAppcolors.primarypurple,
-                          label: 'Update Order',
-                          onPressed: () {
-                            if (serialkey.currentState!.validate()) {
-                              order.getSerialData(
-                                context,
-                                widget.bookingid,
-                                log.userid,
-                              );
-                            }
-                          },
-                        ),
-              ),
+              
               appBar: AppBar(
                 centerTitle: true,
                 backgroundColor: CleanerAppcolors.primaryWhitecolor,
                 scrolledUnderElevation: 0.r,
                 title: Text('Pick Up Details', style: appbartitlefont),
               ),
-              body: NoInternetBanner(
-                child: order.loadingserialdata == true?
-                Center(child: LoadingAnimationWidget.hexagonDots(color: CleanerAppcolors.primarypurple,size: 50.r)):
-                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
-                  child:  SingleChildScrollView(
-                    child: Form(
-                      key: serialkey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 15.r,
-                        children: [
-                          DetailsCard(
-                            customername: widget.customername,
-                            duration: widget.duration,
-                            binsizename: widget.binsizename,
-                            quantity: widget.quantity.toString(),
-                            location: widget.location,
-                            paymentoption: widget.paymentoption ?? '',
-                            paymentreceived: widget.paymentreceived ?? '',
-                            pendingamount: widget.pendingamount ?? '',
-                            paymenttype: widget.payementtype ?? '',
+              body:  NoInternetBanner(
+  child: order.loadingserialdata
+      ? Center(
+          child: LoadingAnimationWidget.hexagonDots(
+            color: CleanerAppcolors.primarypurple,
+            size: 50.r,
+          ),
+        )
+      : LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Form(
+                    key: serialkey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DetailsCard(
+                          customername: widget.customername,
+                          duration: widget.duration,
+                          binsizename: widget.binsizename,
+                          quantity: widget.quantity.toString(),
+                          location: widget.location,
+                          paymentoption: widget.paymentoption ?? '',
+                          paymentreceived: widget.paymentreceived ?? '',
+                          pendingamount: widget.pendingamount ?? '',
+                          paymenttype: widget.payementtype ?? '',
+                        ),
+                        FormCard(quantity: widget.quantity),
+                        const Spacer(),
+                        SizedBox(height: 20.r),
+                        if (widget.quantity != 0)
+                          CleanerButton.elevated(
+                            isloading: order.loadingserialdata,
+                            width: MediaQuery.sizeOf(context).width,
+                            backgroundcolor: CleanerAppcolors.primarypurple,
+                            label: 'Update Order',
+                            onPressed: () {
+                              if (serialkey.currentState!.validate()) {
+                                order.getSerialData(
+                                  context,
+                                  widget.bookingid,
+                                  log.userid,
+                                );
+                              }
+                            },
                           ),
-                          FormCard(quantity: widget.quantity),
-                        ],
-                      ),
+                        SizedBox(
+                          height: MediaQuery.of(context).viewInsets.bottom + 20.r,
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
             );
+          },
+        ),
+),
+            );
     },);
   }
 }
+
