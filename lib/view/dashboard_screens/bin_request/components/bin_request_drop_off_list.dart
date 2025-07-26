@@ -46,7 +46,7 @@ class BinRequestDropoffList extends StatelessWidget {
                             binsizeName: bindata?.binSizeName ?? '',
                             bookingId: bindata?.id.toString() ?? '',
                             userId: log.user?.data?.user?.id.toString() ?? '',
-                            startdate: bindata?.startDate ?? '',
+                            startdate: bindata?.startDate ?? '', contactnumber: bindata?.customerContact??'',
                           );
                         },
                       );

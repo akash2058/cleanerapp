@@ -47,6 +47,7 @@ class RequestedItem {
   final String startDate;
   final String endDate;
   final String customerName;
+  final String customerContact;
   final String location;
   final int orderDuration;
   final String binSizeName;
@@ -67,6 +68,7 @@ class RequestedItem {
     required this.startDate,
     required this.endDate,
     required this.customerName,
+    required this.customerContact,
     required this.location,
     required this.orderDuration,
     required this.binSizeName,
@@ -89,6 +91,7 @@ class RequestedItem {
       startDate: json['start_date'],
       endDate: json['end_date'],
       customerName: json['customer_name'],
+      customerContact: json['customer_contact'],
       location: json['location'],
       orderDuration: json['order_duration'],
       binSizeName: json['bin_size_name'],

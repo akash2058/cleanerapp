@@ -1,5 +1,6 @@
 import 'package:binbookingapp/utils/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailsLabel extends StatelessWidget {
   final String label;

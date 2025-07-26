@@ -60,9 +60,12 @@ class BinRequestCard extends StatelessWidget {
                           size: 20.r,
                           color: CleanerAppcolors.primarylightbrowncolor,
                         ),
-                        Text(
-                          capitalizeEachPart(address),
-                          style: listiletitlefont,
+                        SizedBox(
+                          width: 220.r,
+                          child: Text(
+                            capitalizeEachPart(address),
+                            style: listiletitlefont,
+                          ),
                         ),
                       ],
                     ),
@@ -85,7 +88,7 @@ class BinRequestCard extends StatelessWidget {
                   ),
                   color:
                       requestoverdue == 0
-                          ? CleanerAppcolors.primarylightgreencolor
+                          ? const Color.fromARGB(255, 142, 240, 183)
                           : requestoverdue == 1
                           ? CleanerAppcolors.primarylightredcolor
                           : requestoverdue == 3
@@ -141,10 +144,10 @@ String capitalizeEachPart(String input) {
             .trim()
             .split(' ')
             .where((word) => word.isNotEmpty)
-            .map((word) =>
-                word[0].toUpperCase() + word.substring(1).toLowerCase())
+            .map(
+              (word) => word[0].toUpperCase() + word.substring(1).toLowerCase(),
+            )
             .join(' ');
       })
       .join(', ');
 }
-

@@ -65,7 +65,7 @@ class MyOrdersCard extends StatelessWidget {
                           color: CleanerAppcolors.primarylightbrowncolor,
                         ),
                         SizedBox(
-                          width: 140.r,
+                          width: 160.r,
                           child: Text(
                             capitalizeEachPart(address),
                             style: listiletitlefont,
@@ -93,13 +93,13 @@ class MyOrdersCard extends StatelessWidget {
                   ),
                   color:
                       orderoverdue == 0
-                          ? CleanerAppcolors.primarylightgreencolor
+                          ? const Color.fromARGB(255, 35, 217, 111)
                           : orderoverdue == 1
                           ? CleanerAppcolors.primarylightredcolor
                           : orderoverdue == 3
                           ? CleanerAppcolors.primarylightredcolor
                           : CleanerAppcolors.primarylightyellow,
-
+                          
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 15, vertical: 15).r,

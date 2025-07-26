@@ -62,9 +62,17 @@ class DetailsCard extends StatelessWidget {
                   SizedBox(height: 5.r),
                   DetailsLabel(label: 'Quantity', sublabel: quantity),
                   SizedBox(height: 5.r),
-                  DetailsLabel(
-                    label: 'Location',
-                    sublabel: capitalizeEachPart(location),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Location', style: subtitlefonts),
+                      SizedBox(
+                        width: 220.r,
+                        child: Text(
+                          textAlign: TextAlign.end,
+                          capitalizeEachPart(location), style: resendfontminigrey))
+                    ],
                   ),
                   SizedBox(height: 5.r),
                   if (paymentoption == 'cash_on_delivery' &&
@@ -87,9 +95,14 @@ String capitalizeEachPart(String input) {
   return input
       .split(',')
       .map((part) {
-        part = part.trim(); // remove any extra spaces
-        if (part.isEmpty) return '';
-        return part[0].toUpperCase() + part.substring(1).toLowerCase();
+        return part
+            .trim()
+            .split(' ')
+            .where((word) => word.isNotEmpty)
+            .map(
+              (word) => word[0].toUpperCase() + word.substring(1).toLowerCase(),
+            )
+            .join(' ');
       })
-      .join(',');
+      .join(', ');
 }

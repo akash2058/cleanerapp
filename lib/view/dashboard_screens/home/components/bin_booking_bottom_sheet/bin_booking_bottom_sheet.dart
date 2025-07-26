@@ -16,6 +16,7 @@ class BinBookingBottomSheet extends StatefulWidget {
   final String binsizeName;
   final String bookingId;
   final String userId;
+  final String contactnumber;
 
   const BinBookingBottomSheet({
     super.key,
@@ -26,7 +27,7 @@ class BinBookingBottomSheet extends StatefulWidget {
     required this.binsizeName,
     required this.bookingId,
     required this.userId,
-    required this.startdate,
+    required this.startdate, required this.contactnumber,
   });
 
   @override
@@ -84,12 +85,12 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                          CustomListtile(
                           trailing: GestureDetector(
                             onTap: () {
-                              binr.launchDialer('9833233256');
+                              binr.launchDialer(widget.contactnumber);
                             },
                             child: Icon(Icons.call_outlined,size: 30.r,
                             ),
                           ),
-                          subtitle: '9813515294',
+                          subtitle: widget.contactnumber,
                           title: 'Customer Contact',
                           leading: Icon(
                             Icons.arrow_forward_ios_outlined,

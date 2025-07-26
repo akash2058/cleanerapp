@@ -48,7 +48,7 @@ class BinRequestPickupList extends StatelessWidget {
                                 bookingId: waredata?.id.toString() ?? '',
                                 userId:
                                     log.user?.data?.user?.id.toString() ?? '',
-                                startdate: waredata?.startDate ?? '',
+                                startdate: waredata?.startDate ?? '', contactnumber: waredata?.customerContact??'',
                               );
                             },
                           );

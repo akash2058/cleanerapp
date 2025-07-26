@@ -111,7 +111,7 @@ class MyRequestSearchResults extends StatelessWidget {
                                                   binsizeName: item.binSizeName,
                                                   bookingId: item.id.toString(),
                                                   userId: log.userid,
-                                                  startdate: item.startDate,
+                                                  startdate: item.startDate, contactnumber: item.customerContact,
                                                 );
                                               },
                                             );

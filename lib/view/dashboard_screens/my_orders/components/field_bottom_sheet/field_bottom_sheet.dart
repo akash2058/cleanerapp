@@ -23,6 +23,7 @@ class FieldBottomSheet extends StatefulWidget {
     required this.paymentreceived,
     required this.binbookingid,
     required this.logid,
+   
   });
 
   @override
@@ -175,9 +176,7 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                         }
                       },
                     ),
-                    SizedBox(
-                      height: 20.r,
-                    )
+                    SizedBox(height: 20.r),
                   ],
                 ),
               ),
