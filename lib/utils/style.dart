@@ -114,6 +114,13 @@ TextStyle get subtitlefonts {
     fontSize: 18.r,
   );
 }
+TextStyle get subtitlefontsred {
+  return GoogleFonts.roboto(
+    fontWeight: FontWeight.w500,
+    color: CleanerAppcolors.primaryRedcolor,
+    fontSize: 18.r,
+  );
+}
 TextStyle get tabfonts {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w500,
@@ -224,7 +231,7 @@ TextStyle get entertexttile {
 }
 TextStyle get errorstyle {
   return GoogleFonts.roboto(
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     color: CleanerAppcolors.primaryRedcolor,
     fontSize: 18.r,
   );

@@ -160,7 +160,7 @@ class MyOrdersSearchResults extends StatelessWidget {
                                                         '',
                                                     paymentreceived:
                                                         item.paymentReceived ??
-                                                        '',
+                                                        '', companyname: item.customerCompany??'', comment: item.comment??'',
                                                   ),
                                                 ),
                                               );
@@ -231,7 +231,7 @@ class MyOrdersSearchResults extends StatelessWidget {
                                                         '',
                                                     remainingamount:
                                                         item.remainingAmount
-                                                            .toString(),
+                                                            .toString(), companyname: item.customerCompany??'', comment: item.comment??'',
                                                   ),
                                                 ),
                                               );

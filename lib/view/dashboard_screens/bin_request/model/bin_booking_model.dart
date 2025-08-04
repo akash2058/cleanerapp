@@ -3,6 +3,7 @@ class BinBookingModel {
   final String message;
   final BinRequestData data;
 
+
   BinBookingModel({
     required this.status,
     required this.message,
@@ -61,6 +62,8 @@ class RequestedItem {
   final String? remainingAmount;
   final int? requestOverdue;
   final int? orderOverdue;
+  final String? customerCompany;   // <-- new
+  final String? comment;           // <-- new
 
   RequestedItem({
     required this.id,
@@ -82,6 +85,8 @@ class RequestedItem {
     this.remainingAmount,
     this.requestOverdue,
     this.orderOverdue,
+    this.customerCompany,
+    this.comment,
   });
 
   factory RequestedItem.fromJson(Map<String, dynamic> json) {
@@ -105,6 +110,8 @@ class RequestedItem {
       remainingAmount: json['remaining_amount']?.toString(),
       requestOverdue: json['request_overdue'],
       orderOverdue: json['order_overdue'],
+      customerCompany: json['customer_company'],
+      comment: json['comment'],
     );
   }
 }

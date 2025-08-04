@@ -1,6 +1,7 @@
 import 'package:binbookingapp/custom_widget/button.dart';
 import 'package:binbookingapp/custom_widget/custom_tile.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
+import 'package:binbookingapp/utils/style.dart';
 import 'package:binbookingapp/view/authentication/login/login_provider/login_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ class BinBookingBottomSheet extends StatefulWidget {
   final String bookingId;
   final String userId;
   final String contactnumber;
+  final String companyname;
+  final String comment;
 
   const BinBookingBottomSheet({
     super.key,
@@ -27,7 +30,10 @@ class BinBookingBottomSheet extends StatefulWidget {
     required this.binsizeName,
     required this.bookingId,
     required this.userId,
-    required this.startdate, required this.contactnumber,
+    required this.startdate,
+    required this.contactnumber,
+    required this.companyname,
+    required this.comment,
   });
 
   @override
@@ -54,7 +60,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
         return SizedBox(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15).r,
-            child: Column( 
+            child: Column(
               children: [
                 Expanded(
                   child: SingleChildScrollView(
@@ -70,11 +76,20 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                           ),
                         ),
                         CustomListtile(
+                          subtitle: capitalizeEachPart(widget.companyname),
+                          title: 'Company Name',
+                          leading: Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 20.r,
+                          ),
+                        ),
+                        CustomListtile(
                           trailing: GestureDetector(
                             onTap: () {
                               binr.copyToClipboard(widget.location, context);
                             },
-                            child: Icon(Icons.copy_outlined,size: 30.r,)),
+                            child: Icon(Icons.copy_outlined, size: 30.r),
+                          ),
                           subtitle: capitalizeEachPart(widget.location),
                           title: 'Location',
                           leading: Icon(
@@ -82,13 +97,12 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                             size: 20.r,
                           ),
                         ),
-                         CustomListtile(
+                        CustomListtile(
                           trailing: GestureDetector(
                             onTap: () {
                               binr.launchDialer(widget.contactnumber);
                             },
-                            child: Icon(Icons.call_outlined,size: 30.r,
-                            ),
+                            child: Icon(Icons.call_outlined, size: 30.r),
                           ),
                           subtitle: widget.contactnumber,
                           title: 'Customer Contact',
@@ -119,6 +133,25 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                           leading: Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 20.r,
+                          ),
+                        ),
+                        ListTile(
+                          minLeadingWidth: -12.r,
+                          contentPadding:
+                              EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: 0,
+                              ).r,
+                          dense: true,
+                          visualDensity: VisualDensity(
+                            vertical: -4,
+                            horizontal: -4,
+                          ),
+                          leading: Icon(Icons.arrow_forward_ios, size: 20.r),
+                          title: Text('Comment', style: errorstyle),
+                          subtitle: Text(
+                            widget.comment,
+                            style: dashboardlabelfontblack,
                           ),
                         ),
                       ],

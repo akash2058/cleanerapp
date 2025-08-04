@@ -13,6 +13,7 @@ import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provide
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class MyOrdersDropOffDetailsScreen extends StatefulWidget {
@@ -29,6 +30,8 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
   final String? paymentreceived;
   final String? remainingamount;
   final String? payementtype;
+  final String companyname;
+  final String comment;
   const MyOrdersDropOffDetailsScreen({
     super.key,
     required this.quantity,
@@ -43,7 +46,7 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
     required this.paymentoption,
     required this.paymentreceived,
     this.payementtype,
-    required this.remainingamount,
+    required this.remainingamount, required this.companyname, required this.comment,
   });
 
   @override
@@ -103,7 +106,11 @@ class _MyOrdersDropOffDetailsScreenState
           body: NoInternetBanner(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Form(
+              child:order.loadingattachments == true? 
+              Center(
+                child: LoadingAnimationWidget.hexagonDots(color: CleanerAppcolors.primarypurple, size: 50.r),
+              ):
+              Form(
                 key: fieldkey,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
@@ -138,8 +145,10 @@ class _MyOrdersDropOffDetailsScreenState
                                     paymentreceived:
                                         widget.paymentreceived ?? '',
                                     pendingamount: widget.pendingamount ?? '',
-                                    paymenttype: widget.payementtype ?? '',
+                                    paymenttype: widget.payementtype ?? '', companyname: widget.companyname, comment: widget.comment,
                                   ),
+                                  SizedBox(height: 10.r
+                                  ,),
                                   GestureDetector(
                                     onTap: () {
                                       Navigator.push(
@@ -167,7 +176,7 @@ class _MyOrdersDropOffDetailsScreenState
                                             paymentoption:
                                                 widget.paymentoption ?? '',
                                             paymentreceived:
-                                                widget.paymentreceived ?? '',
+                                                widget.paymentreceived ?? '', companyname:'', comment: '',
                                           ),
                                         ),
                                       );

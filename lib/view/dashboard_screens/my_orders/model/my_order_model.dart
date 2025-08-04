@@ -55,6 +55,7 @@ class RequestsItem {
   final String? startDate;
   final String? endDate;
   final String? customerName;
+  final String? customerContact;
   final String? location;
   final int? orderDuration;
   final String? binSizeName;
@@ -68,6 +69,8 @@ class RequestsItem {
   final int? remainingAmount;
   final int? requestOverdue;
   final int? orderOverdue;
+  final String? customerCompany;  // new
+  final String? comment;          // new
 
   RequestsItem({
     this.id,
@@ -75,6 +78,7 @@ class RequestsItem {
     this.startDate,
     this.endDate,
     this.customerName,
+    this.customerContact,
     this.location,
     this.orderDuration,
     this.binSizeName,
@@ -88,6 +92,8 @@ class RequestsItem {
     this.remainingAmount,
     this.requestOverdue,
     this.orderOverdue,
+    this.customerCompany,
+    this.comment,
   });
 
   factory RequestsItem.fromJson(Map<String, dynamic> json) {
@@ -97,6 +103,7 @@ class RequestsItem {
       startDate: json['start_date'],
       endDate: json['end_date'],
       customerName: json['customer_name'],
+      customerContact: json['customer_contact'],
       location: json['location'],
       orderDuration: json['order_duration'],
       binSizeName: json['bin_size_name'],
@@ -110,6 +117,8 @@ class RequestsItem {
       remainingAmount: json['remaining_amount'],
       requestOverdue: json['request_overdue'],
       orderOverdue: json['order_overdue'],
+      customerCompany: json['customer_company'],
+      comment: json['comment'],
     );
   }
 
@@ -120,6 +129,7 @@ class RequestsItem {
       'start_date': startDate,
       'end_date': endDate,
       'customer_name': customerName,
+      'customer_contact': customerContact,
       'location': location,
       'order_duration': orderDuration,
       'bin_size_name': binSizeName,
@@ -133,6 +143,8 @@ class RequestsItem {
       'remaining_amount': remainingAmount,
       'request_overdue': requestOverdue,
       'order_overdue': orderOverdue,
+      'customer_company': customerCompany,
+      'comment': comment,
     };
   }
 }
