@@ -63,13 +63,13 @@ class PickUp extends StatelessWidget {
                                 context: context,
                                 builder: (context) {
                                   return BinBookingBottomSheet(
-                                    customername: data?.customerName ?? '',
-                                    location: data?.location ?? '',
-                                    endDate: data?.endDate ?? '',
-                                    type: data?.type ?? '',
-                                    binsizeName: data?.binSizeName ?? '',
-                                    bookingId: data?.id.toString() ?? '',
-                                    userId: log.userid, startdate: data?.startDate??'', contactnumber: data?.customerContact??'', companyname: data?.customerCompany??'', comment: data?.comment??'',
+                                    customername: data?.customerName ?? 'N/A',
+                                    location: data?.location ?? 'N/A',
+                                    endDate: data?.endDate ?? 'N/A',
+                                    type: data?.type ?? 'N/A',
+                                    binsizeName: data?.binSizeName ?? 'N/A',
+                                    bookingId: data?.id.toString() ?? 'N/A',
+                                    userId: log.userid, startdate: data?.startDate??'N/A', contactnumber: data?.customerContact??'N/A', companyname: data?.customerCompany??'N/A', comment: data?.comment??'N/A',
                                    
                                   );
                                 },

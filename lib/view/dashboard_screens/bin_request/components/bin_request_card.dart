@@ -93,7 +93,7 @@ class BinRequestCard extends StatelessWidget {
                           ? CleanerAppcolors.primarylightredcolor
                           : requestoverdue == 3
                           ? CleanerAppcolors.primarylightredcolor
-                          : CleanerAppcolors.primaryminigreycolor,
+                          : CleanerAppcolors.primarylightredcolor,
 
                   child: Padding(
                     padding:

@@ -189,10 +189,29 @@ String capitalizeEachPart(String input) {
             .trim()
             .split(' ')
             .where((word) => word.isNotEmpty)
-            .map(
-              (word) => word[0].toUpperCase() + word.substring(1).toLowerCase(),
-            )
+            .map((word) {
+              String lowerWord = word.toLowerCase();
+
+              // If it's exactly 2 letters, make both uppercase
+              if (lowerWord.length == 2 && RegExp(r'^[a-zA-Z]{2}$').hasMatch(lowerWord)) {
+                return lowerWord.toUpperCase();
+              }
+
+              // If contains slash like a/a, capitalize both parts
+              if (word.contains('/')) {
+                return word
+                    .split('/')
+                    .map((w) => w.isNotEmpty
+                        ? w[0].toUpperCase() + w.substring(1).toLowerCase()
+                        : '')
+                    .join('/');
+              }
+
+              // Default capitalization
+              return word[0].toUpperCase() + word.substring(1).toLowerCase();
+            })
             .join(' ');
       })
       .join(', ');
 }
+
