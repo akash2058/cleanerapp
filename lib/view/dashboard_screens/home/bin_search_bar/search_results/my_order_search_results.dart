@@ -124,7 +124,7 @@ class MyOrdersSearchResults extends StatelessWidget {
                                                           '',
                                                       binbookingid:
                                                           item.id.toString(),
-                                                      logid: log.userid,
+                                                      logid: log.userid, customeraddress: item.location??'', customercontact: item.customerContact??'',
                                                     ),
                                               );
                                             } else {

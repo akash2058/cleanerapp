@@ -88,7 +88,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                                   paymentreceived:
                                       sitedata.paymentReceived ?? '',
                                   binbookingid: sitedata.id.toString(),
-                                  logid: log.userid,
+                                  logid: log.userid, customeraddress: sitedata.location??'', customercontact:sitedata.customerContact??'',
                                 ),
                           );
                         } else {
@@ -134,4 +134,40 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
       },
     );
   }
+}
+
+
+
+String capitalizeEachPart(String input) {
+  return input
+      .split(',')
+      .map((part) {
+        return part
+            .trim()
+            .split(' ')
+            .where((word) => word.isNotEmpty)
+            .map((word) {
+              String lowerWord = word.toLowerCase();
+
+              // If it's exactly 2 letters, make both uppercase
+              if (lowerWord.length == 2 && RegExp(r'^[a-zA-Z]{2}$').hasMatch(lowerWord)) {
+                return lowerWord.toUpperCase();
+              }
+
+              // If contains slash like a/a, capitalize both parts
+              if (word.contains('/')) {
+                return word
+                    .split('/')
+                    .map((w) => w.isNotEmpty
+                        ? w[0].toUpperCase() + w.substring(1).toLowerCase()
+                        : '')
+                    .join('/');
+              }
+
+              // Default capitalization
+              return word[0].toUpperCase() + word.substring(1).toLowerCase();
+            })
+            .join(' ');
+      })
+      .join(', ');
 }
