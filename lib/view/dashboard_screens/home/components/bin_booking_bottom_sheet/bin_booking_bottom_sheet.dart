@@ -100,7 +100,7 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                         CustomListtile(
                           trailing: GestureDetector(
                             onTap: () {
-                              binr.launchDialer(widget.contactnumber);
+                              binr.launchDialer(widget.contactnumber,context);
                             },
                             child: Icon(Icons.call_outlined, size: 30.r),
                           ),

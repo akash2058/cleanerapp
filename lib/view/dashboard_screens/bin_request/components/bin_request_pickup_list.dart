@@ -40,24 +40,24 @@ class BinRequestPickupList extends StatelessWidget {
                             context: context,
                             builder: (context) {
                               return BinBookingBottomSheet(
-                                customername: waredata?.customerName ?? '',
-                                location: waredata?.location ?? '',
-                                endDate: waredata?.endDate ?? '',
-                                type: waredata?.type ?? '',
-                                binsizeName: waredata?.binSizeName ?? '',
-                                bookingId: waredata?.id.toString() ?? '',
+                                customername: waredata?.customerName ?? 'N/A',
+                                location: waredata?.location ?? 'N/A',
+                                endDate: waredata?.endDate ?? 'N/A',
+                                type: waredata?.type ?? 'N/A',
+                                binsizeName: waredata?.binSizeName ?? 'N/A',
+                                bookingId: waredata?.id.toString() ?? 'N/A',
                                 userId:
-                                    log.user?.data?.user?.id.toString() ?? '',
-                                startdate: waredata?.startDate ?? '', contactnumber: waredata?.customerContact??'', companyname: '', comment: '',
+                                    log.user?.data?.user?.id.toString() ?? 'N/A',
+                                startdate: waredata?.startDate ?? 'N/A', contactnumber: waredata?.customerContact??'N/A', companyname: 'N/A', comment: 'N/A',
                               );
                             },
                           );
                         },
                         address: waredata?.location ?? 'N/A',
-                        quantity: waredata?.quantity.toString() ?? '',
-                        startdate: waredata?.startDate ?? '',
-                        duration: waredata?.orderDuration.toString() ?? '',
-                        binsizename: waredata?.binSizeName ?? '',
+                        quantity: waredata?.quantity.toString() ?? '0',
+                        startdate: waredata?.startDate ?? 'N/A',
+                        duration: waredata?.orderDuration.toString() ?? 'N/A',
+                        binsizename: waredata?.binSizeName ?? 'N/A',
                         requestoverdue:
                             waredata?.requestOverdue?.toInt() ?? 0,
                       );

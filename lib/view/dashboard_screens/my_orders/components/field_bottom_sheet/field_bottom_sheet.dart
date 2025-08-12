@@ -36,6 +36,8 @@ class FieldBottomSheet extends StatefulWidget {
 
 class _FieldBottomSheetState extends State<FieldBottomSheet> {
   final fieldkey = GlobalKey<FormState>();
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _amountFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -43,19 +45,45 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       clearfields();
     });
+    // Listen for focus changes to scroll to the bottom
+    _amountFocusNode.addListener(() {
+      if (_amountFocusNode.hasFocus) {
+        _scrollToBottom();
+      }
+    });
   }
 
   void clearfields() {
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
-
     myordersdata.paymentreceivecontroller.clear();
     myordersdata.amountreceivecontroller.clear();
   }
 
+  void _scrollToBottom() {
+    // Delay to ensure keyboard is fully visible
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (_scrollController.hasClients && mounted) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _amountFocusNode.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer2<MyOrderProvider,BinRequestProvider>(builder: (context, myorder, binr, child) {
-      return SizedBox(
+    return Consumer2<MyOrderProvider, BinRequestProvider>(
+      builder: (context, myorder, binr, child) {
+        return SizedBox(
           width: MediaQuery.sizeOf(context).width,
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -65,150 +93,145 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
               padding: EdgeInsets.symmetric(horizontal: 20).r,
               child: Form(
                 key: fieldkey,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        padding: EdgeInsets.only(
-                          bottom:
-                              MediaQuery.of(context).viewInsets.bottom +
-                              20, // Ensures scroll space when keyboard shows
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 60.r,
+                    top: 20.r,
+                  ),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomListtile(
+                        title: 'Customer Name',
+                        leading: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20.r,
                         ),
-                        child: Column(
+                        subtitle: capitalizeEachPart(widget.customername),
+                      ),
+                      CustomListtile(
+                        trailing: GestureDetector(
+                          onTap: () {
+                            binr.copyToClipboard(widget.customeraddress, context);
+                          },
+                          child: Icon(Icons.copy_all_outlined, size: 30.r),
+                        ),
+                        title: 'Location',
+                        leading: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20.r,
+                        ),
+                        subtitle: capitalizeEachPart(widget.customeraddress),
+                      ),
+                      CustomListtile(
+                        trailing: GestureDetector(
+                          onTap: () {
+                            binr.launchDialer(widget.customercontact, context);
+                          },
+                          child: Icon(Icons.call_outlined, size: 30.r),
+                        ),
+                        title: 'Customer number',
+                        leading: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20.r,
+                        ),
+                        subtitle: widget.customercontact,
+                      ),
+                      if (widget.paymentoption == 'cash_on_delivery' &&
+                          widget.pendingamount != '0')
+                        CustomListtile(
+                          title: 'Pickup Amount',
+                          subtitle: widget.pendingamount,
+                          leading: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20.r,
+                          ),
+                        ),
+                      SizedBox(height: 10.r),
+                      if (!(widget.paymentoption == 'cash_on_order' &&
+                          widget.pendingamount != '0'))
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomListtile(
-                              title: 'Customer Name',
-                              leading: Icon(
-                                Icons.arrow_forward_ios,
-                                size: 20.r,
-                              ),
-                              subtitle: capitalizeEachPart(widget.customername),
-                            ),
-                            CustomListtile(
-                              trailing: GestureDetector(
-                                onTap: () {
-                                  binr.copyToClipboard(widget.customeraddress, context);
-                                },
-                                child: Icon(Icons.copy_all_outlined,size: 30.r,)),
-                              title: 'Location',
-                              leading: Icon(
-                                Icons.arrow_forward_ios,
-                                size: 20.r,
-                              ),
-                              subtitle: capitalizeEachPart(widget.customername),
-                            ),
-                            CustomListtile(
-                              trailing: GestureDetector(
-                                onTap: () {
-                                  binr.launchDialer(widget.customercontact);
-                                },
-                                child: Icon(Icons.call_outlined,size: 30.r,)),
-                              title: 'Customer number',
-                              leading: Icon(
-                                Icons.arrow_forward_ios,
-                                size: 20.r,
-                              ),
-                              subtitle: widget.customercontact,
-                            ),
-                            if (widget.paymentoption == 'cash_on_delivery' &&
-                                widget.pendingamount != '0')
-                              CustomListtile(
-                                title: 'Pickup Amount',
-                                subtitle: widget.pendingamount,
-                                leading: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20.r,
+                            Row(
+                              children: [
+                                Icon(Icons.arrow_forward_ios, size: 20.r),
+                                SizedBox(width: 10.r),
+                                Text(
+                                  'Amount Received',
+                                  style: resendfont,
                                 ),
-                              ),
-                            SizedBox(height: 10.r),
-                            if (!(widget.paymentoption == 'cash_on_order' &&
-                                widget.pendingamount != '0'))
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.arrow_forward_ios, size: 20.r),
-                                      SizedBox(width: 10.r),
-                                      Text(
-                                        'Amount Received',
-                                        style: resendfont,
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 32).r,
-                                    child: TextFormField(
-                                      validator:
-                                          (value) => validateAmount(
-                                            value,
-                                            widget.pendingamount,
-                                          ),
-                                      controller:
-                                          myorder.amountreceivecontroller,
-                                      keyboardType: TextInputType.number,
-                                      style: entertexttile,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        contentPadding:
-                                            EdgeInsets.symmetric(
-                                              vertical: 10,
-                                            ).r,
-                                        hintText: 'Enter received amount',
-                                        hintStyle: hintStyle,
-                                        errorStyle: errorstyle,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color:
-                                                CleanerAppcolors
-                                                    .primaryminidarkgreycolor,
-                                            width: 1.5.r,
-                                          ),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color:
-                                                CleanerAppcolors.primarypurple,
-                                            width: 1.5.r,
-                                          ),
-                                        ),
-                                      ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 32).r,
+                              child: TextFormField(
+                                focusNode: _amountFocusNode,
+                                validator: (value) => validateAmount(
+                                  value,
+                                  widget.pendingamount,
+                                ),
+                                controller: myorder.amountreceivecontroller,
+                                keyboardType: TextInputType.number,
+                                style: entertexttile,
+                                onTap: () {
+                                  // Ensure scroll on every tap
+                                  _scrollToBottom();
+                                },
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ).r,
+                                  hintText: 'Enter received amount',
+                                  hintStyle: hintStyle,
+                                  errorStyle: errorstyle,
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CleanerAppcolors.primaryminidarkgreycolor,
+                                      width: 1.5.r,
                                     ),
                                   ),
-                                ],
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: CleanerAppcolors.primarypurple,
+                                      width: 1.5.r,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            // Move the Confirm button inside the SingleChildScrollView
-                            SizedBox(height: 20.r),
-                            CleanerButton.elevated(
-                              isloading: myorder.loadingconfirmonsitepickup,
-                              height: 55.r,
-                              backgroundcolor: CleanerAppcolors.primarypurple,
-                              width: MediaQuery.sizeOf(context).width,
-                              label: 'Confirm',
-                              onPressed: () {
-                                if (fieldkey.currentState!.validate()) {
-                                  myorder.getConfirmonsiteupdate(
-                                    context,
-                                    widget.logid,
-                                    widget.binbookingid,
-                                  );
-                                }
-                              },
                             ),
-                            SizedBox(height: 20.r),
                           ],
                         ),
+                      SizedBox(height: 30.r),
+                      CleanerButton.elevated(
+                        isloading: myorder.loadingconfirmonsitepickup,
+                        height: 55.r,
+                        backgroundcolor: CleanerAppcolors.primarypurple,
+                        width: MediaQuery.sizeOf(context).width,
+                        label: 'Confirm',
+                        onPressed: () {
+                          if (fieldkey.currentState!.validate()) {
+                            myorder.getConfirmonsiteupdate(
+                              context,
+                              widget.logid,
+                              widget.binbookingid,
+                            );
+                          }
+                        },
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 20.r),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         );
-    },);
+      },
+    );
   }
 }
 

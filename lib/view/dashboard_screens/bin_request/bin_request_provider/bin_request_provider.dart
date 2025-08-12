@@ -27,15 +27,39 @@ void setIsBinRequest(bool value) {
   _isBinRequest = value;
   notifyListeners();
 }
-void launchDialer(String phoneNumber) async {
-  final Uri uri = Uri(scheme: 'tel', path: phoneNumber);
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri);
-  } else {
-    throw 'Could not launch $uri';
+
+
+Future<void> launchDialer(String phoneNumber, BuildContext context) async {
+  // Remove spaces/dashes
+  final cleanedPhoneNumber = phoneNumber.replaceAll(RegExp(r'\s+|-'), '');
+
+  if (cleanedPhoneNumber.isEmpty || !RegExp(r'^\+?\d+$').hasMatch(cleanedPhoneNumber)) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Invalid phone number')),
+    );
+    return;
   }
-  notifyListeners();
+
+  final Uri uri = Uri(scheme: 'tel', path: cleanedPhoneNumber);
+
+  try {
+    final launched = await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication, // ✅ Important for Android
+    );
+
+    if (!launched) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No dialer app available on this device')),
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Could not launch dialer: $e')),
+    );
+  }
 }
+
 void copyToClipboard(String text, BuildContext context) {
    final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
