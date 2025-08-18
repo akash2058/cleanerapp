@@ -1,3 +1,4 @@
+import 'package:binbookingapp/custom_widget/custom_tile.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/cleanericonspng.dart' show AppIcons;
 import 'package:binbookingapp/utils/style.dart';
@@ -47,6 +48,7 @@ class DetailsCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  
                   Row(
                     spacing: 5.r,
                     children: [
@@ -55,40 +57,43 @@ class DetailsCard extends StatelessWidget {
                     ],
                   ),
                   Divider(color: CleanerAppcolors.primaryminigreycolor),
-                  SizedBox(height: 10.r),
-                  DetailsLabel(label: 'Customer Name', sublabel: capitalizeEachPart(customername)),
-                      SizedBox(height: 5.r),
-               Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Company Name', style: subtitlefonts),
-                      SizedBox(
-                        width: 210.r,
-                        child: Text(
-                          textAlign: TextAlign.end,
-                          capitalizeEachPart(companyname), style: resendfontminigrey))
-                    ],
-                  ),
+                    CustomListtile(
+                      leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
+                      title: 'Customer Name',
+                    subtitle: capitalizeEachPart(companyname),),
                   SizedBox(height: 5.r),
-                  DetailsLabel(label: 'Duration', sublabel: '$duration days'),
+                   CustomListtile(
+                      leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
+                      title: 'Duration',
+                    subtitle: '$duration days',),
                   SizedBox(height: 5.r),
-                  DetailsLabel(label: 'Bin Size Name', sublabel: binsizename),
+                  CustomListtile(
+                      leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
+                      title: 'Bin Size Name',
+                    subtitle: binsizename,),
                   SizedBox(height: 5.r),
-                  DetailsLabel(label: 'Quantity', sublabel: quantity),
+                   CustomListtile(
+                      leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
+                      title: 'Quantity',
+                    subtitle: quantity,),
                   SizedBox(height: 5.r),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Location', style: subtitlefonts),
-                      SizedBox(
-                        width: 210.r,
-                        child: Text(
-                          textAlign: TextAlign.end,
-                          capitalizeEachPart(location), style: resendfontminigrey))
-                    ],
-                  ),
+                  CustomListtile(
+                    trailing: Icon(Icons.copy_all_outlined,size: 25.r,),
+                    leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
+                    title: 'Location',subtitle: capitalizeEachPart(location),),
+                  
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text('Location', style: subtitlefonts),
+                  //     SizedBox(
+                  //       width: 210.r,
+                  //       child: Text(
+                  //         textAlign: TextAlign.end,
+                  //         capitalizeEachPart(location), style: resendfontminigrey))
+                  //   ],
+                  // ),
                  
                   SizedBox(height: 5.r),
                   if (paymentoption == 'cash_on_delivery' &&
@@ -98,11 +103,11 @@ class DetailsCard extends StatelessWidget {
                     if(paymenttype != 'full_payment'&& paymentreceived !='0')
                     DetailsLabel(label: 'Receive amount', sublabel: paymentreceived),
                       SizedBox(height: 5.r),
-                      Text('Comment',style: subtitlefontsred,),
+                      Text('Comment',style: subtitlefonts,),
                       SizedBox(
                         height: 5.r,
                       ),
-                      Text(comment,style: resendfontminigrey,)
+                      Text(comment,style: subtitlefontsred,)
                   
                 ],
               ),

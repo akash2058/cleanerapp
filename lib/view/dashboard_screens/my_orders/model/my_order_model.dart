@@ -69,8 +69,8 @@ class RequestsItem {
   final int? remainingAmount;
   final int? requestOverdue;
   final int? orderOverdue;
-  final String? customerCompany;  // new
-  final String? comment;          // new
+  final String? customerCompany;  // ✅ new field in JSON
+  final String? comment;          // ✅ new field in JSON
 
   RequestsItem({
     this.id,
@@ -117,8 +117,8 @@ class RequestsItem {
       remainingAmount: json['remaining_amount'],
       requestOverdue: json['request_overdue'],
       orderOverdue: json['order_overdue'],
-      customerCompany: json['customer_company'],
-      comment: json['comment'],
+      customerCompany: json['customer_company'], // ✅ maps correctly
+      comment: json['comment'], // ✅ maps correctly
     );
   }
 

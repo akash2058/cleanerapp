@@ -68,80 +68,74 @@ class _MyOrdersPickupDetailsScreenState
   Widget build(BuildContext context) {
     return Consumer2<MyOrderProvider,LoginProvider>(builder: (context, order, log, child) {
       return Scaffold(
-              backgroundColor: CleanerAppcolors.primaryWhitecolor,
-              
-              appBar: AppBar(
-                centerTitle: true,
-                backgroundColor: CleanerAppcolors.primaryWhitecolor,
-                scrolledUnderElevation: 0.r,
-                title: Text('Pick Up Details', style: appbartitlefont),
-              ),
-              body:  NoInternetBanner(
-  child: order.loadingserialdata
-      ? Center(
-          child: LoadingAnimationWidget.hexagonDots(
-            color: CleanerAppcolors.primarypurple,
-            size: 50.r,
-          ),
-        )
-      : LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Form(
-                    key: serialkey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DetailsCard(
-                          customername: widget.customername,
-                          duration: widget.duration,
-                          binsizename: widget.binsizename,
-                          quantity: widget.quantity.toString(),
-                          location: widget.location,
-                          paymentoption: widget.paymentoption ?? 'N/A',
-                          paymentreceived: widget.paymentreceived ?? 'N/A',
-                          pendingamount: widget.pendingamount ?? 'N/A',
-                          paymenttype: widget.payementtype ?? 'N/A', companyname: widget.companyname, comment: widget.comment,
-                        ),
-                        SizedBox(
-                          height: 20.r,
-                        ),
-                        FormCard(quantity: widget.quantity),
-                        const Spacer(),
-                        SizedBox(height: 20.r),
-                        if (widget.quantity != 0)
-                          CleanerButton.elevated(
-                            isloading: order.loadingserialdata,
-                            width: MediaQuery.sizeOf(context).width,
-                            backgroundcolor: CleanerAppcolors.primarypurple,
-                            label: 'Update Order',
-                            onPressed: () {
-                              if (serialkey.currentState!.validate()) {
-                                order.getSerialData(
-                                  context,
-                                  widget.bookingid,
-                                  log.userid,
-                                );
-                              }
-                            },
-                          ),
-                        SizedBox(
-                          height: MediaQuery.of(context).viewInsets.bottom + 20.r,
-                        ),
-                      ],
-                    ),
+  resizeToAvoidBottomInset: true, // 🔑 ensures keyboard pushes content up
+  backgroundColor: CleanerAppcolors.primaryWhitecolor,
+
+  appBar: AppBar(
+    centerTitle: true,
+    backgroundColor: CleanerAppcolors.primaryWhitecolor,
+    scrolledUnderElevation: 0.r,
+    title: Text('Pick Up Details', style: appbartitlefont),
+  ),
+
+  body: NoInternetBanner(
+    child: order.loadingserialdata
+        ? Center(
+            child: LoadingAnimationWidget.hexagonDots(
+              color: CleanerAppcolors.primarypurple,
+              size: 50.r,
+            ),
+          )
+        : SingleChildScrollView(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
+            child: Form(
+              key: serialkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DetailsCard(
+                    customername: widget.customername,
+                    duration: widget.duration,
+                    binsizename: widget.binsizename,
+                    quantity: widget.quantity.toString(),
+                    location: widget.location,
+                    paymentoption: widget.paymentoption ?? 'N/A',
+                    paymentreceived: widget.paymentreceived ?? 'N/A',
+                    pendingamount: widget.pendingamount ?? 'N/A',
+                    paymenttype: widget.payementtype ?? 'N/A',
+                    companyname: widget.companyname,
+                    comment: widget.comment,
                   ),
-                ),
+                  SizedBox(height: 20.r),
+                  FormCard(quantity: widget.quantity),
+                  SizedBox(height: 20.r),
+                  if (widget.quantity != 0)
+                    CleanerButton.elevated(
+                      isloading: order.loadingserialdata,
+                      width: MediaQuery.sizeOf(context).width,
+                      backgroundcolor: CleanerAppcolors.primarypurple,
+                      label: 'Update Order',
+                      onPressed: () {
+                        if (serialkey.currentState!.validate()) {
+                          order.getSerialData(
+                            context,
+                            widget.bookingid,
+                            log.userid,
+                          );
+                        }
+                      },
+                    ),
+                  // 🔑 pushes button above keyboard
+                  SizedBox(
+                    height: MediaQuery.of(context).viewInsets.bottom + 20.r,
+                  ),
+                ],
               ),
-            );
-          },
-        ),
-),
-            );
+            ),
+          ),
+  ),
+);
+
     },);
   }
 }

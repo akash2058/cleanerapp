@@ -93,12 +93,12 @@ class MyOrdersCard extends StatelessWidget {
                   ),
                   color:
                       orderoverdue == 0
-                          ? const Color.fromARGB(255, 35, 217, 111)
+                          ? const Color.fromARGB(255, 142, 240, 183)
                           : orderoverdue == 1
                           ? CleanerAppcolors.primarylightredcolor
                           : orderoverdue == 3
                           ? CleanerAppcolors.primarylightredcolor
-                          : CleanerAppcolors.primaryminigreycolor,
+                          : CleanerAppcolors.primarylightredcolor,
                           
                   child: Padding(
                     padding:

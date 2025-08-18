@@ -148,10 +148,10 @@ class _BinBookingBottomSheetState extends State<BinBookingBottomSheet> {
                             horizontal: -4,
                           ),
                           leading: Icon(Icons.arrow_forward_ios, size: 20.r),
-                          title: Text('Comment', style: errorstyle),
+                          title: Text('Comment', style: listiletitlefont),
                           subtitle: Text(
                             widget.comment,
-                            style: dashboardlabelfontblack,
+                            style: dashboardlabelfontred,
                           ),
                         ),
                       ],

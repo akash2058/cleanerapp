@@ -91,7 +91,13 @@ TextStyle get dashboardlabelfontblack {
     fontSize: 18.r,
   );
 }
-
+TextStyle get dashboardlabelfontred {
+  return GoogleFonts.roboto(
+    fontWeight: FontWeight.w400,
+    color: CleanerAppcolors.primaryRedcolor,
+    fontSize: 18.r,
+  );
+}
 TextStyle get resendfont {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w500,
@@ -136,7 +142,13 @@ TextStyle get resendfontminigrey {
     fontSize: 18.r,
   );
 }
-
+TextStyle get resendfontminired {
+  return GoogleFonts.roboto(
+    fontWeight: FontWeight.w500,
+    color: CleanerAppcolors.primarygreycolor,
+    fontSize: 18.r,
+  );
+}
 TextStyle get resendwhitefont {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w500,
