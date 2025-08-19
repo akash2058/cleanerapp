@@ -6,9 +6,9 @@ import 'package:binbookingapp/view/dashboard_screens/my_orders/components/detail
 import 'package:binbookingapp/view/dashboard_screens/my_orders/components/form_card.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 import 'package:binbookingapp/view/no_internet/no_internet_view.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 import 'package:provider/provider.dart';
 
 class MyOrdersPickupDetailsScreen extends StatefulWidget {
@@ -26,6 +26,8 @@ class MyOrdersPickupDetailsScreen extends StatefulWidget {
   final String? payementtype;
   final String companyname;
   final String comment;
+  final String customercontact;
+
   const MyOrdersPickupDetailsScreen({
     super.key,
     required this.customername,
@@ -39,7 +41,10 @@ class MyOrdersPickupDetailsScreen extends StatefulWidget {
     required this.pendingamount,
     required this.paymentoption,
     required this.paymentreceived,
-    this.payementtype, required this.companyname, required this.comment,
+    this.payementtype,
+    required this.companyname,
+    required this.comment,
+    required this.customercontact,
   });
 
   @override
@@ -49,94 +54,122 @@ class MyOrdersPickupDetailsScreen extends StatefulWidget {
 
 class _MyOrdersPickupDetailsScreenState
     extends State<MyOrdersPickupDetailsScreen> {
+  final serialkey = GlobalKey<FormState>();
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _buttonKey = GlobalKey(); // Button key
+  late List<FocusNode> _focusNodes;
+
   @override
   void initState() {
     super.initState();
+
+    // Initialize focus nodes
+    _focusNodes = List.generate(widget.quantity, (_) => FocusNode());
+
+    // Add listener to scroll button into view
+    for (var node in _focusNodes) {
+      node.addListener(() {
+        if (node.hasFocus) _scrollToButton();
+      });
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      initialisethequantity();
+      // Initialize serial controllers
+      var orderProvider =
+          Provider.of<MyOrderProvider>(context, listen: false);
+      orderProvider.initializeControllers(widget.quantity);
     });
   }
 
-  Future<void> initialisethequantity() async {
-    var myorderstate = Provider.of<MyOrderProvider>(context, listen: false);
-    myorderstate.initializeControllers(widget.quantity);
+  void _scrollToButton() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_buttonKey.currentContext != null) {
+        Scrollable.ensureVisible(
+          _buttonKey.currentContext!,
+          duration: const Duration(milliseconds: 300),
+          alignment: 0.5,
+        );
+      }
+    });
   }
 
-  final serialkey = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    for (var node in _focusNodes) node.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<MyOrderProvider,LoginProvider>(builder: (context, order, log, child) {
-      return Scaffold(
-  resizeToAvoidBottomInset: true, // 🔑 ensures keyboard pushes content up
-  backgroundColor: CleanerAppcolors.primaryWhitecolor,
-
-  appBar: AppBar(
-    centerTitle: true,
-    backgroundColor: CleanerAppcolors.primaryWhitecolor,
-    scrolledUnderElevation: 0.r,
-    title: Text('Pick Up Details', style: appbartitlefont),
-  ),
-
+    return Consumer2<MyOrderProvider, LoginProvider>(
+      builder: (context, order, log, child) {
+        return Scaffold(
+          backgroundColor:CleanerAppcolors.primaryWhitecolor ,
+   appBar:       AppBar(
+            centerTitle: true,
+            backgroundColor: CleanerAppcolors.primaryWhitecolor,
+            scrolledUnderElevation: 0,
+            title: Text('Drop Off Details', style: appbartitlefont),
+          ),
   body: NoInternetBanner(
-    child: order.loadingserialdata
-        ? Center(
-            child: LoadingAnimationWidget.hexagonDots(
-              color: CleanerAppcolors.primarypurple,
-              size: 50.r,
+    child: LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          controller: _scrollController,
+          reverse: true, // important: scrolls from bottom
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+          ),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
             ),
-          )
-        : SingleChildScrollView(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20).r,
-            child: Form(
-              key: serialkey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DetailsCard(
-                    customername: widget.customername,
-                    duration: widget.duration,
-                    binsizename: widget.binsizename,
-                    quantity: widget.quantity.toString(),
-                    location: widget.location,
-                    paymentoption: widget.paymentoption ?? 'N/A',
-                    paymentreceived: widget.paymentreceived ?? 'N/A',
-                    pendingamount: widget.pendingamount ?? 'N/A',
-                    paymenttype: widget.payementtype ?? 'N/A',
-                    companyname: widget.companyname,
-                    comment: widget.comment,
-                  ),
-                  SizedBox(height: 20.r),
-                  FormCard(quantity: widget.quantity),
-                  SizedBox(height: 20.r),
-                  if (widget.quantity != 0)
-                    CleanerButton.elevated(
-                      isloading: order.loadingserialdata,
-                      width: MediaQuery.sizeOf(context).width,
-                      backgroundcolor: CleanerAppcolors.primarypurple,
-                      label: 'Update Order',
-                      onPressed: () {
-                        if (serialkey.currentState!.validate()) {
-                          order.getSerialData(
-                            context,
-                            widget.bookingid,
-                            log.userid,
-                          );
-                        }
-                      },
-                    ),
-                  // 🔑 pushes button above keyboard
-                  SizedBox(
-                    height: MediaQuery.of(context).viewInsets.bottom + 20.r,
-                  ),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+               DetailsCard(
+                          customername: widget.customername,
+                          duration: widget.duration,
+                          binsizename: widget.binsizename,
+                          quantity: widget.quantity.toString(),
+                          location: widget.location,
+                          paymentoption: widget.paymentoption ?? 'N/A',
+                          paymentreceived: widget.paymentreceived ?? 'N/A',
+                          pendingamount: widget.pendingamount ?? 'N/A',
+                          paymenttype: widget.payementtype ?? 'N/A',
+                          companyname: widget.companyname,
+                          comment: widget.comment,
+                          customerContact: widget.customercontact,
+                        ),
+                SizedBox(height: 20),
+                FormCard(
+                  quantity: widget.quantity,
+                  focusNodes: _focusNodes,
+                  buttonKey: _buttonKey,
+                ),
+                SizedBox(height: 20),
+                CleanerButton.elevated(
+                  backgroundcolor: CleanerAppcolors.primarypurple,
+                  key: _buttonKey,
+                  width: double.infinity,
+                  label: "Update Order",
+                  onPressed: () {},
+                ),
+              ],
             ),
           ),
+        );
+      },
+    ),
   ),
 );
 
-    },);
+      },
+    );
   }
 }
-

@@ -145,7 +145,7 @@ TextStyle get resendfontminigrey {
 TextStyle get resendfontminired {
   return GoogleFonts.roboto(
     fontWeight: FontWeight.w500,
-    color: CleanerAppcolors.primarygreycolor,
+    color: CleanerAppcolors.primaryRedcolor,
     fontSize: 18.r,
   );
 }

@@ -2,7 +2,7 @@ import 'package:binbookingapp/custom_widget/custom_tile.dart';
 import 'package:binbookingapp/utils/appcolors.dart';
 import 'package:binbookingapp/utils/cleanericonspng.dart' show AppIcons;
 import 'package:binbookingapp/utils/style.dart';
-import 'package:binbookingapp/view/dashboard_screens/my_orders/components/detail_label.dart';
+import 'package:binbookingapp/view/dashboard_screens/bin_request/bin_request_provider/bin_request_provider.dart';
 import 'package:binbookingapp/view/dashboard_screens/my_orders/my_orders_provider/my_order_provider.dart';
 
 import 'package:flutter/material.dart';
@@ -21,6 +21,7 @@ class DetailsCard extends StatelessWidget {
   final String paymenttype;
   final String companyname;
   final String comment;
+  final String customerContact;
   const DetailsCard({
     super.key,
     required this.customername,
@@ -30,13 +31,17 @@ class DetailsCard extends StatelessWidget {
     required this.location,
     required this.paymentoption,
     required this.paymentreceived,
-    required this.pendingamount, required this.paymenttype, required this.companyname, required this.comment,
+    required this.pendingamount,
+    required this.paymenttype,
+    required this.companyname,
+    required this.comment,
+    required this.customerContact,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyOrderProvider>(
-      builder: (context, myorder, child) {
+    return Consumer2<MyOrderProvider, BinRequestProvider>(
+      builder: (context, myorder, binr, child) {
         return SizedBox(
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -48,7 +53,6 @@ class DetailsCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   Row(
                     spacing: 5.r,
                     children: [
@@ -57,58 +61,94 @@ class DetailsCard extends StatelessWidget {
                     ],
                   ),
                   Divider(color: CleanerAppcolors.primaryminigreycolor),
-                    CustomListtile(
-                      leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
-                      title: 'Customer Name',
-                    subtitle: capitalizeEachPart(companyname),),
-                  SizedBox(height: 5.r),
-                   CustomListtile(
-                      leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
-                      title: 'Duration',
-                    subtitle: '$duration days',),
+                  CustomListtile(
+                    leading: Icon(Icons.arrow_forward_ios_outlined, size: 20.r),
+                    title: 'Customer Name',
+                    subtitle: capitalizeEachPart(companyname),
+                  ),
                   SizedBox(height: 5.r),
                   CustomListtile(
-                      leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
-                      title: 'Bin Size Name',
-                    subtitle: binsizename,),
-                  SizedBox(height: 5.r),
-                   CustomListtile(
-                      leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
-                      title: 'Quantity',
-                    subtitle: quantity,),
+                    leading: Icon(Icons.arrow_forward_ios_outlined, size: 20.r),
+                    title: 'Customer Company',
+                    subtitle: companyname,
+                  ),
                   SizedBox(height: 5.r),
                   CustomListtile(
-                    trailing: Icon(Icons.copy_all_outlined,size: 25.r,),
-                    leading: Icon(Icons.arrow_forward_ios_outlined,size: 20.r,),
-                    title: 'Location',subtitle: capitalizeEachPart(location),),
-                  
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Text('Location', style: subtitlefonts),
-                  //     SizedBox(
-                  //       width: 210.r,
-                  //       child: Text(
-                  //         textAlign: TextAlign.end,
-                  //         capitalizeEachPart(location), style: resendfontminigrey))
-                  //   ],
-                  // ),
-                 
+                    leading: Icon(Icons.arrow_forward_ios_outlined, size: 20.r),
+                    title: 'Duration',
+                    subtitle: '$duration days',
+                  ),
                   SizedBox(height: 5.r),
+                  CustomListtile(
+                    leading: Icon(Icons.arrow_forward_ios_outlined, size: 20.r),
+                    title: 'Bin Size Name',
+                    subtitle: binsizename,
+                  ),
+                  SizedBox(height: 5.r),
+                  CustomListtile(
+                    leading: Icon(Icons.arrow_forward_ios_outlined, size: 20.r),
+                    title: 'Quantity',
+                    subtitle: quantity,
+                  ),
+                  SizedBox(height: 5.r),
+                  CustomListtile(
+                    trailing: GestureDetector(
+                      onTap: () {
+                        binr.copyToClipboard(location, context);
+                      },
+                      child: Icon(Icons.copy_all_outlined, size: 25.r)),
+                    leading: Icon(Icons.arrow_forward_ios_outlined, size: 20.r),
+                    title: 'Location',
+                    subtitle: capitalizeEachPart(location),
+                  ),
+
+                  SizedBox(height: 5.r),
+
+                  CustomListtile(
+                    trailing: GestureDetector(
+                      onTap: () {
+                        binr.launchDialer(customerContact, context);
+                      },
+                      child: Icon(Icons.call_outlined, size: 25.r),
+                    ),
+                    leading: Icon(Icons.arrow_forward_ios_outlined, size: 20.r),
+                    title: 'Customer Contact ',
+                    subtitle: customerContact,
+                  ),
+                  SizedBox(height: 5.r),
+
                   if (paymentoption == 'cash_on_delivery' &&
                       pendingamount != '0')
-                    DetailsLabel(label: 'Total Amount', sublabel: pendingamount),
-                      SizedBox(height: 5.r),
-                    if(paymenttype != 'full_payment'&& paymentreceived !='0')
-                    DetailsLabel(label: 'Receive amount', sublabel: paymentreceived),
-                      SizedBox(height: 5.r),
-                      Text('Comment',style: subtitlefonts,),
-                      SizedBox(
-                        height: 5.r,
+                    CustomListtile(
+                      leading: Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 20.r,
                       ),
-                      Text(comment,style: subtitlefontsred,)
-                  
+                      title: 'Total Amount',
+                      subtitle: pendingamount,
+                    ),
+
+                  if (paymenttype != 'full_payment' && paymentreceived != '0')
+                    CustomListtile(
+                      leading: Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 20.r,
+                      ),
+                      title: 'Receive amount',
+                      subtitle: paymentreceived,
+                    ),
+
+                  SizedBox(height: 5.r),
+                  ListTile(
+                    minLeadingWidth: -12.r,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 0).r,
+                    dense: true,
+                    visualDensity: VisualDensity(vertical: -4, horizontal: -4),
+                    leading: Icon(Icons.arrow_forward_ios, size: 20.r),
+                    title: Text('Comment', style: listiletitlefont),
+                    subtitle: Text(comment, style: dashboardlabelfontred),
+                  ),
                 ],
               ),
             ),
@@ -131,7 +171,8 @@ String capitalizeEachPart(String input) {
               String lowerWord = word.toLowerCase();
 
               // If it's exactly 2 letters, make both uppercase
-              if (lowerWord.length == 2 && RegExp(r'^[a-zA-Z]{2}$').hasMatch(lowerWord)) {
+              if (lowerWord.length == 2 &&
+                  RegExp(r'^[a-zA-Z]{2}$').hasMatch(lowerWord)) {
                 return lowerWord.toUpperCase();
               }
 
@@ -139,9 +180,13 @@ String capitalizeEachPart(String input) {
               if (word.contains('/')) {
                 return word
                     .split('/')
-                    .map((w) => w.isNotEmpty
-                        ? w[0].toUpperCase() + w.substring(1).toLowerCase()
-                        : '')
+                    .map(
+                      (w) =>
+                          w.isNotEmpty
+                              ? w[0].toUpperCase() +
+                                  w.substring(1).toLowerCase()
+                              : '',
+                    )
                     .join('/');
               }
 

@@ -31,6 +31,8 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
   final String? payementtype;
   final String companyname;
   final String comment;
+  final String customercontact;
+
   const MyOrdersDropOffDetailsScreen({
     super.key,
     required this.quantity,
@@ -48,6 +50,7 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
     required this.remainingamount,
     required this.companyname,
     required this.comment,
+    required this.customercontact,
   });
 
   @override
@@ -57,13 +60,23 @@ class MyOrdersDropOffDetailsScreen extends StatefulWidget {
 
 class _MyOrdersDropOffDetailsScreenState
     extends State<MyOrdersDropOffDetailsScreen> {
+  final serialkey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
-  final fieldkey = GlobalKey<FormState>();
-  final GlobalKey _buttonKey = GlobalKey(); // Key to track button position
+  final GlobalKey _buttonKey = GlobalKey(); // Button key
+  late FocusNode _amountFieldFocusNode; // Focus node for TextFormField
 
   @override
   void initState() {
     super.initState();
+    // Initialize focus node
+    _amountFieldFocusNode = FocusNode();
+    // Add listener to scroll button into view when TextFormField is focused
+    _amountFieldFocusNode.addListener(() {
+      if (_amountFieldFocusNode.hasFocus) {
+        _scrollToButton();
+      }
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       refreshdata();
       getData(context);
@@ -73,6 +86,7 @@ class _MyOrdersDropOffDetailsScreenState
   @override
   void dispose() {
     _scrollController.dispose();
+    _amountFieldFocusNode.dispose();
     super.dispose();
   }
 
@@ -86,34 +100,25 @@ class _MyOrdersDropOffDetailsScreenState
       listen: false,
     );
     await binrequestdata.getBinRequestData();
-    print(widget.remainingamount);
   }
 
   void refreshdata() async {
     final myordersdata = Provider.of<MyOrderProvider>(context, listen: false);
     myordersdata.getMyorderDropOffDetail(widget.bookingid);
-    print(widget.bookingid);
   }
 
   // Function to scroll to the Update Order button
   void _scrollToButton() {
-    if (_scrollController.hasClients) {
-      final RenderBox? buttonBox = _buttonKey.currentContext?.findRenderObject() as RenderBox?;
-      if (buttonBox != null) {
-        final position = buttonBox.localToGlobal(Offset.zero).dy;
-        final viewportHeight = MediaQuery.of(context).size.height;
-        final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-        final targetOffset = position - (viewportHeight - keyboardHeight - 100.r); // Adjust for button visibility
-        final maxScroll = _scrollController.position.maxScrollExtent;
-        final scrollOffset = targetOffset.clamp(0.0, maxScroll);
-        
-        _scrollController.animateTo(
-          scrollOffset,
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_buttonKey.currentContext != null) {
+        Scrollable.ensureVisible(
+          _buttonKey.currentContext!,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
+          alignment: 0.5, // Center the button in the viewport
         );
       }
-    }
+    });
   }
 
   @override
@@ -128,7 +133,7 @@ class _MyOrdersDropOffDetailsScreenState
             centerTitle: true,
             backgroundColor: CleanerAppcolors.primaryWhitecolor,
             scrolledUnderElevation: 0,
-            title: Text('Drop Off Details', style: appbartitlefont),
+            title: Text('Pickup Details', style: appbartitlefont),
           ),
           body: NoInternetBanner(
             child: order.loadingattachments
@@ -142,70 +147,75 @@ class _MyOrdersDropOffDetailsScreenState
                     builder: (context, constraints) {
                       return SingleChildScrollView(
                         controller: _scrollController,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 15.w,
-                          vertical: 15.r,
+                        reverse: true, // Scroll from bottom
+                        padding: EdgeInsets.only(
+                          left: 20.w,
+                          right: 20.w,
+                          top: 10.r,
+                          bottom: MediaQuery.of(context).viewInsets.bottom + 20.r,
                         ),
                         child: ConstrainedBox(
                           constraints: BoxConstraints(
                             minHeight: constraints.maxHeight,
                           ),
-                          child: IntrinsicHeight(
-                            child: Form(
-                              key: fieldkey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  DetailsCard(
-                                    customername: orderdata?.customerName ?? '',
-                                    duration: orderdata?.orderDuration.toString() ?? '0',
-                                    binsizename: widget.binsizename,
-                                    quantity: widget.quantity.toString(),
-                                    location: widget.location,
-                                    paymentoption: widget.paymentoption ?? '',
-                                    paymentreceived: widget.paymentreceived ?? '',
-                                    pendingamount: widget.pendingamount ?? '',
-                                    paymenttype: widget.payementtype ?? '',
-                                    companyname: widget.companyname,
-                                    comment: widget.comment,
-                                  ),
-                                  SizedBox(height: 10.r),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        CustomPageRoute(
-                                          child: IsDamagedDetailpage(
-                                            customername: orderdata?.customerName ?? '',
-                                            duration: orderdata?.orderDuration.toString() ?? '',
-                                            binsizename: orderdata?.binSizeName ?? '',
-                                            quantity: orderdata?.quantity.toString() ?? '',
-                                            location: orderdata?.location ?? '',
-                                            driverid: log.userid,
-                                            bookingid: orderdata?.id.toString() ?? '',
-                                            pendingamount: widget.pendingamount ?? '',
-                                            paymentoption: widget.paymentoption ?? '',
-                                            paymentreceived: widget.paymentreceived ?? '',
-                                            companyname: '',
-                                            comment: '',
-                                          ),
+                          child: Form(
+                            key: serialkey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                DetailsCard(
+                                  customername: orderdata?.customerName ?? '',
+                                  duration: orderdata?.orderDuration.toString() ?? '0',
+                                  binsizename: widget.binsizename,
+                                  quantity: widget.quantity.toString(),
+                                  location: widget.location,
+                                  paymentoption: widget.paymentoption ?? '',
+                                  paymentreceived: widget.paymentreceived ?? '',
+                                  pendingamount: widget.pendingamount ?? '',
+                                  paymenttype: widget.payementtype ?? '',
+                                  companyname: widget.companyname,
+                                  comment: widget.comment,
+                                  customerContact: widget.customercontact,
+                                ),
+                                SizedBox(height: 10.r),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      CustomPageRoute(
+                                        child: IsDamagedDetailpage(
+                                          customername: orderdata?.customerName ?? '',
+                                          duration: orderdata?.orderDuration.toString() ?? '',
+                                          binsizename: orderdata?.binSizeName ?? '',
+                                          quantity: orderdata?.quantity.toString() ?? '',
+                                          location: orderdata?.location ?? '',
+                                          driverid: log.userid,
+                                          bookingid: orderdata?.id.toString() ?? '',
+                                          pendingamount: widget.pendingamount ?? '',
+                                          paymentoption: widget.paymentoption ?? '',
+                                          paymentreceived: widget.paymentreceived ?? '',
+                                          companyname: '',
+                                          comment: '',
+                                          customercontact: '',
                                         ),
-                                      );
-                                    },
-                                    child: Center(
-                                      child: Text(
-                                        'Report Damage',
-                                        style: reportdamagefont,
                                       ),
+                                    );
+                                  },
+                                  child: Center(
+                                    child: Text(
+                                      'Report Damage',
+                                      style: reportdamagefont,
                                     ),
                                   ),
-                                   if (widget.payementtype != 'full_payment' &&
-                                      widget.paymentoption !=
-                                          'cash_on_order') ...[
+                                ),
+                                if (widget.payementtype != 'full_payment' &&
+                                    widget.paymentoption != 'cash_on_order') ...[
                                   Text('Amount Received', style: resendfont),
                                   TextFormField(
                                     controller: order.paymentreceivecontroller,
                                     keyboardType: TextInputType.number,
+                                    focusNode: _amountFieldFocusNode,
                                     validator: (value) => validatedropAmount(
                                       value,
                                       widget.remainingamount ?? '',
@@ -223,46 +233,36 @@ class _MyOrdersDropOffDetailsScreenState
                                         ),
                                       ),
                                     ),
-                                    onTap: () {
-                                      Future.delayed(
-                                        const Duration(milliseconds: 300),
-                                        _scrollToButton,
-                                      );
-                                    },
-                                  ),
-                                          ],    
-                                  SizedBox(height: 20.r),
-                                  Text(
-                                    'Please Add Images Below',
-                                    style: ordercardheaderfont,
-                                  ),
-                                  SizedBox(height: 20.r),
-                                  DropOffSelectImageCard(),
-                                 
-                                  SizedBox(height: 50.r), // Fixed space
-                                  CleanerButton.elevated(
-                                    key: _buttonKey, // Assign key to button
-                                    height: 55.r,
-                                    width: MediaQuery.sizeOf(context).width,
-                                    isloading: order.loadingattachments,
-                                    backgroundcolor: CleanerAppcolors.primarypurple,
-                                    label: 'Update Order',
-                                    onPressed: () {
-                                      if (fieldkey.currentState!.validate()) {
-                                        order.getUpdateAttachments(
-                                          context,
-                                          widget.bookingid,
-                                          log.userid,
-                                        );
-                                      }
-                                    },
-                                  ),
-                                  SizedBox(height: 20.r),
-                                  SizedBox(
-                                    height: MediaQuery.of(context).viewInsets.bottom + 20.r,
+                                    onTap: _scrollToButton,
                                   ),
                                 ],
-                              ),
+                                SizedBox(height: 20.r),
+                                Text(
+                                  'Please Add Images Below',
+                                  style: ordercardheaderfont,
+                                ),
+                                SizedBox(height: 20.r),
+                                DropOffSelectImageCard(),
+                                SizedBox(height: 20.r),
+                                CleanerButton.elevated(
+                                  key: _buttonKey,
+                                  height: 55.r,
+                                  width: MediaQuery.sizeOf(context).width,
+                                  isloading: order.loadingattachments,
+                                  backgroundcolor: CleanerAppcolors.primarypurple,
+                                  label: 'Update Order',
+                                  onPressed: () {
+                                    if (serialkey.currentState!.validate()) {
+                                      order.getUpdateAttachments(
+                                        context,
+                                        widget.bookingid,
+                                        log.userid,
+                                      );
+                                    }
+                                  },
+                                ),
+                                SizedBox(height: 20.r),
+                              ],
                             ),
                           ),
                         ),

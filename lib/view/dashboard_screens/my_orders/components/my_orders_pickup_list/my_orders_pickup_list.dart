@@ -107,7 +107,7 @@ class _MyOrdersPickUpListState extends State<MyOrdersPickUpList> {
                                 bookingid: sitedata.id.toString(),
                                 pendingamount: sitedata.pendingAmount ?? '',
                                 paymentoption: sitedata.paymentOption ?? '',
-                                paymentreceived: sitedata.paymentReceived ?? '', companyname: sitedata.customerCompany??'N/A', comment: sitedata.comment??'N/A',
+                                paymentreceived: sitedata.paymentReceived ?? '', companyname: sitedata.customerCompany??'N/A', comment: sitedata.comment??'N/A', customercontact: sitedata.customerContact??'N/A',
                               ),
                             ),
                           );
