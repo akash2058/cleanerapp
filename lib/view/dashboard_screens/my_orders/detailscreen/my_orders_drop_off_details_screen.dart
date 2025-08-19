@@ -143,7 +143,12 @@ class _MyOrdersDropOffDetailsScreenState
                       size: 50.r,
                     ),
                   )
-                : LayoutBuilder(
+                :order.loadingmyorderdropoffdetail == true?Center(
+                    child: LoadingAnimationWidget.hexagonDots(
+                      color: CleanerAppcolors.primarypurple,
+                      size: 50.r,
+                    ),
+                  ):  LayoutBuilder(
                     builder: (context, constraints) {
                       return SingleChildScrollView(
                         controller: _scrollController,
@@ -195,9 +200,9 @@ class _MyOrdersDropOffDetailsScreenState
                                           pendingamount: widget.pendingamount ?? '',
                                           paymentoption: widget.paymentoption ?? '',
                                           paymentreceived: widget.paymentreceived ?? '',
-                                          companyname: '',
-                                          comment: '',
-                                          customercontact: '',
+                                          companyname: widget.companyname,
+                                          comment: widget.comment,
+                                          customercontact: widget.customercontact,
                                         ),
                                       ),
                                     );

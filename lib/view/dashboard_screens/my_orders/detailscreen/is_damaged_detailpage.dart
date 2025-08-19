@@ -17,7 +17,7 @@ class IsDamagedDetailpage extends StatelessWidget {
   final String location;
   final String driverid;
   final String bookingid;
-   final String? pendingamount;
+  final String? pendingamount;
   final String? paymentoption;
   final String? paymentreceived;
   final String? paymenttype;
@@ -32,7 +32,14 @@ class IsDamagedDetailpage extends StatelessWidget {
     required this.quantity,
     required this.location,
     required this.driverid,
-    required this.bookingid, required this.pendingamount, required this.paymentoption, required this.paymentreceived, this.paymenttype, required this.companyname, required this.comment, required this.customercontact,
+    required this.bookingid,
+    required this.pendingamount,
+    required this.paymentoption,
+    required this.paymentreceived,
+    this.paymenttype,
+    required this.companyname,
+    required this.comment,
+    required this.customercontact,
   });
 
   @override
@@ -41,19 +48,7 @@ class IsDamagedDetailpage extends StatelessWidget {
       builder: (context, order, child) {
         return Scaffold(
           backgroundColor: CleanerAppcolors.primaryWhitecolor,
-          bottomNavigationBar: BottomAppBar(
-            color: CleanerAppcolors.primaryWhitecolor,
-            height: 95.r,
-            elevation: 0.r,
-            child: CleanerButton.elevated(
-              isloading: order.loadingbookingdamage,
-              label: 'Report Damage',
-              backgroundcolor: CleanerAppcolors.primarypurple,
-              onPressed: () {
-                order.getbookingdamage(context, bookingid, driverid);
-              },
-            ),
-          ),
+
           appBar: AppBar(
             backgroundColor: CleanerAppcolors.primaryWhitecolor,
             centerTitle: true,
@@ -63,7 +58,7 @@ class IsDamagedDetailpage extends StatelessWidget {
               order.loadingbookingdamage == true
                   ? LoadingAnimationWidget.hexagonDots(
                     color: CleanerAppcolors.primarypurple,
-                    size: 40.r,
+                    size: 50.r,
                   )
                   : Padding(
                     padding:
@@ -78,7 +73,14 @@ class IsDamagedDetailpage extends StatelessWidget {
                             duration: duration,
                             binsizename: binsizename,
                             quantity: quantity,
-                            location: location, paymentoption: paymentoption??'', paymentreceived: paymentreceived??'', pendingamount: pendingamount??'', paymenttype:paymenttype??'', companyname: companyname, comment: comment, customerContact:  '',
+                            location: location,
+                            paymentoption: paymentoption ?? '',
+                            paymentreceived: paymentreceived ?? '',
+                            pendingamount: pendingamount ?? '',
+                            paymenttype: paymenttype ?? '',
+                            companyname: companyname,
+                            comment: comment,
+                            customerContact: customercontact,
                           ),
                           Text(
                             'Damage Report For Bins',
@@ -161,6 +163,20 @@ class IsDamagedDetailpage extends StatelessWidget {
                                 );
                               },
                             ),
+                          ),
+                          CleanerButton.elevated(
+                            height: 55.r,
+                            width: MediaQuery.sizeOf(context).width,
+                            isloading: order.loadingbookingdamage,
+                            label: 'Report Damage',
+                            backgroundcolor: CleanerAppcolors.primarypurple,
+                            onPressed: () {
+                              order.getbookingdamage(
+                                context,
+                                bookingid,
+                                driverid,
+                              );
+                            },
                           ),
                         ],
                       ),

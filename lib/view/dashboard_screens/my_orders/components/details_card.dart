@@ -125,7 +125,7 @@ class DetailsCard extends StatelessWidget {
                         size: 20.r,
                       ),
                       title: 'Total Amount',
-                      subtitle: pendingamount,
+                      subtitle: '$pendingamount AUD',
                     ),
 
                   if (paymenttype != 'full_payment' && paymentreceived != '0')
@@ -135,7 +135,7 @@ class DetailsCard extends StatelessWidget {
                         size: 20.r,
                       ),
                       title: 'Receive amount',
-                      subtitle: paymentreceived,
+                      subtitle: '$paymentreceived AUD',
                     ),
 
                   SizedBox(height: 5.r),

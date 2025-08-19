@@ -143,7 +143,7 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                           widget.pendingamount != '0')
                         CustomListtile(
                           title: 'Pickup Amount',
-                          subtitle: widget.pendingamount,
+                          subtitle: '${widget.pendingamount} AUD',
                           leading: Icon(
                             Icons.arrow_forward_ios,
                             size: 20.r,
@@ -177,7 +177,7 @@ class _FieldBottomSheetState extends State<FieldBottomSheet> {
                                 keyboardType: TextInputType.number,
                                 style: entertexttile,
                                 onTap: () {
-                                  // Ensure scroll on every tap
+                                 
                                   _scrollToBottom();
                                 },
                                 decoration: InputDecoration(
