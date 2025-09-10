@@ -40,7 +40,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
           backgroundColor: CleanerAppcolors.primaryminigreycolor,
 
           body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10).r,
+            padding: EdgeInsets.symmetric(horizontal: 20,).r,
             child: RefreshIndicator(
               onRefresh: refestdata,
               child:

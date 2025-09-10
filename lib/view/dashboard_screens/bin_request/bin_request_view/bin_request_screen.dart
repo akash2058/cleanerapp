@@ -41,12 +41,12 @@ class BinRequestView extends StatelessWidget {
                         spacing: 10.r,
                         children: [
                             Padding(
-                              padding:  const EdgeInsets.symmetric(horizontal: 20,vertical: 10).r,
+                              padding:  const EdgeInsets.symmetric(horizontal: 20,).r,
                               child: BinRequestTabs(),
                             ),
                           Expanded(
                             child: ListView(
-                              padding: const EdgeInsets.symmetric(horizontal: 20,).r,
+                              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10).r,
                               children: [
                                 binr.currenttab == 0
                                   ? BinRequestDropoffList()
