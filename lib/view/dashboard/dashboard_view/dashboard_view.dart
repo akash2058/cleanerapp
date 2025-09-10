@@ -146,13 +146,13 @@ class _DashboardViewState extends State<DashboardView> {
                                       ((binreqest
                                                       .binbook
                                                       ?.data
-                                                      .siteRequests
+                                                      ?.siteRequests
                                                       .length ??
                                                   0) +
                                               (binreqest
                                                       .binbook
                                                       ?.data
-                                                      .warehouseRequests
+                                                      ?.warehouseRequests
                                                       .length ??
                                                   0))
                                           .toString(),

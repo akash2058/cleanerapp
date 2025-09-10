@@ -32,7 +32,7 @@ class PickUp extends StatelessWidget {
                       ),
                     ),
                   );
-                } else if ((bindata.binbook?.data.siteRequests.length ?? 0) ==
+                } else if ((bindata.binbook?.data?.siteRequests.length ?? 0) ==
                     0) {
                   // If the data is empty, show "No data found"
                   return Padding(
@@ -51,11 +51,11 @@ class PickUp extends StatelessWidget {
                     spacing: 15.r,
                     children: [
                       ...List.generate(
-                        (bindata.binbook?.data.siteRequests.length ?? 0) > 6
+                        (bindata.binbook?.data?.siteRequests.length ?? 0) > 6
                             ? 6
-                            : (bindata.binbook?.data.siteRequests.length ?? 0),
+                            : (bindata.binbook?.data?.siteRequests.length ?? 0),
                         (index) {
-                          var data = bindata.binbook?.data.siteRequests[index];
+                          var data = bindata.binbook?.data?.siteRequests[index];
                           return BinRequestCard(
                             onPressed: () {
                               showModalBottomSheet(
@@ -83,7 +83,7 @@ class PickUp extends StatelessWidget {
                           );
                         },
                       ),
-                      if ((bindata.binbook?.data.siteRequests.length ?? 0) > 6)
+                      if ((bindata.binbook?.data?.siteRequests.length ?? 0) > 6)
                         GestureDetector(
                           onTap: () {
                             dash.screenTabs(dash.currenttab = 1);

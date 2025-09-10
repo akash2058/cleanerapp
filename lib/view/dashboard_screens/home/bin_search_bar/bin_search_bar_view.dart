@@ -40,8 +40,8 @@ class _BinSearchScreenState extends State<BinSearchScreen> {
     ChangeNotifierProvider<BinRequestProvider>(
       create: (_) => BinRequestProvider()
         ..setRequests(
-          widget.binmodel.data.siteRequests,
-          widget.binmodel.data.warehouseRequests,
+          widget.binmodel.data!.siteRequests,
+          widget.binmodel.data!.warehouseRequests,
         ),
     ),
     ChangeNotifierProvider<MyOrderProvider>(

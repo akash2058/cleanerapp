@@ -108,9 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   message: binr.binbook?.message ?? '',
                                   data: BinRequestData(
                                     siteRequests:
-                                        binr.binbook!.data.siteRequests,
+                                        binr.binbook!.data!.siteRequests,
                                     warehouseRequests:
-                                        binr.binbook!.data.warehouseRequests,
+                                        binr.binbook!.data!.warehouseRequests,
                                   ),
                                 ),
                                 myordermodel: MyOrderModel(

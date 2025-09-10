@@ -15,7 +15,7 @@ class BinRequestPickupList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<BinRequestProvider, LoginProvider>(
       builder: (context, binr, log, child) {
-        return (binr.binbook?.data.warehouseRequests.isEmpty ?? true)
+        return (binr.binbook?.data?.warehouseRequests.isEmpty ?? true)
             ? Padding(
               padding: EdgeInsets.symmetric(vertical: 250.r),
               child: Center(
@@ -30,9 +30,9 @@ class BinRequestPickupList extends StatelessWidget {
             : Column(
               spacing: 15.r,
               children: List.generate(
-                binr.binbook?.data.warehouseRequests.length ?? 0,
+                binr.binbook?.data?.warehouseRequests.length ?? 0,
                 (index) {
-                  final waredata = binr.binbook?.data.warehouseRequests[index];
+                  final waredata = binr.binbook?.data?.warehouseRequests[index];
                   return BinRequestCard(
                     onPressed: () {
                       showModalBottomSheet(

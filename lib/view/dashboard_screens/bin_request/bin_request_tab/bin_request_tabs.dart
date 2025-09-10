@@ -62,7 +62,7 @@ class BinRequestTabs extends StatelessWidget {
                             ),
                             Badge(
                               backgroundColor: CleanerAppcolors.primarypurple,
-                              label:home.loadingbinbooking == true?LoadingAnimationWidget.fallingDot(color:CleanerAppcolors.primaryWhitecolor , size: 15.r): Text(home.binbook?.data.siteRequests.length.toString()??'0',style: badgefont,),
+                              label:home.loadingbinbooking == true?LoadingAnimationWidget.fallingDot(color:CleanerAppcolors.primaryWhitecolor , size: 15.r): Text(home.binbook?.data?.siteRequests.length.toString()??'0',style: badgefont,),
                             )
                           ],
                         ),
@@ -118,7 +118,7 @@ class BinRequestTabs extends StatelessWidget {
                             ),
                             Badge(
                               backgroundColor: CleanerAppcolors.primarypurple,
-                              label:home.loadingbinbooking == true?LoadingAnimationWidget.fallingDot(color:CleanerAppcolors.primaryWhitecolor , size: 15.r): Text(home.binbook?.data.warehouseRequests.length.toString()??'0',style: badgefont,),
+                              label:home.loadingbinbooking == true?LoadingAnimationWidget.fallingDot(color:CleanerAppcolors.primaryWhitecolor , size: 15.r): Text(home.binbook?.data?.warehouseRequests.length.toString()??'0',style: badgefont,),
                             )
                           ],
                         ),

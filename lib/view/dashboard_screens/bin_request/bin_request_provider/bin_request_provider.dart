@@ -197,11 +197,11 @@ void copyToClipboard(String text, BuildContext context) {
   query = query.toLowerCase().trim();
 
   filteredRequests = allRequests.where((order) {
-    final matchesQuery = order.location.toLowerCase().contains(query) ||
-        order.binSizeName.toLowerCase().contains(query) ||
-        order.customerName.toLowerCase().contains(query);
+    final matchesQuery = order.location!.toLowerCase().contains(query) ||
+        order.binSizeName!.toLowerCase().contains(query) ||
+        order.customerName!.toLowerCase().contains(query);
     final matchesType = selectedType == null ||
-        order.type.toLowerCase() == selectedType!.toLowerCase();
+        order.type!.toLowerCase() == selectedType!.toLowerCase();
     return matchesQuery && matchesType;
   }).toList();
 
@@ -223,11 +223,11 @@ void init() {
   if (query.isEmpty) return 0;
 
   return allRequests
-      .where((item) => item.type.toLowerCase() == 'on_site_order')
+      .where((item) => item.type!.toLowerCase() == 'on_site_order')
       .where((item) =>
-          item.location.toLowerCase().contains(query.toLowerCase()) ||
-          item.customerName.toLowerCase().contains(query.toLowerCase())||
-          item.binSizeName.toLowerCase().contains(query.toLowerCase())) 
+          item.location!.toLowerCase().contains(query.toLowerCase()) ||
+          item.customerName!.toLowerCase().contains(query.toLowerCase())||
+          item.binSizeName!.toLowerCase().contains(query.toLowerCase())) 
       .length;
 }
 
@@ -236,11 +236,11 @@ int get pickupCount {
   if (query.isEmpty) return 0;
 
   return allRequests
-      .where((item) => item.type.toLowerCase() == 'warehouse_dropoff')
+      .where((item) => item.type!.toLowerCase() == 'warehouse_dropoff')
       .where((item) =>
-          item.location.toLowerCase().contains(query.toLowerCase()) ||
-          item.customerName.toLowerCase().contains(query.toLowerCase())||
-          item.binSizeName.toLowerCase().contains(query.toLowerCase()))
+          item.location!.toLowerCase().contains(query.toLowerCase()) ||
+          item.customerName!.toLowerCase().contains(query.toLowerCase())||
+          item.binSizeName!.toLowerCase().contains(query.toLowerCase()))
       .length;
 }
 

@@ -104,22 +104,22 @@ class MyRequestSearchResults extends StatelessWidget {
                                               builder: (context) {
                                                 return BinBookingBottomSheet(
                                                   customername:
-                                                      item.customerName,
-                                                  location: item.location,
-                                                  endDate: item.endDate,
-                                                  type: item.type,
-                                                  binsizeName: item.binSizeName,
+                                                      item.customerName??'N/A',
+                                                  location: item.location??'N/A',
+                                                  endDate: item.endDate??'N/A',
+                                                  type: item.type??'N/A',
+                                                  binsizeName: item.binSizeName??'N/A',
                                                   bookingId: item.id.toString(),
                                                   userId: log.userid,
-                                                  startdate: item.startDate, contactnumber: item.customerContact, companyname: item.customerCompany??'', comment: item.comment??'',
+                                                  startdate: item.startDate??'N/A', contactnumber: item.customerContact??'N/A', companyname: item.customerCompany??'', comment: item.comment??'',
                                                 );
                                               },
                                             );
                                           },
-                                          address: item.location,
+                                          address: item.location??'N/A',
                                           quantity: item.quantity.toString(),
-                                          startdate: item.startDate,
-                                          binsizename: item.binSizeName,
+                                          startdate: item.startDate??'N/A',
+                                          binsizename: item.binSizeName??'N/A',
                                           duration:
                                               item.orderDuration.toString(),
                                           requestoverdue:

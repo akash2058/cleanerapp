@@ -15,7 +15,7 @@ class BinRequestDropoffList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<BinRequestProvider, LoginProvider>(
       builder: (context, binr, log, child) {
-        return (binr.binbook?.data.siteRequests.isEmpty ?? true)
+        return (binr.binbook?.data?.siteRequests.isEmpty ?? true)
             ? Padding(
               padding: EdgeInsets.symmetric(vertical: 250).r,
               child: Column(
@@ -29,9 +29,9 @@ class BinRequestDropoffList extends StatelessWidget {
             : Column(
               spacing: 15.r,
               children: List.generate(
-                binr.binbook?.data.siteRequests.length ?? 0,
+                binr.binbook?.data?.siteRequests.length ?? 0,
                 (index) {
-                  var bindata = binr.binbook?.data.siteRequests[index];
+                  var bindata = binr.binbook?.data?.siteRequests[index];
                   return BinRequestCard(
                     onPressed: () {
                       showModalBottomSheet(

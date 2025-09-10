@@ -30,7 +30,7 @@ class DropOff extends StatelessWidget {
                         size: 40.r,
                       ),
                     )
-                    : bindata.binbook?.data.warehouseRequests.isEmpty ?? true
+                    : bindata.binbook?.data?.warehouseRequests.isEmpty ?? true
                     ? Padding(
                       padding: EdgeInsets.symmetric(vertical: 90.r),
                       child: Center(
@@ -46,11 +46,11 @@ class DropOff extends StatelessWidget {
                     spacing: 15.r,
                     children: [
                       ...List.generate(
-                        (bindata.binbook?.data.warehouseRequests.length ?? 0) > 6
+                        (bindata.binbook?.data?.warehouseRequests.length ?? 0) > 6
                             ? 6
-                            : (bindata.binbook?.data.warehouseRequests.length ?? 0),
+                            : (bindata.binbook?.data?.warehouseRequests.length ?? 0),
                         (index) {
-                          var data = bindata.binbook?.data.warehouseRequests[index];
+                          var data = bindata.binbook?.data?.warehouseRequests[index];
                           return BinRequestCard(
                             onPressed: () {
                               showModalBottomSheet(
@@ -78,7 +78,7 @@ class DropOff extends StatelessWidget {
                           );
                         },
                       ),
-                      if ((bindata.binbook?.data.warehouseRequests.length ?? 0) > 6)
+                      if ((bindata.binbook?.data?.warehouseRequests.length ?? 0) > 6)
                         GestureDetector(
                           onTap: () {
                             dash.screenTabs(dash.currenttab = 1);

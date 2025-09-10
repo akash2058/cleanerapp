@@ -120,7 +120,6 @@ int get pickupCount {
       notifyListeners();
       final binbook = await fetchMyorders(token ?? '', id);
       _myOrderModel = MyOrderModel.fromJson(binbook);
-      print('myorderdetails $binbook');
 
       loadingmyorderdata = false;
       notifyListeners();
@@ -148,7 +147,7 @@ int get pickupCount {
           _myOrdersDropOffDetailModel?.bookingSerialNumbers?.length ?? 0;
       initializeDamagedList(count);
 
-      print('myorder $binbook');
+      
 
       loadingmyorderdropoffdetail = false;
       notifyListeners();
